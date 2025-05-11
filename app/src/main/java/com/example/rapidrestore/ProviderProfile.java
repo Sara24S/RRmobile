@@ -70,9 +70,9 @@ public class ProviderProfile extends AppCompatActivity {
         btnSubmitReview.setOnClickListener(v -> {
             String review = etReview.getText().toString().trim();
             if (!review.isEmpty()) {
-                reviewsList.add(review); // Add new review to list
-                adapter.notifyItemInserted(reviewsList.size() - 1); // Update RecyclerView
-                etReview.setText(""); // Clear the field
+                reviewsList.add(review);
+                adapter.notifyItemInserted(reviewsList.size() - 1);
+                etReview.setText("");
                 Toast.makeText(this, "Review Submitted!", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Please write something first.", Toast.LENGTH_SHORT).show();
