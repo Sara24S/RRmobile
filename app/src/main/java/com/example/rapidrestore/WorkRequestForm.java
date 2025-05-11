@@ -91,6 +91,8 @@ public class WorkRequestForm extends AppCompatActivity {
 
         editTextName = findViewById(R.id.edit_text_fullName);
         editTextCertification = findViewById(R.id.edit_text_certification);
+        editTextName.setText("");
+        editTextCertification.setText("");
 
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
@@ -199,6 +201,9 @@ public class WorkRequestForm extends AppCompatActivity {
 
         Toast.makeText(WorkRequestForm.this, "Request sent", Toast.LENGTH_SHORT).show();
         //uploadToFirebase(imageUri);
+
+        editTextName.setText("");
+        editTextCertification.setText("");
 
 /*
         url = "http://192.168.242.1/RRmobile/addworkrequest.php?name="

@@ -105,6 +105,11 @@ public class WorkRequestView extends AppCompatActivity {
                         user.put("role", "provider");
 
                         Map<String, Object> provider = new HashMap<>();
+                        provider.put("costPerHour", 0);//temp
+                        provider.put("rating", 0);//temp
+                        provider.put("profile image", "");//temp
+                        provider.put("name", name);
+                        provider.put("phone number", phoneNumber);
                         provider.put("address", address);
                         provider.put("profession", profession);
                         provider.put("crtification", certification);

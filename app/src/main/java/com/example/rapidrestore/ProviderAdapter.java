@@ -1,6 +1,7 @@
 package com.example.rapidrestore;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +18,17 @@ public class ProviderAdapter extends RecyclerView.Adapter<ProviderAdapter.Produc
 
 
     //this context we will use to inflate the layout
+    private String homeownerId;
     private Context mCtx;
 
     //we are storing all the products in a list
     private List<Provider> providerList;
 
     //getting the context and product list with constructor
-    public ProviderAdapter(Context mCtx, List<Provider> providerList) {
+    public ProviderAdapter(Context mCtx, List<Provider> providerList, String homeownerId) {
         this.mCtx = mCtx;
         this.providerList = providerList;
+        this.homeownerId = homeownerId;
     }
 
     @Override
@@ -40,6 +43,7 @@ public class ProviderAdapter extends RecyclerView.Adapter<ProviderAdapter.Produc
     public void onBindViewHolder(ProductViewHolder holder, int position) {
         //getting the provider of the specified position
         Provider provider = providerList.get(position);
+        if (provider == null) return;
 
         //binding the data with the viewholder views
         holder.textViewName.setText(provider.getName());
@@ -73,6 +77,18 @@ public class ProviderAdapter extends RecyclerView.Adapter<ProviderAdapter.Produc
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             textViewRegion = itemView.findViewById(R.id.textViewRegion);
             imageView = itemView.findViewById(R.id.imageView);
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    Provider clickedUser = providerList.get(position);
+
+                    Intent intent = new Intent(mCtx, RepairRequestForm.class);//temp
+                    intent.putExtra("providerId", clickedUser.getId()); // or document ID
+                    intent.putExtra("homeownerId", homeownerId);
+                    mCtx.startActivity(intent);
+                }
+            });
         }
     }
 }

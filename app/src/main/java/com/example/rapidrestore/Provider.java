@@ -1,7 +1,7 @@
 package com.example.rapidrestore;
 
 public class Provider {
-    private int id;
+    private String id;
     private String name;
     private String profession;
     private String region;
@@ -9,7 +9,7 @@ public class Provider {
     private double costperhour;
     private String profileimage;
 
-    public Provider(int id, String name, String profession, double  rating, double price, String region, String image) {
+    public Provider(String id, String name, String profession, double  rating, double price, String region, String image) {
         this.id = id;
         this.name = name;
         this.profession = profession;
@@ -19,7 +19,7 @@ public class Provider {
         this.region = region;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
