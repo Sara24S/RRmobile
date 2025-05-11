@@ -42,7 +42,7 @@ import java.util.Map;
 
 public class HomeownerNewAccount extends AppCompatActivity {
 
-    TextInputEditText editTextNumberOrEmail, editTextPassword, editTextName;
+    TextInputEditText editTextEmail, editTextPassword, editTextName;
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -58,13 +58,13 @@ public class HomeownerNewAccount extends AppCompatActivity {
             return insets;
         });
 
-        editTextNumberOrEmail = findViewById(R.id.edit_text_numberOrEmail);
+        editTextEmail = findViewById(R.id.edit_text_numberOrEmail);
         editTextPassword = findViewById(R.id.edit_text_password);
         editTextName = findViewById(R.id.edit_text_name);
 
     }
     public void signUp(View view) {
-        String email = editTextNumberOrEmail.getText().toString();
+        String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
         String name = String.valueOf(editTextName.getText());
 
@@ -91,6 +91,11 @@ public class HomeownerNewAccount extends AppCompatActivity {
                                     .set(user)
                                     .addOnSuccessListener(aVoid -> Log.d("Firestore", "User added with UID"))
                                     .addOnFailureListener(e -> Log.w("Firestore", "Error adding user", e));
+
+                            startActivity(new Intent(HomeownerNewAccount.this, CareersPage.class));
+                            editTextEmail.setText("");
+                            editTextPassword.setText("");
+                            editTextName.setText("");
 
                         } else {
                             // If sign in fails, display a message to the user.

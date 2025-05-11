@@ -28,7 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class ProviderNewAccount extends AppCompatActivity {
 
 
-    TextInputEditText editTextNumberOrEmail, editTextPassword;
+    TextInputEditText editTextEmail, editTextPassword;
     FirebaseAuth mAuth;
 
     @Override
@@ -42,8 +42,11 @@ public class ProviderNewAccount extends AppCompatActivity {
             return insets;
         });
 
-        editTextNumberOrEmail = findViewById(R.id.edit_text_numberOrEmail);
+        editTextEmail = findViewById(R.id.edit_text_numberOrEmail);
         editTextPassword = findViewById(R.id.edit_text_password);
+
+        editTextEmail.setText("");
+        editTextPassword.setText("");
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -73,7 +76,7 @@ public class ProviderNewAccount extends AppCompatActivity {
  */
 
     public void signUp(View view) {
-        String email = editTextNumberOrEmail.getText().toString();
+        String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
 
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -90,6 +93,8 @@ public class ProviderNewAccount extends AppCompatActivity {
                             i.putExtra("email", email);
                             i.putExtra("UID", user.getUid().toString());
                             startActivity(i);
+                            editTextEmail.setText("");
+                            editTextPassword.setText("");
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
