@@ -84,7 +84,7 @@
         android:onClick="logIN"
         android:textSize="25dp"
         android:layout_marginTop="10dp"
-        android:backgroundTint="@color/my_button_color">
+        android:backgroundTint="@color/black">
 
     </Button>
 

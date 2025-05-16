@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,53 +36,36 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
-public class RepairRequestForm extends AppCompatActivity {
+public class AddToPortfolio extends AppCompatActivity {
 
     private static final int PICK_IMAGES_CODE = 1000;
     ArrayList<Uri> imageUris = new ArrayList<>();
     LinearLayout imageContainer;
-    Button buttonUploadPhotos, buttonSubmit;
-    EditText editTextName, editTextPhone, editTextEmail, editTextAddress;
-    EditText editTextIssueLocation, editTextDescription;
+    Button buttonUploadPhotos;
+    EditText editTextDescription;
     FirebaseFirestore db;
-    String providerId, homeownerId;
-
+    String providerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_repair_request_form);
+        setContentView(R.layout.activity_add_to_portfolio);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        db = FirebaseFirestore.getInstance();
         providerId = getIntent().getStringExtra("providerId");
-        homeownerId = getIntent().getStringExtra("homeownerId");
-
-        Toast.makeText(RepairRequestForm.this, providerId, Toast.LENGTH_SHORT).show();
-        Toast.makeText(RepairRequestForm.this, homeownerId, Toast.LENGTH_SHORT).show();
 
         imageContainer = findViewById(R.id.imageContainer);
         buttonUploadPhotos = findViewById(R.id.buttonUploadPhotos);
-        buttonSubmit = findViewById(R.id.buttonSubmit);
+        editTextDescription = findViewById(R.id.etdescription);
 
-        editTextName = findViewById(R.id.editTextName);
-        editTextPhone = findViewById(R.id.editTextPhone);
-        editTextEmail = findViewById(R.id.editTextEmail);
-        editTextAddress = findViewById(R.id.editTextAddress);
-        editTextIssueLocation = findViewById(R.id.editTextIssueLocation);
-        editTextDescription = findViewById(R.id.editTextDescription);
 
         buttonUploadPhotos.setOnClickListener(v -> openGallery());
-        buttonSubmit.setOnClickListener(v -> submitForm());
-
-        db = FirebaseFirestore.getInstance();
-
-
     }
 
     private void openGallery() {
@@ -113,63 +97,7 @@ public class RepairRequestForm extends AppCompatActivity {
             }
         }
     }
-
-    private void addImageToContainer(Uri uri) {
-        ImageView imageView = new ImageView(this);
-        imageView.setLayoutParams(new LinearLayout.LayoutParams(400, 400));
-        imageView.setPadding(5, 5, 5, 5);
-        imageView.setImageURI(uri);
-        imageContainer.addView(imageView);
-    }
-
-    private void submitForm() {
-        String name = editTextName.getText().toString().trim();
-        String phone = editTextPhone.getText().toString().trim();
-        String email = editTextEmail.getText().toString().trim();
-        String address = editTextAddress.getText().toString().trim();
-        String issueLocation = editTextIssueLocation.getText().toString().trim();
-        String description = editTextDescription.getText().toString().trim();
-
-        if (name.isEmpty() || phone.isEmpty() || address.isEmpty() || description.isEmpty()) {
-            Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Map<String, Object> requestData = new HashMap<>();
-        requestData.put("homeownerId", homeownerId);
-        requestData.put("providerId", providerId);
-        requestData.put("name", name);
-        requestData.put("phone", phone);
-        requestData.put("email", email);
-        requestData.put("address", address);
-        requestData.put("issueLocation", issueLocation);
-        requestData.put("description", description);
-        requestData.put("timestamp", FieldValue.serverTimestamp());
-        requestData.put("state", "pending");
-
-        // Placeholder for image URIs,find a way to upload theme somewhere DONT FORGET
-        ArrayList<String> imagePaths = new ArrayList<>();
-        for (Uri uri : imageUris) {
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                String filename = bitmap.toString() + "_picture.jpg";
-                uploadRepairPicture(bitmap);
-                imagePaths.add(filename);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        requestData.put("images", imagePaths);
-
-
-        db.collection("repairRequests")
-                .add(requestData)
-                .addOnSuccessListener(documentReference ->
-                        Toast.makeText(this, "Request submitted successfully!", Toast.LENGTH_LONG).show())
-                .addOnFailureListener(e ->
-                        Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show());
-    }
-    public void uploadRepairPicture(Bitmap bitmap) {
+    public void uploadPicture(Bitmap bitmap) {
         String url = "http://192.168.1.105:5000/upload"; // ← use your local IP
         String filename = bitmap.toString() + "_picture.jpg";
 
@@ -190,12 +118,49 @@ public class RepairRequestForm extends AppCompatActivity {
                 Request.Method.POST,
                 url,
                 jsonBody,
-                response -> {Toast.makeText(getApplicationContext(), "Uploaded!!", Toast.LENGTH_LONG).show();
-                    },
+                response -> {},
                 error -> Toast.makeText(getApplicationContext(), "Upload failed: " + error.toString(), Toast.LENGTH_LONG).show()
         );
 
         Volley.newRequestQueue(this).add(request);
     }
+    private void addImageToContainer(Uri uri) {
+        ImageView imageView = new ImageView(this);
+        imageView.setLayoutParams(new LinearLayout.LayoutParams(400, 400));
+        imageView.setPadding(5, 5, 5, 5);
+        imageView.setImageURI(uri);
+        imageContainer.addView(imageView);
+    }
 
+    public void add(View view) {
+
+        String description = editTextDescription.getText().toString().trim();
+
+        Map<String, Object> requestData = new HashMap<>();
+        requestData.put("providerId", providerId);
+        requestData.put("description", description);
+        requestData.put("timestamp", FieldValue.serverTimestamp());
+
+        // Placeholder for image URIs,find a way to upload theme somewhere DONT FORGET
+        ArrayList<String> imagePaths = new ArrayList<>();
+        for (Uri uri : imageUris) {
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                String filename = bitmap.toString() + "_picture.jpg";
+                uploadPicture(bitmap);
+                imagePaths.add(filename);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        requestData.put("images", imagePaths);
+
+
+        db.collection("portfolioPost")
+                .add(requestData)
+                .addOnSuccessListener(documentReference ->
+                        Toast.makeText(this, "Request submitted successfully!", Toast.LENGTH_LONG).show())
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show());
+    }
 }

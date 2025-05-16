@@ -4,10 +4,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -17,9 +21,12 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.json.JSONArray;
 import java.util.ArrayList;
@@ -36,12 +43,14 @@ public class CareersPage extends AppCompatActivity {
     //the recyclerview
     RecyclerView recyclerView;
 
-    Button buttonLogOut;
+    Button buttonFilter;
     FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
     JSONArray data;
     private List<Provider> filteredProviders;
+
+    Spinner spinnerRegion, spinnerProfession, spinnerPrice, spinnerRating;
 
     String homeownerId;
     @Override
@@ -54,6 +63,12 @@ public class CareersPage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        spinnerRegion = findViewById(R.id.spinnerRegion);
+        spinnerProfession = findViewById(R.id.spinnerProfession);
+        spinnerPrice = findViewById(R.id.spinnerPrice);
+        spinnerRating = findViewById(R.id.spinnerRating);
+
 
         homeownerId = getIntent().getStringExtra("homeownerId");
         Toast.makeText(CareersPage.this, homeownerId, Toast.LENGTH_SHORT).show();
@@ -72,23 +87,108 @@ public class CareersPage extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         loadProducts();
 
-/*
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+       // Toolbar toolbar = findViewById(R.id.toolbar);
+       // setSupportActionBar(toolbar);
         filteredProviders = new ArrayList<>();  // ✅ ensure it's not null Sara123@gmail.com
 
-        adapter1 = new ProviderAdapter(CareersPage.this, filteredProviders, homeownerId);
-        recyclerView.setAdapter(adapter1);
+        //adapter1 = new ProviderAdapter(CareersPage.this, filteredProviders, homeownerId);
 
-        fetchProviders(); // You need to implement this based on your data source
+        //recyclerView.setAdapter(adapter1);
+
+        //fetchProviders();
+
+        buttonFilter = findViewById(R.id.buttonFilter);
+        buttonFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String selectedRegion = spinnerRegion.getSelectedItem().toString();
+                String selectedProfession = spinnerProfession.getSelectedItem().toString();
+                String selectedPrice = spinnerPrice.getSelectedItem().toString();
+                String selectedRatingStr = spinnerRating.getSelectedItem().toString();
+
+                List<Provider> filteredList = new ArrayList<>();
+
+                for (Provider p : filteredProviders) { // ✅ use original unfiltered list
+                    boolean matchesRegion = selectedRegion.equals("Any") || p.getRegion().equalsIgnoreCase(selectedRegion);
+                    boolean matchesProfession = selectedProfession.equals("Any") || p.getProfession().toLowerCase().contains(selectedProfession.toLowerCase());
+                    boolean matchesPrice = selectedPrice.equals("Any") || matchesPriceRange(p.getPrice(), selectedPrice);
+
+                    boolean matchesRating = true;
+                    if (!selectedRatingStr.equals("Any")) {
+                        try {
+                            int selectedRating = Integer.parseInt(selectedRatingStr);
+                            matchesRating = (int) Math.floor(p.getRating()) == selectedRating;
+                        } catch (NumberFormatException e) {
+                            matchesRating = true; // fail-safe
+                        }
+                    }
+
+                    if (matchesRegion && matchesProfession && matchesPrice && matchesRating) {
+                        filteredList.add(p);
+                    }
+                }
+
+                providerList.clear();
+                providerList.addAll(filteredList);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+/*
+        AdapterView.OnItemSelectedListener filterListener = new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) { filterProviders(); }
+            public void onNothingSelected(AdapterView<?> parent) {}
+        };
 
  */
 
+       // spinnerRegion.setOnItemSelectedListener(filterListener);
+        //spinnerProfession.setOnItemSelectedListener(filterListener);
+        //spinnerPrice.setOnItemSelectedListener(filterListener);
+       // spinnerRating.setOnItemSelectedListener(filterListener);
+
+
+
+
+    }
+
+    private void filterProviders() {
+        String selectedRegion = spinnerRegion.getSelectedItem().toString();
+        String selectedProfession = spinnerProfession.getSelectedItem().toString();
+        String selectedPrice = spinnerPrice.getSelectedItem().toString();
+        Integer selectedRating = Integer.parseInt(spinnerRating.getSelectedItem().toString());
+
+        filteredProviders = providerList;
+        providerList.clear();
+        for (Provider p : filteredProviders) {
+            boolean matchesRegion = selectedRegion.equals("Any") || p.getRegion().equalsIgnoreCase(selectedRegion);
+            //boolean matchesProfession = selectedProfession.equals("Any") || p.getProfession().contains(selectedProfession);
+           // boolean matchesPrice = selectedPrice.equals("Any") || matchesPriceRange(p.getPrice(), selectedPrice);
+           // boolean matchesRating = selectedRating.equals("Any") || (int)(p.getRating()) == selectedRating;
+
+            if ( matchesRegion) {
+                providerList.add(p);
+            }
+            //if (matchesRating && matchesRegion && matchesProfession && matchesPrice) {providerList.add(p);}
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    private boolean matchesPriceRange(double price, String selectedRange) {
+        switch (selectedRange) {
+            case "Under $30": return price < 30;
+            case "$30 - $50": return price >= 30 && price <= 50;
+            case "Above $50": return price > 50;
+            default: return true;
+        }
     }
 
     private void fetchProviders() {
+        String spinnRegion = spinnerRegion.getSelectedItem().toString();
         // Example dummy data; replace this with Firestore fetching or other data source
         db.collection("providers")
+                .whereEqualTo("region", spinnRegion)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
@@ -98,7 +198,13 @@ public class CareersPage extends AppCompatActivity {
                         for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
                             String id = documentSnapshot.getId();
                             String name = documentSnapshot.getString("name");
-                            String profession = documentSnapshot.getString("profession");
+                            String profession ="";
+                            ArrayList<String> professions = (ArrayList<String>) documentSnapshot.get("profession");
+                            if (professions != null) {
+                                for (String prof : professions) {
+                                    profession+=prof+", ";
+                                }
+                            }
                             Double rating = documentSnapshot.getDouble("rating");
                             String region = documentSnapshot.getString("region");
                             Double costperhour = documentSnapshot.getDouble("costPerHour");
@@ -106,6 +212,7 @@ public class CareersPage extends AppCompatActivity {
                             providerList.add(new Provider(id,name, profession,1,1, region,profileimage));
 
                         }
+                        recyclerView.setAdapter(adapter1);
                         filteredProviders.clear();
                         filteredProviders.addAll(providerList);
                         adapter1.notifyDataSetChanged();
@@ -150,7 +257,6 @@ public class CareersPage extends AppCompatActivity {
 
         return true;
     }
-
     private void filterByName(String query) {
         try {
             filteredProviders.clear();
@@ -164,6 +270,39 @@ public class CareersPage extends AppCompatActivity {
             Log.e("FilterError", "Error while filtering: " + e.getMessage());
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+    private void fill(){
+        db.collection("providers")
+                .whereEqualTo("region", spinnerRegion)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                String id = document.getId();
+                                String name = document.getString("name");
+                                String profession ="";
+                                ArrayList<String> professions = (ArrayList<String>) document.get("profession");
+                                if (professions != null) {
+                                    for (String prof : professions) {
+                                        profession+=prof+", ";
+                                    }
+                                }
+                                Double rating = document.getDouble("rating");
+                                String region = document.getString("region");
+                                Double costperhour = document.getDouble("costPerHour");
+                                String profileimage = document.getString("profile image");//temp
+                                providerList.add(new Provider(id,name, profession,1,1, region,profileimage));
+                            }
+                            adapter.notifyDataSetChanged();
+                        } else {
+
+                            Log.w("Firestore", "Error filtering documents.", task.getException());
+                        }
+                    }
+                });
     }
 
 
@@ -179,12 +318,19 @@ public class CareersPage extends AppCompatActivity {
                         for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
                             String id = documentSnapshot.getId();
                             String name = documentSnapshot.getString("name");
-                            String profession = documentSnapshot.getString("profession");
+                            String profession ="";
+                            ArrayList<String> professions = (ArrayList<String>) documentSnapshot.get("profession");
+                            if (professions != null) {
+                                for (String prof : professions) {
+                                    profession+=prof+", ";
+                                }
+                            }
                             Double rating = documentSnapshot.getDouble("rating");
                             String region = documentSnapshot.getString("region");
                             Double costperhour = documentSnapshot.getDouble("costPerHour");
                             String profileimage = documentSnapshot.getString("profile image");//temp
                             providerList.add(new Provider(id,name, profession,1,1, region,profileimage));
+                            filteredProviders.add(new Provider(id,name, profession,1,1, region,profileimage));
 
                         }
                         adapter.notifyDataSetChanged();

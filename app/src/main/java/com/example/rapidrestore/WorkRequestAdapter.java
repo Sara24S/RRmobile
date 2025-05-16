@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,9 +28,9 @@ public class WorkRequestAdapter extends RecyclerView.Adapter<WorkRequestAdapter.
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     ProvRequest clickedUser = userList.get(position);
-
                     Intent intent = new Intent(itemView.getContext(), WorkRequestView.class);
                     intent.putExtra("userId", clickedUser.getId()); // or document ID
+                    Toast.makeText(itemView.getContext(),  clickedUser.getId(), Toast.LENGTH_SHORT).show();
                     itemView.getContext().startActivity(intent);
                 }
             });

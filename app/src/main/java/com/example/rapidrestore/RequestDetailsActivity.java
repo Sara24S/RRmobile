@@ -1,0 +1,107 @@
+package com.example.rapidrestore;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class RequestDetailsActivity extends AppCompatActivity {
+
+    TextView textViewDetails;
+    LinearLayout imageContainer;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    String requestId, providerId, homeownerId;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_request_details);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        textViewDetails = findViewById(R.id.textViewDetails);
+        imageContainer = findViewById(R.id.imageContainerDetails);
+
+        requestId = getIntent().getStringExtra("requestId");
+
+        db.collection("repairRequests").document(requestId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String name = documentSnapshot.getString("name");
+                        String address = documentSnapshot.getString("address");
+                        String desc = documentSnapshot.getString("description");
+                        providerId = documentSnapshot.getString("providerId");
+                        homeownerId = documentSnapshot.getString("homeownerId");
+
+                        textViewDetails.setText("Name: " + name + "\nAddress: " + address + "\nDescription: " + desc);
+                        //fix images then remove comment
+                      /*  List<String> images = (List<String>) documentSnapshot.get("images");
+                        if (images != null) {
+                            for (String uri : images) {
+                                ImageView imageView = new ImageView(this);
+                                imageView.setLayoutParams(new LinearLayout.LayoutParams(400, 400));
+                                imageView.setPadding(5, 5, 5, 5);
+                                imageView.setImageURI(Uri.parse(uri));
+                                imageContainer.addView(imageView);
+                            }
+                        }
+
+                       */
+                    }
+                });
+    }
+
+    public void RepairCompleted(View view) {
+        Map<String, Object> requestData = new HashMap<>();
+        requestData.put("state", "complete");
+        requestData.put("date completed", FieldValue.serverTimestamp());
+
+        Map<String, Object> review = new HashMap<>();
+        review.put("state", "pending");
+        review.put("homeownerId", homeownerId);
+        review.put("providerid", providerId);
+
+        db.collection("repairRequests")
+                .document(requestId)
+                .update(requestData)
+                .addOnSuccessListener(documentReference ->
+                    Toast.makeText(this, "Repair is done!!", Toast.LENGTH_LONG).show())
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show());
+        //send a notification to homeowner to rate/review this provider
+        db.collection("Reviews")
+                .add(review)
+                .addOnSuccessListener(documentReference ->
+                        Toast.makeText(this, "Review request is added", Toast.LENGTH_LONG).show())
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show());
+
+        Intent intent = new Intent(this, ProviderProfile.class);
+        intent.putExtra("providerId",providerId);
+        intent.putExtra("isOwner", true);
+        startActivity(intent);
+        finish();
+    }
+}

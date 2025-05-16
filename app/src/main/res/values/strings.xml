@@ -12,6 +12,46 @@
         <item>Mount Lebanon</item>
     </string-array>
 
+    <string-array name="regions_array2">
+        <item>Any</item>
+        <item>Beirut</item>
+        <item>Tyre</item>
+        <item>Saida</item>
+        <item>Nabatieh</item>
+        <item>Bekaa</item>
+        <item>Baalbek-Hermel</item>
+        <item>Akkar</item>
+        <item>Tripoli</item>
+        <item>Mount Lebanon</item>
+    </string-array>
+
+    <string-array name="professions_array">
+        <item>Any</item>
+        <item>carpenter</item>
+        <item>mason</item>
+        <item>electrician</item>
+        <item>roofer</item>
+        <item>locksmith</item>
+        <item>glass technician</item>
+        <item>plummer</item>
+    </string-array>
+
+    <string-array name="price_array">
+        <item>Any</item>
+        <item>Under $30</item>
+        <item>$30 - $50</item>
+        <item>Above $50</item>
+    </string-array>
+
+    <string-array name="rate_array">
+        <item>Any</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
     <string-array name="issue_types">
         <item>Plumbing</item>
         <item>Electrical</item>
