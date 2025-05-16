@@ -71,9 +71,7 @@ public class WorkRequests extends AppCompatActivity {
                             String formattedDate = date != null ? sdf.format(date) : "N/A";
 
                             requestList.add(new ProvRequest(id,name, formattedDate));
-
-                            Toast.makeText(WorkRequests.this, formattedDate,
-                                    Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(WorkRequests.this, formattedDate,Toast.LENGTH_SHORT).show();
                         }
                         adapter.notifyDataSetChanged();
                     }

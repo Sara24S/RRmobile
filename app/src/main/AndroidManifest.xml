@@ -22,8 +22,19 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".RequestDetailsActivity"
+            android:exported="false" />
         <activity
-            android:name=".LiveChat"
+            android:name=".ProviderRequestsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddToPortfolio"
+            android:exported="false" />
+        <activity
+            android:name=".EditProfile"
+            android:exported="false" />
+        <activity
+            android:name=".Rate_Review"
             android:exported="false" />
         <activity
             android:name=".ProviderProfile"

@@ -83,7 +83,7 @@ public class ProviderAdapter extends RecyclerView.Adapter<ProviderAdapter.Produc
                 if (position != RecyclerView.NO_POSITION) {
                     Provider clickedUser = providerList.get(position);
 
-                    Intent intent = new Intent(mCtx, RepairRequestForm.class);//temp
+                    Intent intent = new Intent(mCtx, ProviderProfile.class);//temp
                     intent.putExtra("providerId", clickedUser.getId()); // or document ID
                     intent.putExtra("homeownerId", homeownerId);
                     mCtx.startActivity(intent);

@@ -19,6 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -51,6 +52,7 @@ public class WorkRequestView extends AppCompatActivity {
         etRejectionReason = findViewById(R.id.etRejectionReason);
 
         userId = getIntent().getStringExtra("userId");
+        Toast.makeText(WorkRequestView.this, userId, Toast.LENGTH_SHORT).show();
 
         db.collection("workRequests")
                 .document(userId)
@@ -58,16 +60,27 @@ public class WorkRequestView extends AppCompatActivity {
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         String name = documentSnapshot.getString("name");
-                        String profession = documentSnapshot.getString("profession");
+                        String prof = "";
+
+                        ArrayList<String> professions = (ArrayList<String>) documentSnapshot.get("profession");
+                        if (professions != null) {
+                            for (String profession : professions) {
+                                prof+=profession+", ";
+                            }
+                        }
+
+
                         String experience = documentSnapshot.getString("experience");
                         String region = documentSnapshot.getString("region");
 
                         tvname.append(name);
                         tvexperience.append(experience);
-                        tvprofession.append(profession);
+                        tvprofession.append(prof);
                         tvregion.append(region);
                     }
                 });
+
+
     }
 
     public void acceptRequest(View view) {
@@ -89,7 +102,7 @@ public class WorkRequestView extends AppCompatActivity {
                     if (documentSnapshot.exists()) {
                         String id = documentSnapshot.getString("provider ID");
                         String name = documentSnapshot.getString("name");
-                        String profession = documentSnapshot.getString("profession");
+                        ArrayList<String> professions = (ArrayList<String>) documentSnapshot.get("profession");
                         String experience = documentSnapshot.getString("experience");
                         String certification = documentSnapshot.getString("certification");
                         String certificationImage = documentSnapshot.getString("certification image");
@@ -111,7 +124,7 @@ public class WorkRequestView extends AppCompatActivity {
                         provider.put("name", name);
                         provider.put("phone number", phoneNumber);
                         provider.put("address", address);
-                        provider.put("profession", profession);
+                        provider.put("profession", professions);
                         provider.put("crtification", certification);
                         provider.put("certification image", certificationImage);
                         provider.put("experience", experience);

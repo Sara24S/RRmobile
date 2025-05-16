@@ -44,6 +44,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -162,16 +165,15 @@ public class WorkRequestForm extends AppCompatActivity {
 
 
     public void submit(View view) {
-        profession ="";
-        if(checkedCarpenter) profession+="carpenter,";
-        if(checkedElectrician) profession+="electrician,";
-        if(checkedLocksmith) profession+="locksmith,";
-        if(checkedGlassTechnican) profession+="glass technican,";
-        if(checkedMason) profession+="mason,";
-        if(checkedRoofer) profession+="roofer,";
-        if(checkedPlumber) profession+="plumber";
 
-        //Toast.makeText(getApplicationContext(), profession, Toast.LENGTH_SHORT).show();
+        ArrayList<String> profession = new ArrayList<>();
+        if(checkedCarpenter) profession.add("carpenter");
+        if(checkedElectrician) profession.add("electrician");
+        if(checkedLocksmith) profession.add("locksmith");
+        if(checkedGlassTechnican) profession.add("glass technician");
+        if(checkedMason) profession.add("mason");
+        if(checkedRoofer) profession.add("roofer");
+        if(checkedPlumber) profession.add("plumber");
 
         String name = editTextName.getText().toString();
         String certification = editTextCertification.getText().toString();
@@ -179,7 +181,9 @@ public class WorkRequestForm extends AppCompatActivity {
             certification="";
         String number="", address="", certificationImage="";
 
-        String image = imageUri.toString();
+        //String image = imageUri.toString();
+
+        Toast.makeText(WorkRequestForm.this, "why1", Toast.LENGTH_SHORT).show();
 
         Map<String, Object> user = new HashMap<>();
         user.put("name", name);
@@ -188,7 +192,7 @@ public class WorkRequestForm extends AppCompatActivity {
         user.put("address", address);
         user.put("profession", profession);
         user.put("crtification", certification);
-        user.put("certification image", image);
+        //user.put("certification image", image);
         user.put("experience", experience);
         user.put("region", spinnerSelection);
         user.put("provider ID", uID);
@@ -196,10 +200,8 @@ public class WorkRequestForm extends AppCompatActivity {
 
         db.collection("workRequests")
                 .add(user)
-                .addOnSuccessListener(aVoid -> Log.d("Firestore", "User added with UID"))
-                .addOnFailureListener(e -> Log.w("Firestore", "Error adding user", e));
-
-        Toast.makeText(WorkRequestForm.this, "Request sent", Toast.LENGTH_SHORT).show();
+                .addOnSuccessListener(aVoid -> Toast.makeText(WorkRequestForm.this, "Request sent", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> Toast.makeText(WorkRequestForm.this, e.getMessage(), Toast.LENGTH_SHORT).show());
         //uploadToFirebase(imageUri);
 
         editTextName.setText("");

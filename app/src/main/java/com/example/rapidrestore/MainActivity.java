@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -16,10 +14,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -108,17 +102,19 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                             else if("provider".equals(role)){
                                                 Toast.makeText(MainActivity.this, role, Toast.LENGTH_SHORT).show();
-                                             /*   Intent intent = new Intent(MainActivity.this, CareersPage.class);//temp, open provider profile
-                                                intent.putExtra("providerId", currentUser.getUid()); // or document ID
+                                                //startActivity(new Intent(MainActivity.this, ProviderProfile.class));
+                                                Intent intent = new Intent(MainActivity.this, ProviderProfile.class);//temp, open provider profile
+                                                intent.putExtra("providerId", currentUser.getUid());
+                                                intent.putExtra("isOwner", true);// or document ID
                                                 startActivity(intent);
-                                             */
+
                                             }
                                             else {
-                                               /* Intent intent = new Intent(MainActivity.this, AdminPage.class);
+                                                Intent intent = new Intent(MainActivity.this, AdminPage.class);
                                                 intent.putExtra("adminId", currentUser.getUid()); // or document ID
                                                 startActivity(intent);
 
-                                                */
+
                                                 Toast.makeText(MainActivity.this, role, Toast.LENGTH_SHORT).show();
                                             }
                                         }
