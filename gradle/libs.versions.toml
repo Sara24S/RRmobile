@@ -37,4 +37,5 @@ firebase-storage = { group = "com.google.firebase", name = "firebase-storage", v
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-firebase-services = { id = "com.google.gms.google-services", version.ref = "firebase-gradle" }  # Add this
+kotlin-android = { id = "org.jetbrains.kotlin.android", version = "1.9.10" }
+google-services = { id = "com.google.gms.google-services", version = "4.4.0" }

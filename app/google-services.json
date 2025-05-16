@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "305420456789",
+    "firebase_url": "https://example-597be-default-rtdb.firebaseio.com",
     "project_id": "example-597be",
     "storage_bucket": "example-597be.firebasestorage.app"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "305420456789-67bt5bsug4pqpsb1jt0i595iuqk1ebkh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rapidrestore",
+            "certificate_hash": "1001a760c70f5ceec775c41d83488974de2e710a"
+          }
+        },
         {
           "client_id": "305420456789-tc5gni9mmbkfgcescf5qhdqu0a6rhddb.apps.googleusercontent.com",
           "client_type": 1,
