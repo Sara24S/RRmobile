@@ -56,11 +56,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             textViewMessage = itemView.findViewById(R.id.textViewMessage);
             textViewSender = itemView.findViewById(R.id.textViewSender);
             textViewTime = itemView.findViewById(R.id.textViewTime);
+
         }
     }
-    private String formatTimestamp(Date date) {
+    private String formatTimestamp(Date timestamp) {
+        if (timestamp == null) return "";
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
-        return sdf.format(date);
+        return sdf.format(timestamp);
     }
 
 }

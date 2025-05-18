@@ -1,19 +1,18 @@
 package com.example.rapidrestore;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -23,35 +22,38 @@ public class ChatActivity extends AppCompatActivity {
 
     private MessageAdapter messageAdapter;
     private ChatRepository chatRepository;
-    private String chatId = "chat_room_1"; // You can replace this with a dynamic chat ID if needed
+    private List<Message> messageList = new ArrayList<>();
+    private String chatId = "homeownerId_providerId";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        // Initialize views
         messageInput = findViewById(R.id.messageInput);
         sendButton = findViewById(R.id.sendButton);
         messagesRecyclerView = findViewById(R.id.messagesRecyclerView);
 
-        chatRepository = new ChatRepository();
+        // Initialize adapter and repository
         messageAdapter = new MessageAdapter();
+        chatRepository = new ChatRepository();
+
 
         messagesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         messagesRecyclerView.setAdapter(messageAdapter);
 
 
+        chatRepository.listenForMessages(chatId, updatedMessages -> {
+            messageList.clear();
+            messageList.addAll(updatedMessages);
+            messageAdapter.notifyDataSetChanged();
+            messagesRecyclerView.scrollToPosition(messageList.size() - 1);
+        });
 
-
-        chatRepository.getMessages(chatId)
-                .addSnapshotListener((QuerySnapshot value, FirebaseFirestoreException error) -> {
-                    if (value != null) {
-                        messageAdapter.setMessages(value.toObjects(Message.class));
-                    }
-                });
-
-
+        // Send message logic
         sendButton.setOnClickListener(v -> {
             String text = messageInput.getText().toString().trim();
             if (!text.isEmpty()) {
@@ -59,6 +61,7 @@ public class ChatActivity extends AppCompatActivity {
                 messageInput.setText("");
             }
         });
-
     }
+
 }
+

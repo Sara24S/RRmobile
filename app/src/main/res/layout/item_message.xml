@@ -28,4 +28,14 @@
         android:text="Time"
         android:textSize="10sp"
         android:textColor="#AAAAAA" />
+
+    <TextView
+        android:id="@+id/textViewTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12:00 PM"
+        android:textSize="12sp"
+        />
+
 </LinearLayout>
+
