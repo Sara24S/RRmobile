@@ -27,11 +27,13 @@ public class CreateAccount extends AppCompatActivity {
     public void NewHomeowner(View view) {
         Intent i = new Intent(CreateAccount.this, HomeownerNewAccount.class);
         startActivity(i);
+        finish();
 
     }
 
     public void NewProvider(View view) {
         Intent i = new Intent(CreateAccount.this, ProviderNewAccount.class);
         startActivity(i);
+        finish();
     }
 }

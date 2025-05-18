@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +14,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,10 +30,11 @@ import java.util.TimeZone;
 
 public class WorkRequestView extends AppCompatActivity {
 
-    TextView tvname, tvprofession, tvexperience, tvregion;
+    TextView tvName, tvProfession, tvExperience, tvRegion, tvCertification, tvNumber;
     EditText etRejectionReason;
     FirebaseFirestore db;
     String userId;
+    ImageView ivId, ivCertification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +48,16 @@ public class WorkRequestView extends AppCompatActivity {
         });
 
         db = FirebaseFirestore.getInstance();
-        tvname = findViewById(R.id.tvname);
-        tvprofession = findViewById(R.id.tvprofession);
-        tvexperience = findViewById(R.id.tvexperience);
-        tvregion = findViewById(R.id.tvregion);
+        tvName = findViewById(R.id.tvname);
+        tvProfession = findViewById(R.id.tvprofession);
+        tvExperience = findViewById(R.id.tvexperience);
+        tvRegion = findViewById(R.id.tvregion);
+        tvCertification = findViewById(R.id.tvCertification);
+        tvNumber = findViewById(R.id.tvNumber);
         etRejectionReason = findViewById(R.id.etRejectionReason);
+        ivId = findViewById(R.id.providerIdCard);
+        ivCertification = findViewById(R.id.ivCertificationImage);
+
 
         userId = getIntent().getStringExtra("userId");
         Toast.makeText(WorkRequestView.this, userId, Toast.LENGTH_SHORT).show();
@@ -61,22 +69,37 @@ public class WorkRequestView extends AppCompatActivity {
                     if (documentSnapshot.exists()) {
                         String name = documentSnapshot.getString("name");
                         String prof = "";
-
                         ArrayList<String> professions = (ArrayList<String>) documentSnapshot.get("profession");
                         if (professions != null) {
                             for (String profession : professions) {
                                 prof+=profession+", ";
                             }
                         }
-
-
                         String experience = documentSnapshot.getString("experience");
                         String region = documentSnapshot.getString("region");
+                        String number = documentSnapshot.getString("phone number");
+                        String certification = documentSnapshot.getString("crtification");
+                        String certificationImage = documentSnapshot.getString("certification image");
+                        String idCard = documentSnapshot.getString("IdCard");
 
-                        tvname.append(name);
-                        tvexperience.append(experience);
-                        tvprofession.append(prof);
-                        tvregion.append(region);
+                        tvName.append(name);
+                        tvExperience.append(experience);
+                        tvProfession.append(prof);
+                        tvRegion.append(region);
+                        tvNumber.append(number);
+                        tvCertification.append(certification);
+                        String imageCerUrl = "http://192.168.1.105:5000/uploads/" + certificationImage;
+                        Glide.with(this)
+                                .load(imageCerUrl)
+                                //.centerCrop()
+                                // .circleCrop()
+                                .into(ivCertification);
+                        String imageIdUrl = "http://192.168.1.105:5000/uploads/" + idCard;
+                        Glide.with(this)
+                                .load(imageIdUrl)
+                                //.centerCrop()
+                                // .circleCrop()
+                                .into(ivId);
                     }
                 });
 
@@ -104,7 +127,7 @@ public class WorkRequestView extends AppCompatActivity {
                         String name = documentSnapshot.getString("name");
                         ArrayList<String> professions = (ArrayList<String>) documentSnapshot.get("profession");
                         String experience = documentSnapshot.getString("experience");
-                        String certification = documentSnapshot.getString("certification");
+                        String certification = documentSnapshot.getString("crtification");
                         String certificationImage = documentSnapshot.getString("certification image");
                         String region = documentSnapshot.getString("region");
                         String phoneNumber = documentSnapshot.getString("phone number");
@@ -125,7 +148,7 @@ public class WorkRequestView extends AppCompatActivity {
                         provider.put("phone number", phoneNumber);
                         provider.put("address", address);
                         provider.put("profession", professions);
-                        provider.put("crtification", certification);
+                        provider.put("certification", certification);
                         provider.put("certification image", certificationImage);
                         provider.put("experience", experience);
                         provider.put("region", region);
@@ -142,6 +165,8 @@ public class WorkRequestView extends AppCompatActivity {
                                 .set(provider)
                                 .addOnSuccessListener(aVoid -> Log.d("Firestore", "User added with UID"))
                                 .addOnFailureListener(e -> Log.w("Firestore", "Error adding user", e));
+
+
 
                     } else {
                         Toast.makeText(WorkRequestView.this, "not successful",

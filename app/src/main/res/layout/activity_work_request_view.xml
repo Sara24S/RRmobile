@@ -1,70 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".WorkRequestView"
-    android:orientation="vertical"
-    android:padding="20dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Work Request"
-        android:layout_gravity="center"
-        android:textSize="30sp"
-        />
-
-    <TextView
-        android:layout_marginTop="30dp"
-        android:textSize="15sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvname"
-        android:text="Name: "
-        />
-    <TextView
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvprofession"
-        android:text="Profession: "
-        />
-    <TextView
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvexperience"
-        android:text="Years of Experience: "
-        />
-    <TextView
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvregion"
-        android:text="Region: "
-        />
-    <Button
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="acceptRequest"
-        android:text="Accept"
-        android:layout_gravity="center"/>
-    <EditText
+    >
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="Enter rejection reason"
-        android:id="@+id/etRejectionReason"/>
-    <Button
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="rejectRequest"
-        android:text="Reject"
-        android:layout_gravity="center"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Work Request"
+            android:layout_gravity="center"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
 
-</LinearLayout>
+        <TextView
+            android:layout_marginTop="20dp"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvname"
+            android:text="Name: "
+            />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvNumber"
+            android:text="Phone number: "
+            />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvprofession"
+            android:text="Profession: "
+            />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvexperience"
+            android:text="Years of Experience: "
+            />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvregion"
+            android:text="Region: "
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID : "
+                android:textSize="16sp"
+                />
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:id="@+id/providerIdCard"
+                android:layout_margin="10dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Certification: "
+            android:textSize="16sp"
+            android:id="@+id/tvCertification"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivCertificationImage"
+            android:layout_margin="10dp"/>
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="acceptRequest"
+            android:text="Accept"
+            android:layout_gravity="center"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Enter rejection reason"
+            android:id="@+id/etRejectionReason"/>
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="rejectRequest"
+            android:text="Reject"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+</ScrollView>

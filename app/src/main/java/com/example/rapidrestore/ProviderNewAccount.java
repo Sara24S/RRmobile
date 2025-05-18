@@ -93,8 +93,7 @@ public class ProviderNewAccount extends AppCompatActivity {
                             i.putExtra("email", email);
                             i.putExtra("UID", user.getUid().toString());
                             startActivity(i);
-                            editTextEmail.setText("");
-                            editTextPassword.setText("");
+                            finish();
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.

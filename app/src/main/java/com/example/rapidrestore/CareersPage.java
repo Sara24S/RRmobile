@@ -1,20 +1,20 @@
 package com.example.rapidrestore;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -34,9 +34,6 @@ import java.util.List;
 
 public class CareersPage extends AppCompatActivity {
 
-    private static final String URL_PRODUCTS = "http://192.168.242.1/RRmobile/Api.php";
-
-    //a list to store all the products
     private ProviderAdapter adapter, adapter1;
     List<Provider> providerList;
 
@@ -45,9 +42,8 @@ public class CareersPage extends AppCompatActivity {
 
     Button buttonFilter;
     FirebaseAuth mAuth;
+    TextView myRepairRequests;
     private FirebaseFirestore db;
-
-    JSONArray data;
     private List<Provider> filteredProviders;
 
     Spinner spinnerRegion, spinnerProfession, spinnerPrice, spinnerRating;
@@ -68,10 +64,10 @@ public class CareersPage extends AppCompatActivity {
         spinnerProfession = findViewById(R.id.spinnerProfession);
         spinnerPrice = findViewById(R.id.spinnerPrice);
         spinnerRating = findViewById(R.id.spinnerRating);
+        myRepairRequests = findViewById(R.id.tvMyRepairRequests);
 
 
         homeownerId = getIntent().getStringExtra("homeownerId");
-        Toast.makeText(CareersPage.this, homeownerId, Toast.LENGTH_SHORT).show();
 
         db = FirebaseFirestore.getInstance();
 
@@ -86,6 +82,15 @@ public class CareersPage extends AppCompatActivity {
         adapter = new ProviderAdapter(CareersPage.this, providerList, homeownerId);
         recyclerView.setAdapter(adapter);
         loadProducts();
+
+        myRepairRequests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CareersPage.this, HomeownerRepairRequests.class);
+                intent.putExtra("homeownerId", homeownerId);
+                startActivity(intent);
+            }
+        });
 
 
        // Toolbar toolbar = findViewById(R.id.toolbar);
@@ -152,29 +157,6 @@ public class CareersPage extends AppCompatActivity {
 
 
     }
-
-    private void filterProviders() {
-        String selectedRegion = spinnerRegion.getSelectedItem().toString();
-        String selectedProfession = spinnerProfession.getSelectedItem().toString();
-        String selectedPrice = spinnerPrice.getSelectedItem().toString();
-        Integer selectedRating = Integer.parseInt(spinnerRating.getSelectedItem().toString());
-
-        filteredProviders = providerList;
-        providerList.clear();
-        for (Provider p : filteredProviders) {
-            boolean matchesRegion = selectedRegion.equals("Any") || p.getRegion().equalsIgnoreCase(selectedRegion);
-            //boolean matchesProfession = selectedProfession.equals("Any") || p.getProfession().contains(selectedProfession);
-           // boolean matchesPrice = selectedPrice.equals("Any") || matchesPriceRange(p.getPrice(), selectedPrice);
-           // boolean matchesRating = selectedRating.equals("Any") || (int)(p.getRating()) == selectedRating;
-
-            if ( matchesRegion) {
-                providerList.add(p);
-            }
-            //if (matchesRating && matchesRegion && matchesProfession && matchesPrice) {providerList.add(p);}
-        }
-        adapter.notifyDataSetChanged();
-    }
-
     private boolean matchesPriceRange(double price, String selectedRange) {
         switch (selectedRange) {
             case "Under $30": return price < 30;
@@ -183,7 +165,6 @@ public class CareersPage extends AppCompatActivity {
             default: return true;
         }
     }
-
     private void fetchProviders() {
         String spinnRegion = spinnerRegion.getSelectedItem().toString();
         // Example dummy data; replace this with Firestore fetching or other data source
@@ -271,41 +252,6 @@ public class CareersPage extends AppCompatActivity {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-    private void fill(){
-        db.collection("providers")
-                .whereEqualTo("region", spinnerRegion)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-
-                                String id = document.getId();
-                                String name = document.getString("name");
-                                String profession ="";
-                                ArrayList<String> professions = (ArrayList<String>) document.get("profession");
-                                if (professions != null) {
-                                    for (String prof : professions) {
-                                        profession+=prof+", ";
-                                    }
-                                }
-                                Double rating = document.getDouble("rating");
-                                String region = document.getString("region");
-                                Double costperhour = document.getDouble("costPerHour");
-                                String profileimage = document.getString("profile image");//temp
-                                providerList.add(new Provider(id,name, profession,1,1, region,profileimage));
-                            }
-                            adapter.notifyDataSetChanged();
-                        } else {
-
-                            Log.w("Firestore", "Error filtering documents.", task.getException());
-                        }
-                    }
-                });
-    }
-
-
     private void loadProducts(){
 
         db.collection("providers")
@@ -328,9 +274,9 @@ public class CareersPage extends AppCompatActivity {
                             Double rating = documentSnapshot.getDouble("rating");
                             String region = documentSnapshot.getString("region");
                             Double costperhour = documentSnapshot.getDouble("costPerHour");
-                            String profileimage = documentSnapshot.getString("profile image");//temp
-                            providerList.add(new Provider(id,name, profession,1,1, region,profileimage));
-                            filteredProviders.add(new Provider(id,name, profession,1,1, region,profileimage));
+                            String profileimage = documentSnapshot.getString("profilePicture");//temp
+                            providerList.add(new Provider(id,name, profession,rating,costperhour, region,profileimage));
+                            filteredProviders.add(new Provider(id,name, profession,rating,costperhour, region,profileimage));
 
                         }
                         adapter.notifyDataSetChanged();
@@ -346,53 +292,6 @@ public class CareersPage extends AppCompatActivity {
                         Log.w("Firestore", "Error getting documents.", task.getException());
                     }
                 });
-
-        /*
-        RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_PRODUCTS,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-                                //getting product object from json array
-                                JSONObject product = array.getJSONObject(i);
-                                //adding the product to product list
-                                providerList.add(new Provider(
-                                        product.getInt("id"),
-                                        product.getString("name"),
-                                        product.getString("profession"),
-                                        product.getDouble("rating"),
-                                        product.getDouble("costperhour"),
-                                        product.getString("region"),
-                                        product.getString("profileimage")
-                                ));
-                            }
-
-                            //creating adapter object and setting it to recyclerview
-                            ProviderAdapter adapter = new ProviderAdapter(CareersPage.this, providerList);
-                            recyclerView.setAdapter(adapter);
-                        } catch (JSONException e) {
-                            Toast.makeText(CareersPage.this, e.toString(), Toast.LENGTH_LONG).show();
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        queue.add(stringRequest);
-
-         */
-
     }
 
 

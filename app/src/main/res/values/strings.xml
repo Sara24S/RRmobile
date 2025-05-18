@@ -67,5 +67,19 @@
         <item>Emergency</item>
     </string-array>
 
+    <string-array name="state">
+        <item>all</item>
+        <item>pending</item>
+        <item>approved</item>
+        <item>rejected</item>
+    </string-array>
+
+    <string-array name="state2">
+        <item>all</item>
+        <item>pending</item>
+        <item>completed</item>
+        <item>deleted</item>
+    </string-array>
+
 
 </resources>

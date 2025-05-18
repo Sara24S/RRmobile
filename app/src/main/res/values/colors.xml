@@ -2,9 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="sage_green">#FF5C82</color>
+    <color name="sage_green">#9CAF88</color>
     <color name="logo_color">#FF0000</color>
     <color name="red">#CB0000</color>
     <color name="invisible">#00000000</color>
     <color name="light_gray">#D3D3D3</color>
+    <color name="green">#99AF99</color>
 </resources>

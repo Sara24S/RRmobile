@@ -18,9 +18,10 @@
 
         <LinearLayout
             android:id="@+id/imageContainerDetails"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
 
         <Button
             android:layout_width="match_parent"

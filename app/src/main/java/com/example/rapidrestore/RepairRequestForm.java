@@ -165,9 +165,10 @@ public class RepairRequestForm extends AppCompatActivity {
         db.collection("repairRequests")
                 .add(requestData)
                 .addOnSuccessListener(documentReference ->
-                        Toast.makeText(this, "Request submitted successfully!", Toast.LENGTH_LONG).show())
+                        Toast.makeText(this, "Booked!!", Toast.LENGTH_LONG).show())
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show());
+        finish();
     }
     public void uploadRepairPicture(Bitmap bitmap) {
         String url = "http://192.168.1.105:5000/upload"; // ← use your local IP
@@ -190,7 +191,7 @@ public class RepairRequestForm extends AppCompatActivity {
                 Request.Method.POST,
                 url,
                 jsonBody,
-                response -> {Toast.makeText(getApplicationContext(), "Uploaded!!", Toast.LENGTH_LONG).show();
+                response -> {//Toast.makeText(getApplicationContext(), "Uploaded!!", Toast.LENGTH_LONG).show();
                     },
                 error -> Toast.makeText(getApplicationContext(), "Upload failed: " + error.toString(), Toast.LENGTH_LONG).show()
         );

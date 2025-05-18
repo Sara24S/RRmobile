@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
@@ -22,12 +21,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +38,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProviderProfile extends AppCompatActivity {
@@ -53,6 +56,9 @@ public class ProviderProfile extends AppCompatActivity {
     FirebaseFirestore db;
 
     EditText etCost, etBio;
+    RecyclerView recyclerViewPortfolio;
+    ArrayList<PortfolioPost> portfolioPostList = new ArrayList<>();;
+    PortfolioAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +71,16 @@ public class ProviderProfile extends AppCompatActivity {
             return insets;
         });
 
-        db = FirebaseFirestore.getInstance();
 
+        db = FirebaseFirestore.getInstance();
         providerId = getIntent().getStringExtra("providerId");
         homeownerId = getIntent().getStringExtra("homeownerId");
         boolean isOwner = getIntent().getBooleanExtra("isOwner", false);
+
+        recyclerViewPortfolio = findViewById(R.id.portfolioRecycler);
+        adapter = new PortfolioAdapter(this, portfolioPostList);
+        recyclerViewPortfolio.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewPortfolio.setAdapter(adapter);
 
         tvBio = findViewById(R.id.providerBio);
         tvCost = findViewById(R.id.providerPricing);
@@ -177,21 +188,13 @@ public class ProviderProfile extends AppCompatActivity {
             btnRequests.setVisibility(View.GONE);
 
 
-
-          /*  Intent intent = new Intent(this, EditProfile.class);
-            intent.putExtra("providerId", providerId);
-            editProfileLauncher.launch(intent);
-
-           */
         });
-
         //Change profile image
         btnEditImage.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
             pickImageLauncher.launch(intent);
         });
-
 
         btnAddPrevWork.setOnClickListener(v ->{
             Intent intent = new Intent(ProviderProfile.this, AddToPortfolio.class);
@@ -225,8 +228,23 @@ public class ProviderProfile extends AppCompatActivity {
          */
 
         fetchProfile();
+        loadPortfolio();
 
     }
+    private void loadPortfolio() {
+        db.collection("portfolioPost")
+                .whereEqualTo("providerId",providerId)
+                .get()
+                .addOnSuccessListener(query -> {
+                    for (QueryDocumentSnapshot doc : query) {
+                        String desc = doc.getString("description");
+                        List<String> images = (List<String>) doc.get("images");
+                        portfolioPostList.add(new PortfolioPost(desc, images));
+                    }
+                    adapter.notifyDataSetChanged();
+                });
+    }
+
 
     ActivityResultLauncher<Intent> pickImageLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -270,7 +288,7 @@ public class ProviderProfile extends AppCompatActivity {
                     }
 
                     String filename = documentSnapshot.getString("profilePicture");
-                    String imageUrl = "http://192.168.1.105:5000/uploads/" + filename;
+                    String imageUrl = ImageUtils.getImageUrl(filename);
 
                     Glide.with(this)
                             .load(imageUrl)
@@ -349,7 +367,7 @@ public class ProviderProfile extends AppCompatActivity {
  */
 
     public void uploadProfilePicture(Bitmap bitmap, String providerId) {
-        String url = "http://192.168.1.105:5000/upload"; // ← use your local IP
+        String url = ImageUtils.getUrl(); // ← use your local IP
         String filename = bitmap.toString() + "_profile.jpg";
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

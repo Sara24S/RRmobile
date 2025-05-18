@@ -5,19 +5,20 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:layout_width="364dp"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        android:backgroundTint="@color/sage_green">
 
         <RelativeLayout
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="6dp">
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="120dp"
-                android:layout_height="90dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:padding="4dp" />
 
             <TextView
@@ -57,16 +58,17 @@
                 android:id="@+id/textViewRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textViewRegion"
-                android:layout_marginLeft="55dp"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@id/textViewPrice"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:background="@color/black"
-                android:paddingLeft="10dp"
-                android:paddingRight="15dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
                 android:text="4.7"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small.Inverse"
                 android:textStyle="bold" />
+
 
             <TextView
                 android:id="@+id/textViewPrice"

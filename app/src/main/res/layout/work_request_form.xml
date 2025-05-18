@@ -7,16 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".WorkRequestForm"
     android:orientation="vertical"
-    android:gravity="center">
-
-
+    android:gravity="center"
+    android:padding="10dp"
+    >
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Fill in your info: "
-        android:layout_marginStart="10dp"
         android:textSize="20sp"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
         />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -29,9 +30,20 @@
             android:id="@+id/edit_text_fullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="15dp" />
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_layout_Number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone number">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_Number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
@@ -44,7 +56,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Region:"
-            android:layout_marginStart="18dp"
             android:textSize="20sp"
             android:layout_weight="1"
             />
@@ -64,7 +75,6 @@
         android:layout_height="wrap_content"
         android:text="Years of experience: "
         android:layout_gravity="left"
-        android:layout_marginStart="18dp"
         android:textSize="20sp"
         android:layout_marginTop="15dp"
         />
@@ -73,8 +83,7 @@
         android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="10dp">
+        android:orientation="horizontal">
         <RadioButton
             android:id="@+id/radioButton1"
             android:layout_width="wrap_content"
@@ -100,7 +109,6 @@
         android:layout_height="wrap_content"
         android:text="Profession/s: "
         android:layout_gravity="left"
-        android:layout_marginStart="18dp"
         android:textSize="20sp"
         android:layout_marginTop="15dp"
         />
@@ -108,8 +116,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:orientation="horizontal"
-        android:layout_marginStart="10dp">
+        android:orientation="horizontal">
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -147,8 +154,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:orientation="horizontal"
-        android:layout_marginStart="10dp">
+        android:orientation="horizontal">
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -186,17 +192,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:layout_marginStart="20dp"
             android:layout_marginEnd="15dp" />
     </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Certification Image"
+        android:layout_gravity="left"
+        android:layout_marginTop="5dp"
+        android:id="@+id/certificationImage"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="add certification image"
+        android:text="press to add your Identity Card (Mandatory)"
         android:layout_gravity="left"
-        android:layout_marginStart="25dp"
-        android:id="@+id/certificationImage"/>
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:id="@+id/IdCard"/>
     <ImageView
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -213,5 +227,4 @@
         android:backgroundTint="@color/black">
 
     </Button>
-
 </LinearLayout>

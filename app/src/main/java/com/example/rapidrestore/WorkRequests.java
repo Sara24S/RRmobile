@@ -2,6 +2,9 @@ package com.example.rapidrestore;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -26,9 +29,10 @@ import java.util.TimeZone;
 public class WorkRequests extends AppCompatActivity {
 
     private WorkRequestAdapter adapter;
-    private List<ProvRequest> requestList;
+    private List<ProvRequest> requestList, filteredRequests;
     private FirebaseFirestore db;
     RecyclerView recyclerViewWorkRequests;
+    Spinner spinnerState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +45,44 @@ public class WorkRequests extends AppCompatActivity {
             return insets;
         });
 
+
+        db = FirebaseFirestore.getInstance();
+
         recyclerViewWorkRequests = (RecyclerView) findViewById(R.id.recyclerViewWorkRequests);
         recyclerViewWorkRequests.setLayoutManager(new LinearLayoutManager(this));
+        spinnerState = findViewById(R.id.spinnerState);
+
+        AdapterView.OnItemSelectedListener filterListener = new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) { filterRequests(); }
+            public void onNothingSelected(AdapterView<?> parent) {}
+        };
+
+        spinnerState.setOnItemSelectedListener(filterListener);
+
 
         requestList = new ArrayList<>();
         adapter = new WorkRequestAdapter(requestList);
         recyclerViewWorkRequests.setAdapter(adapter);
+        filteredRequests = new ArrayList<>();
 
-        db = FirebaseFirestore.getInstance();
         fetchRequests();
+    }
+
+    public void filterRequests(){
+        String selectedState = spinnerState.getSelectedItem().toString();
+
+        List<ProvRequest> filteredList = new ArrayList<>();
+        for (ProvRequest p : filteredRequests) { // ✅ use original unfiltered list
+            boolean matchesState = selectedState.equals("all") || p.getState().equalsIgnoreCase(selectedState);
+
+            if (matchesState) {
+                filteredList.add(p);
+            }
+        }
+        requestList.clear();
+        requestList.addAll(filteredList);
+        adapter.notifyDataSetChanged();
+
     }
 
     private void fetchRequests() {
@@ -63,14 +96,15 @@ public class WorkRequests extends AppCompatActivity {
                         for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
                             String id = documentSnapshot.getId();
                             String name = documentSnapshot.getString("name");
-                            //String date = documentSnapshot.getTimestamp("createdAt").toString();
+                            String state = documentSnapshot.getString("status");
                             Timestamp timestamp = documentSnapshot.getTimestamp("createdAt");
                             Date date = timestamp != null ? timestamp.toDate() : null;
                             SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy 'at' h:mm a z", Locale.getDefault());
-                            sdf.setTimeZone(TimeZone.getTimeZone("UTC")); // Optional: to match Firestore Console format
+                            //sdf.setTimeZone(TimeZone.getTimeZone("UTC")); // Optional: to match Firestore Console format
                             String formattedDate = date != null ? sdf.format(date) : "N/A";
 
-                            requestList.add(new ProvRequest(id,name, formattedDate));
+                            requestList.add(new ProvRequest(id,name, formattedDate, state));
+                            filteredRequests.add(new ProvRequest(id,name, formattedDate, state));
                             //Toast.makeText(WorkRequests.this, formattedDate,Toast.LENGTH_SHORT).show();
                         }
                         adapter.notifyDataSetChanged();
@@ -81,28 +115,6 @@ public class WorkRequests extends AppCompatActivity {
                         Log.w("Firestore", "Error getting documents.", task.getException());
                     }
                 });
- /*               .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(WorkRequests.this, "successful",
-                                Toast.LENGTH_SHORT).show();
-                        //requestList.clear(); // clear old data
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String name = document.getString("name");
-                            String date = document.getString("createdAt");
-
-                            Toast.makeText(WorkRequests.this, "wow",
-                                    Toast.LENGTH_SHORT).show();
-
-                            //requestList.add(new ProvRequest(name, date));
-                        }
-                        //adapter.notifyDataSetChanged();
-                    } else {
-                        Toast.makeText(WorkRequests.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                        Log.w("Firestore", "Error getting documents.", task.getException());
-                    }
-                });
-
-  */
     }
 
 }

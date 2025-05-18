@@ -20,19 +20,23 @@ public class ProvRequest {
 
    */
     private String dateSubmitted;
+    private String state;
 
     // Required empty constructor for Firestore deserialization
     public ProvRequest() {}
 
-    public ProvRequest(String id, String name, String dateSubmitted) {
+    public ProvRequest(String id, String name, String dateSubmitted, String state) {
         this.id = id;
         this.name = name;
         this.dateSubmitted = dateSubmitted;
+        this.state = state;
     }
 
     // Getters
     public String getId() { return id; }
     public String getName() { return name; }
+
+    public String getState() { return state; }
     public String getDateSubmitted() { return dateSubmitted; }
 
 }

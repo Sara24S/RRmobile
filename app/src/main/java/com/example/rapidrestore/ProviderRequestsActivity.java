@@ -2,6 +2,9 @@ package com.example.rapidrestore;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -27,11 +30,12 @@ import java.util.TimeZone;
 public class ProviderRequestsActivity extends AppCompatActivity {
 
 
-    private RecyclerView recyclerView;
+     RecyclerView recyclerView;
     private RepairRequestAdapter adapter;
-    private List<RepairRequest> requestList = new ArrayList<>();
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    List<RepairRequest> requestList, filteredRequests;
+    private FirebaseFirestore db;
     private String providerId;
+    private Spinner spinnerState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +47,44 @@ public class ProviderRequestsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        db = FirebaseFirestore.getInstance();
         providerId = getIntent().getStringExtra("providerId");
 
+        spinnerState = findViewById(R.id.spinnerState2);
         recyclerView = findViewById(R.id.recyclerViewRequests);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        requestList = new ArrayList<>();
         adapter = new RepairRequestAdapter(this, requestList);
         recyclerView.setAdapter(adapter);
 
+        filteredRequests = new ArrayList<>();
+
+        AdapterView.OnItemSelectedListener filterListener = new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) { filterRequests(); }
+            public void onNothingSelected(AdapterView<?> parent) {}
+        };
+
+        spinnerState.setOnItemSelectedListener(filterListener);
+
         loadRequests();
+    }
+
+    public void filterRequests(){
+        String selectedState = spinnerState.getSelectedItem().toString();
+
+        List<RepairRequest> filteredList = new ArrayList<>();
+        for (RepairRequest p : filteredRequests) { // ✅ use original unfiltered list
+            boolean matchesState = selectedState.equals("all") || p.getState().equalsIgnoreCase(selectedState);
+
+            if (matchesState) {
+                filteredList.add(p);
+            }
+        }
+        requestList.clear();
+        requestList.addAll(filteredList);
+        adapter.notifyDataSetChanged();
+
     }
 
     private void loadRequests() {
@@ -72,6 +105,7 @@ public class ProviderRequestsActivity extends AppCompatActivity {
                             String description = documentSnapshot.getString("description");
                             List<String> images = (List<String>) documentSnapshot.get("images");
                             requestList.add(new RepairRequest(id, name, state,date, description, images));
+                            filteredRequests.add(new RepairRequest(id, name, state,date, description, images));
                         }
                         adapter.notifyDataSetChanged();
                     }
