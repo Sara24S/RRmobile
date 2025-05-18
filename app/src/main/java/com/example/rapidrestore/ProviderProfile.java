@@ -96,9 +96,11 @@ public class ProviderProfile extends AppCompatActivity {
 
         chatIcon.setOnClickListener(v -> {
             Intent intent = new Intent(ProviderProfile.this, ChatActivity.class);
-            intent.putExtra("chatId", providerId + "_" + homeownerId);
+            intent.putExtra("homeownerId", homeownerId);  //
+            intent.putExtra("providerId", providerId);    //
             startActivity(intent);
         });
+
 
         if (isOwner) {
             btnAddPrevWork.setVisibility(View.VISIBLE);
