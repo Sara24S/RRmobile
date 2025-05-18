@@ -17,23 +17,10 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.FirebaseException;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthOptions;
-import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -120,30 +107,6 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     })
                                     .addOnFailureListener(e -> Log.w("Firestore", "Error reading field", e));
-                            /*
-                            url = "http://192.168.242.1/RRmobile/getuserrole.php?firebaseUID="+currentUser.getUid().toString();
-                            StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    if(response.equals("homeowner"))
-                                        startActivity(new Intent(MainActivity.this, CareersPage.class));
-                                    else if (response.equals("admin"))
-                                        startActivity(new Intent(MainActivity.this, AdminPage.class));
-                                    else
-                                        Toast.makeText(MainActivity.this, "provider", Toast.LENGTH_SHORT).show();
-
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Toast.makeText(MainActivity.this, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                             */
-
-                           // editTextEmail.setText("");
-                           // editTextPassword.setText("");
                         }
                         else {
                             Toast.makeText(MainActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();

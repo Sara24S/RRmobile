@@ -26,6 +26,15 @@
             android:name=".HomeownerRepairRequests"
             android:exported="false" />
         <activity
+            android:name=".AddToPortfolio"
+            android:exported="false" />
+        <activity
+            android:name=".ProviderAvailability"
+            android:exported="false" />
+        <activity
+            android:name=".ChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".RequestDetailsActivity"
             android:exported="false" />
         <activity

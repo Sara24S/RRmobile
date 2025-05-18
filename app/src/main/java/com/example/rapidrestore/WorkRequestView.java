@@ -15,18 +15,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
 
 public class WorkRequestView extends AppCompatActivity {
 
@@ -88,13 +82,13 @@ public class WorkRequestView extends AppCompatActivity {
                         tvRegion.append(region);
                         tvNumber.append(number);
                         tvCertification.append(certification);
-                        String imageCerUrl = "http://192.168.1.105:5000/uploads/" + certificationImage;
+                        String imageCerUrl = ImageUtils.getImageUrl(certificationImage);
                         Glide.with(this)
                                 .load(imageCerUrl)
                                 //.centerCrop()
                                 // .circleCrop()
                                 .into(ivCertification);
-                        String imageIdUrl = "http://192.168.1.105:5000/uploads/" + idCard;
+                        String imageIdUrl = ImageUtils.getImageUrl(idCard);
                         Glide.with(this)
                                 .load(imageIdUrl)
                                 //.centerCrop()

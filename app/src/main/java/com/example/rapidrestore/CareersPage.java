@@ -139,23 +139,6 @@ public class CareersPage extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
-
-/*
-        AdapterView.OnItemSelectedListener filterListener = new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) { filterProviders(); }
-            public void onNothingSelected(AdapterView<?> parent) {}
-        };
-
- */
-
-       // spinnerRegion.setOnItemSelectedListener(filterListener);
-        //spinnerProfession.setOnItemSelectedListener(filterListener);
-        //spinnerPrice.setOnItemSelectedListener(filterListener);
-       // spinnerRating.setOnItemSelectedListener(filterListener);
-
-
-
-
     }
     private boolean matchesPriceRange(double price, String selectedRange) {
         switch (selectedRange) {
@@ -280,11 +263,6 @@ public class CareersPage extends AppCompatActivity {
 
                         }
                         adapter.notifyDataSetChanged();
-                       /* Intent intent = new Intent(this, RepairRequestForm.class);//temp
-                        intent.putExtra("homeownerId", homeownerId);// or document ID
-                        startActivity(intent);
-
-                        */
                     }
                     else{
                         Toast.makeText(CareersPage.this, "not successful",

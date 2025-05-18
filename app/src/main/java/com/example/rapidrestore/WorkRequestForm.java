@@ -157,7 +157,7 @@ public class WorkRequestForm extends AppCompatActivity {
         }
     }
     public void uploadIdCard(Bitmap bitmap) {
-        String url = "http://192.168.1.105:5000/upload"; // ← use your local IP
+        String url = ImageUtils.getUrl(); // ← use your local IP
         idFilename = bitmap.toString() + "_IdCard.jpg";
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -185,7 +185,7 @@ public class WorkRequestForm extends AppCompatActivity {
     }
 
     public void uploadCertification(Bitmap bitmap) {
-        String url = "http://192.168.1.105:5000/upload"; // ← use your local IP
+        String url = ImageUtils.getUrl(); // ← use your local IP
         certificationFilename = bitmap.toString() + "_Certification.jpg";
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

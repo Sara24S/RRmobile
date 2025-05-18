@@ -7,10 +7,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -19,10 +22,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -31,9 +38,16 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 
 public class RepairRequestForm extends AppCompatActivity {
@@ -41,11 +55,21 @@ public class RepairRequestForm extends AppCompatActivity {
     private static final int PICK_IMAGES_CODE = 1000;
     ArrayList<Uri> imageUris = new ArrayList<>();
     LinearLayout imageContainer;
-    Button buttonUploadPhotos, buttonSubmit;
+    Button buttonSubmit;
     EditText editTextName, editTextPhone, editTextEmail, editTextAddress;
     EditText editTextIssueLocation, editTextDescription;
     FirebaseFirestore db;
     String providerId, homeownerId;
+    ImageView ivAddPhoto;
+    Map<String, Object> requestData;
+    private List<String> bookedTimes = new ArrayList<>();
+    private CalendarView calendarView;
+    private RecyclerView availableTimesRecycler;
+    private TextView availableTimesLabel;
+    private String selectedDate;
+    private List<String> availableTimes = new ArrayList<>();
+    private Set<String> bookedTimesSet = new HashSet<>();
+    private AvailableTimesAdapter adapter;
 
 
     @Override
@@ -61,13 +85,11 @@ public class RepairRequestForm extends AppCompatActivity {
 
         providerId = getIntent().getStringExtra("providerId");
         homeownerId = getIntent().getStringExtra("homeownerId");
-
-        Toast.makeText(RepairRequestForm.this, providerId, Toast.LENGTH_SHORT).show();
-        Toast.makeText(RepairRequestForm.this, homeownerId, Toast.LENGTH_SHORT).show();
+        requestData = new HashMap<>();
 
         imageContainer = findViewById(R.id.imageContainer);
-        buttonUploadPhotos = findViewById(R.id.buttonUploadPhotos);
         buttonSubmit = findViewById(R.id.buttonSubmit);
+        ivAddPhoto = findViewById(R.id.ivAddPhotos);
 
         editTextName = findViewById(R.id.editTextName);
         editTextPhone = findViewById(R.id.editTextPhone);
@@ -76,10 +98,34 @@ public class RepairRequestForm extends AppCompatActivity {
         editTextIssueLocation = findViewById(R.id.editTextIssueLocation);
         editTextDescription = findViewById(R.id.editTextDescription);
 
-        buttonUploadPhotos.setOnClickListener(v -> openGallery());
+        ivAddPhoto.setOnClickListener(v -> openGallery());
         buttonSubmit.setOnClickListener(v -> submitForm());
 
         db = FirebaseFirestore.getInstance();
+
+        calendarView = findViewById(R.id.calendarView);
+        availableTimesRecycler = findViewById(R.id.availableTimesRecycler);
+        availableTimesLabel = findViewById(R.id.availableTimesLabel);
+
+        adapter = new AvailableTimesAdapter(availableTimes, bookedTimesSet, time -> {
+            bookAppointment(selectedDate, time);
+        });
+
+        availableTimesRecycler.setLayoutManager(new LinearLayoutManager(this));
+        availableTimesRecycler.setAdapter(adapter);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        selectedDate = sdf.format(new Date());
+        fetchAvailableTimes(selectedDate);
+
+        calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+            Calendar cal = Calendar.getInstance();
+            cal.set(year, month, dayOfMonth);
+            selectedDate = sdf.format(cal.getTime());
+
+            adapter.clearSelection();      // Clear previously selected time
+            fetchAvailableTimes(selectedDate);
+        });
 
 
     }
@@ -121,7 +167,10 @@ public class RepairRequestForm extends AppCompatActivity {
         imageView.setImageURI(uri);
         imageContainer.addView(imageView);
     }
-
+    private void bookAppointment(String date, String time) {
+        requestData.put("date", date);
+        requestData.put("time", time);
+    }
     private void submitForm() {
         String name = editTextName.getText().toString().trim();
         String phone = editTextPhone.getText().toString().trim();
@@ -135,7 +184,6 @@ public class RepairRequestForm extends AppCompatActivity {
             return;
         }
 
-        Map<String, Object> requestData = new HashMap<>();
         requestData.put("homeownerId", homeownerId);
         requestData.put("providerId", providerId);
         requestData.put("name", name);
@@ -171,7 +219,7 @@ public class RepairRequestForm extends AppCompatActivity {
         finish();
     }
     public void uploadRepairPicture(Bitmap bitmap) {
-        String url = "http://192.168.1.105:5000/upload"; // ← use your local IP
+        String url = ImageUtils.getUrl(); // ← use your local IP
         String filename = bitmap.toString() + "_picture.jpg";
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -197,6 +245,46 @@ public class RepairRequestForm extends AppCompatActivity {
         );
 
         Volley.newRequestQueue(this).add(request);
+    }
+
+    private void fetchAvailableTimes(String date) {
+        availableTimes.clear();
+        db.collection("providerAvailability")
+                .document(providerId)
+                .collection("dates")
+                .document(date)
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    if (snapshot.exists()) {
+                        List<String> times = (List<String>) snapshot.get("times");
+                        if (times != null) {
+                            availableTimes.addAll(times);
+                            availableTimesLabel.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        availableTimesLabel.setVisibility(View.GONE);
+                    }
+                    fetchBookedTimes(date);  // Fetch booked times right after fetching available times
+                });
+    }
+
+    private void fetchBookedTimes(String date) {
+        bookedTimes.clear();
+        db.collection("repairRequests")
+                .whereEqualTo("providerId", providerId)
+                .whereEqualTo("date", date)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    for (DocumentSnapshot doc : querySnapshot) {
+                        String bookedTime = doc.getString("time");
+                        if (bookedTime != null) {
+                            bookedTimes.add(bookedTime);
+                        }
+                    }
+                    bookedTimesSet.clear();
+                    bookedTimesSet.addAll(bookedTimes);
+                    adapter.notifyDataSetChanged(); // Refresh RecyclerView to show booked status
+                });
     }
 
 }

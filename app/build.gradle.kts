@@ -50,6 +50,7 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.14.2")
     implementation(libs.firebase.firestore)
     implementation ("com.google.firebase:firebase-storage")
+    implementation(libs.firebase.database)
     annotationProcessor ("com.github.bumptech.glide:compiler:4.14.2")
     implementation(libs.activity)
     implementation(libs.constraintlayout)

@@ -58,23 +58,6 @@ public class ProviderNewAccount extends AppCompatActivity {
         }
     }
 
-/*
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Toast.makeText(ProviderNewAccount.this, "Already have a user",
-                    Toast.LENGTH_SHORT).show();
-            Toast.makeText(ProviderNewAccount.this, currentUser.getUid(),
-                    Toast.LENGTH_SHORT).show();
-            //reload();
-        }
-    }
-
- */
-
     public void signUp(View view) {
         String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
@@ -94,7 +77,6 @@ public class ProviderNewAccount extends AppCompatActivity {
                             i.putExtra("UID", user.getUid().toString());
                             startActivity(i);
                             finish();
-                            //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
