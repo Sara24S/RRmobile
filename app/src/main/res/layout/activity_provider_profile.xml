@@ -225,5 +225,18 @@
             android:textColor="@color/black"
             android:onClick="addRequest"/>
 
+        <ImageButton
+            android:id="@+id/chatIcon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/bg_circle"
+            android:src="@drawable/ic_chat"
+            android:contentDescription="Chat"
+            android:scaleType="centerInside"
+            android:tint="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
