@@ -23,13 +23,21 @@ public class ChatActivity extends AppCompatActivity {
     private MessageAdapter messageAdapter;
     private ChatRepository chatRepository;
     private List<Message> messageList = new ArrayList<>();
-    private String chatId = "homeownerId_providerId";
+    private String chatId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        // Get real IDs passed from intent
+        String homeownerId = getIntent().getStringExtra("homeownerId");
+        String providerId = getIntent().getStringExtra("providerId");
+
+        // Generate a unique chatId for both sides
+        chatId = homeownerId + "_" + providerId;
+
+        // Get current user ID
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         // Initialize views
@@ -41,19 +49,18 @@ public class ChatActivity extends AppCompatActivity {
         messageAdapter = new MessageAdapter();
         chatRepository = new ChatRepository();
 
-
         messagesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         messagesRecyclerView.setAdapter(messageAdapter);
 
-
+        // Start listening to messages
         chatRepository.listenForMessages(chatId, updatedMessages -> {
             messageList.clear();
             messageList.addAll(updatedMessages);
-            messageAdapter.notifyDataSetChanged();
+            messageAdapter.setMessages(messageList);
             messagesRecyclerView.scrollToPosition(messageList.size() - 1);
         });
 
-        // Send message logic
+        // Send message
         sendButton.setOnClickListener(v -> {
             String text = messageInput.getText().toString().trim();
             if (!text.isEmpty()) {
@@ -62,6 +69,4 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
-
 }
-
