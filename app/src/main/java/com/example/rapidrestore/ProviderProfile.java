@@ -37,23 +37,26 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProviderProfile extends AppCompatActivity {
 
-    ActivityResultLauncher<Intent> pickImageLauncher;
-    String providerId, homeownerId, imageTitle;
+    String providerId, homeownerId;
+
     Button btnEditProfile, btnRequests, btnSaveChanges, btnAddRequest;
     ImageButton btnAddPrevWork, btnEditImage, chatIcon;
     ImageView profileImage;
     TextView tvName, tvCost, tvBio, tvRegion, tvProfession;
+    EditText etCost, etBio;
     Uri selectedImage;
     FirebaseFirestore db;
-    EditText etCost, etBio;
 
     RecyclerView recyclerViewPortfolio;
     ArrayList<PortfolioPost> portfolioPostList = new ArrayList<>();
     PortfolioAdapter adapter;
+
+    ActivityResultLauncher<Intent> pickImageLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,7 @@ public class ProviderProfile extends AppCompatActivity {
         });
 
         db = FirebaseFirestore.getInstance();
+
         providerId = getIntent().getStringExtra("providerId");
         homeownerId = getIntent().getStringExtra("homeownerId");
         boolean isOwner = getIntent().getBooleanExtra("isOwner", false);
@@ -77,6 +81,7 @@ public class ProviderProfile extends AppCompatActivity {
         recyclerViewPortfolio.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewPortfolio.setAdapter(adapter);
 
+        // UI Bindings
         tvBio = findViewById(R.id.providerBio);
         tvCost = findViewById(R.id.providerPricing);
         tvName = findViewById(R.id.providerName);
@@ -94,13 +99,14 @@ public class ProviderProfile extends AppCompatActivity {
         btnAddRequest = findViewById(R.id.btnAddRequest);
         chatIcon = findViewById(R.id.chatIcon);
 
-        chatIcon.setOnClickListener(v -> {
+        chatIcon.setOnClickListener(view -> {
             Intent intent = new Intent(ProviderProfile.this, ChatActivity.class);
-            intent.putExtra("homeownerId", homeownerId);  //
-            intent.putExtra("providerId", providerId);    //
+            String chatId = homeownerId + "_" + providerId;
+            intent.putExtra("chatId", chatId);
+            intent.putExtra("homeownerId", homeownerId);
+            intent.putExtra("providerId", providerId);
             startActivity(intent);
         });
-
 
         if (isOwner) {
             btnAddPrevWork.setVisibility(View.VISIBLE);
@@ -117,38 +123,40 @@ public class ProviderProfile extends AppCompatActivity {
         }
 
         btnSaveChanges.setOnClickListener(view -> {
-            tvCost.setText(etCost.getText().toString());
-            tvBio.setText(etBio.getText().toString());
+            String newCost = etCost.getText().toString();
+            String newBio = etBio.getText().toString();
+
+            if (newCost.isEmpty() || newBio.isEmpty()) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             Map<String, Object> edit = new HashMap<>();
-            edit.put("costPerHour", Integer.parseInt(etCost.getText().toString()));
-            edit.put("bio", etBio.getText().toString());
-            tvCost.append(" $/h");
-            etCost.setVisibility(View.GONE);
-            etBio.setVisibility(View.GONE);
-            btnSaveChanges.setVisibility(View.GONE);
-            btnEditProfile.setVisibility(View.VISIBLE);
-            tvCost.setVisibility(View.VISIBLE);
-            tvBio.setVisibility(View.VISIBLE);
-            btnRequests.setVisibility(View.VISIBLE);
+            edit.put("costPerHour", Integer.parseInt(newCost));
+            edit.put("bio", newBio);
 
             db.collection("providers")
                     .document(providerId)
                     .update(edit)
-                    .addOnSuccessListener(documentReference ->
-                            Toast.makeText(ProviderProfile.this, "Profile Updated!!", Toast.LENGTH_LONG).show())
-                    .addOnFailureListener(e ->
-                            Toast.makeText(ProviderProfile.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show());
-        });
-
-        btnRequests.setOnClickListener(view -> {
-            Intent intent = new Intent(ProviderProfile.this, ProviderRequestsActivity.class);
-            intent.putExtra("providerId", providerId);
-            startActivity(intent);
+                    .addOnSuccessListener(unused -> {
+                        tvCost.setText(newCost + " $/h");
+                        tvBio.setText(newBio);
+                        etCost.setVisibility(View.GONE);
+                        etBio.setVisibility(View.GONE);
+                        btnSaveChanges.setVisibility(View.GONE);
+                        btnEditProfile.setVisibility(View.VISIBLE);
+                        tvCost.setVisibility(View.VISIBLE);
+                        tvBio.setVisibility(View.VISIBLE);
+                        btnRequests.setVisibility(View.VISIBLE);
+                        Toast.makeText(this, "Profile Updated!", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(this, "Update Failed", Toast.LENGTH_SHORT).show());
         });
 
         btnEditProfile.setOnClickListener(v -> {
             etCost.setVisibility(View.VISIBLE);
             etBio.setVisibility(View.VISIBLE);
+            etCost.setText(tvCost.getText().toString().replace(" $/h", ""));
             etBio.setText(tvBio.getText().toString());
             btnSaveChanges.setVisibility(View.VISIBLE);
             btnEditProfile.setVisibility(View.GONE);
@@ -163,12 +171,6 @@ public class ProviderProfile extends AppCompatActivity {
             pickImageLauncher.launch(intent);
         });
 
-        btnAddPrevWork.setOnClickListener(v -> {
-            Intent intent = new Intent(ProviderProfile.this, AddToPortfolio.class);
-            intent.putExtra("providerId", providerId);
-            startActivity(intent);
-        });
-
         pickImageLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -178,7 +180,6 @@ public class ProviderProfile extends AppCompatActivity {
                             Glide.with(this)
                                     .load(imageUri)
                                     .circleCrop()
-                                    .placeholder(R.drawable.img)
                                     .into(profileImage);
                             try {
                                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
@@ -188,8 +189,7 @@ public class ProviderProfile extends AppCompatActivity {
                             }
                         }
                     }
-                }
-        );
+                });
 
         fetchProfile();
     }
@@ -198,13 +198,12 @@ public class ProviderProfile extends AppCompatActivity {
         db.collection("providers").document(providerId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
-                    String name = documentSnapshot.getString("name");
-                    String bio = documentSnapshot.getString("bio");
-                    Double costValue = documentSnapshot.getDouble("costPerHour");
-                    String cost = (costValue != null) ? costValue.toString() : "";
-                    String region = documentSnapshot.getString("region");
-                    ArrayList<String> professions = (ArrayList<String>) documentSnapshot.get("profession");
+                    tvName.setText(documentSnapshot.getString("name"));
+                    tvBio.setText(documentSnapshot.getString("bio"));
+                    tvCost.setText(documentSnapshot.getDouble("costPerHour") + " $/h");
+                    tvRegion.setText(documentSnapshot.getString("region"));
 
+                    ArrayList<String> professions = (ArrayList<String>) documentSnapshot.get("profession");
                     if (professions != null) {
                         for (String prof : professions) {
                             tvProfession.append(prof + " || ");
@@ -213,17 +212,7 @@ public class ProviderProfile extends AppCompatActivity {
 
                     String filename = documentSnapshot.getString("profilePicture");
                     String imageUrl = ImageUtils.getImageUrl(filename);
-
-                    Glide.with(this)
-                            .load(imageUrl)
-                            .circleCrop()
-                            .into(profileImage);
-
-                    tvBio.setText(bio);
-                    tvName.setText(name);
-                    tvCost.setText(cost);
-                    tvCost.append(" $/h");
-                    tvRegion.append(region);
+                    Glide.with(this).load(imageUrl).circleCrop().into(profileImage);
                 });
     }
 
@@ -233,8 +222,7 @@ public class ProviderProfile extends AppCompatActivity {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
-        byte[] imageBytes = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(imageBytes, Base64.NO_WRAP);
+        String encodedImage = Base64.encodeToString(baos.toByteArray(), Base64.NO_WRAP);
 
         JSONObject jsonBody = new JSONObject();
         try {
@@ -245,26 +233,11 @@ public class ProviderProfile extends AppCompatActivity {
         }
 
         JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.POST,
-                url,
-                jsonBody,
-                response -> db.collection("providers")
-                        .document(providerId)
-                        .update("profilePicture", filename)
-                        .addOnSuccessListener(aVoid ->
-                                Toast.makeText(getApplicationContext(), "Profile picture updated", Toast.LENGTH_SHORT).show())
-                        .addOnFailureListener(e ->
-                                Toast.makeText(getApplicationContext(), "Failed to update Firestore", Toast.LENGTH_SHORT).show()),
-                error -> Toast.makeText(getApplicationContext(), "Upload failed: " + error.toString(), Toast.LENGTH_LONG).show()
+                Request.Method.POST, url, jsonBody,
+                response -> db.collection("providers").document(providerId).update("profilePicture", filename),
+                error -> Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show()
         );
 
         Volley.newRequestQueue(this).add(request);
-    }
-
-    public void addRequest(View view) {
-        Intent intent = new Intent(this, RepairRequestForm.class);
-        intent.putExtra("providerId", providerId);
-        intent.putExtra("homeownerId", homeownerId);
-        startActivity(intent);
     }
 }

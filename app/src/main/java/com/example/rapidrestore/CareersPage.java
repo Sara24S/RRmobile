@@ -21,34 +21,29 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CareersPage extends AppCompatActivity {
 
-    private ProviderAdapter adapter, adapter1;
-    List<Provider> providerList;
+    private ProviderAdapter adapter;
+    private List<Provider> providerList;
 
-    //the recyclerview
-    RecyclerView recyclerView;
-
-    Button buttonFilter;
-    FirebaseAuth mAuth;
-    TextView myRepairRequests;
+    private RecyclerView recyclerView;
+    private Button buttonFilter;
+    private TextView myRepairRequests;
+    private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private List<Provider> filteredProviders;
 
-    Spinner spinnerRegion, spinnerProfession, spinnerPrice, spinnerRating;
+    private Spinner spinnerRegion, spinnerProfession, spinnerPrice, spinnerRating;
 
-    String homeownerId;
+    private String homeownerId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,97 +61,63 @@ public class CareersPage extends AppCompatActivity {
         spinnerRating = findViewById(R.id.spinnerRating);
         myRepairRequests = findViewById(R.id.tvMyRepairRequests);
 
-
         homeownerId = getIntent().getStringExtra("homeownerId");
-
         db = FirebaseFirestore.getInstance();
-
         mAuth = FirebaseAuth.getInstance();
 
-        //getting the recyclerview from xml
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         providerList = new ArrayList<>();
+        filteredProviders = new ArrayList<>();
+
         adapter = new ProviderAdapter(CareersPage.this, providerList, homeownerId);
         recyclerView.setAdapter(adapter);
+
         loadProducts();
 
-        myRepairRequests.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CareersPage.this, HomeownerRepairRequests.class);
-                intent.putExtra("homeownerId", homeownerId);
-                startActivity(intent);
-            }
+        myRepairRequests.setOnClickListener(view -> {
+            Intent intent = new Intent(CareersPage.this, HomeownerRepairRequests.class);
+            intent.putExtra("homeownerId", homeownerId);
+            startActivity(intent);
         });
 
-
-       // Toolbar toolbar = findViewById(R.id.toolbar);
-       // setSupportActionBar(toolbar);
-        filteredProviders = new ArrayList<>();  // ✅ ensure it's not null Sara123@gmail.com
-
-        //adapter1 = new ProviderAdapter(CareersPage.this, filteredProviders, homeownerId);
-
-        //recyclerView.setAdapter(adapter1);
-
-        //fetchProviders();
-
         buttonFilter = findViewById(R.id.buttonFilter);
-        buttonFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String selectedRegion = spinnerRegion.getSelectedItem().toString();
-                String selectedProfession = spinnerProfession.getSelectedItem().toString();
-                String selectedPrice = spinnerPrice.getSelectedItem().toString();
-                String selectedRatingStr = spinnerRating.getSelectedItem().toString();
+        buttonFilter.setOnClickListener(view -> {
+            String selectedRegion = spinnerRegion.getSelectedItem().toString();
+            String selectedProfession = spinnerProfession.getSelectedItem().toString();
+            String selectedPrice = spinnerPrice.getSelectedItem().toString();
+            String selectedRatingStr = spinnerRating.getSelectedItem().toString();
 
-                List<Provider> filteredList = new ArrayList<>();
+            List<Provider> filteredList = new ArrayList<>();
 
-                for (Provider p : filteredProviders) { // ✅ use original unfiltered list
-                    boolean matchesRegion = selectedRegion.equals("Any") || p.getRegion().equalsIgnoreCase(selectedRegion);
-                    boolean matchesProfession = selectedProfession.equals("Any") || p.getProfession().toLowerCase().contains(selectedProfession.toLowerCase());
-                    boolean matchesPrice = selectedPrice.equals("Any") || matchesPriceRange(p.getPrice(), selectedPrice);
+            for (Provider p : filteredProviders) {
+                boolean matchesRegion = selectedRegion.equals("Any") || p.getRegion().equalsIgnoreCase(selectedRegion);
+                boolean matchesProfession = selectedProfession.equals("Any") || p.getProfession().toLowerCase().contains(selectedProfession.toLowerCase());
+                boolean matchesPrice = selectedPrice.equals("Any") || matchesPriceRange(p.getPrice(), selectedPrice);
 
-                    boolean matchesRating = true;
-                    if (!selectedRatingStr.equals("Any")) {
-                        try {
-                            int selectedRating = Integer.parseInt(selectedRatingStr);
-                            matchesRating = (int) Math.floor(p.getRating()) == selectedRating;
-                        } catch (NumberFormatException e) {
-                            matchesRating = true; // fail-safe
-                        }
-                    }
-
-                    if (matchesRegion && matchesProfession && matchesPrice && matchesRating) {
-                        filteredList.add(p);
+                boolean matchesRating = true;
+                if (!selectedRatingStr.equals("Any")) {
+                    try {
+                        int selectedRating = Integer.parseInt(selectedRatingStr);
+                        matchesRating = (int) Math.floor(p.getRating()) == selectedRating;
+                    } catch (NumberFormatException e) {
+                        matchesRating = true;
                     }
                 }
 
-                providerList.clear();
-                providerList.addAll(filteredList);
-                adapter.notifyDataSetChanged();
+                if (matchesRegion && matchesProfession && matchesPrice && matchesRating) {
+                    filteredList.add(p);
+                }
             }
+
+            providerList.clear();
+            providerList.addAll(filteredList);
+            adapter.notifyDataSetChanged();
         });
-
-/*
-        AdapterView.OnItemSelectedListener filterListener = new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) { filterProviders(); }
-            public void onNothingSelected(AdapterView<?> parent) {}
-        };
-
- */
-
-       // spinnerRegion.setOnItemSelectedListener(filterListener);
-        //spinnerProfession.setOnItemSelectedListener(filterListener);
-        //spinnerPrice.setOnItemSelectedListener(filterListener);
-       // spinnerRating.setOnItemSelectedListener(filterListener);
-
-
-
-
     }
+
     private boolean matchesPriceRange(double price, String selectedRange) {
         switch (selectedRange) {
             case "Under $30": return price < 30;
@@ -165,43 +126,36 @@ public class CareersPage extends AppCompatActivity {
             default: return true;
         }
     }
-    private void fetchProviders() {
-        String spinnRegion = spinnerRegion.getSelectedItem().toString();
-        // Example dummy data; replace this with Firestore fetching or other data source
+
+    private void loadProducts() {
         db.collection("providers")
-                .whereEqualTo("region", spinnRegion)
                 .get()
                 .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         providerList.clear();
-                        Toast.makeText(CareersPage.this, "successful",
-                                Toast.LENGTH_SHORT).show();
-                        for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
-                            String id = documentSnapshot.getId();
-                            String name = documentSnapshot.getString("name");
-                            String profession ="";
-                            ArrayList<String> professions = (ArrayList<String>) documentSnapshot.get("profession");
-                            if (professions != null) {
-                                for (String prof : professions) {
-                                    profession+=prof+", ";
-                                }
-                            }
-                            Double rating = documentSnapshot.getDouble("rating");
-                            String region = documentSnapshot.getString("region");
-                            Double costperhour = documentSnapshot.getDouble("costPerHour");
-                            String profileimage = documentSnapshot.getString("profile image");//temp
-                            providerList.add(new Provider(id,name, profession,1,1, region,profileimage));
-
-                        }
-                        recyclerView.setAdapter(adapter1);
                         filteredProviders.clear();
-                        filteredProviders.addAll(providerList);
-                        adapter1.notifyDataSetChanged();
-                    }
-                    else{
-                        Toast.makeText(CareersPage.this, "not successful",
-                                Toast.LENGTH_SHORT).show();
-                        Log.w("Firestore", "Error getting documents.", task.getException());
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            String id = doc.getId();
+                            String name = doc.getString("name");
+                            String region = doc.getString("region");
+                            String profileImage = doc.getString("profilePicture");
+
+                            ArrayList<String> professions = (ArrayList<String>) doc.get("profession");
+                            String profession = "";
+                            if (professions != null) {
+                                for (String prof : professions) profession += prof + ", ";
+                            }
+
+                            Double rating = doc.getDouble("rating");
+                            Double cost = doc.getDouble("costPerHour");
+
+                            Provider p = new Provider(id, name, profession, rating, cost, region, profileImage);
+                            providerList.add(p);
+                            filteredProviders.add(p);
+                        }
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(this, "Failed to load providers", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -209,7 +163,6 @@ public class CareersPage extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
@@ -217,27 +170,19 @@ public class CareersPage extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                String lowerQuery = query.toLowerCase();
-
-                Toast.makeText(CareersPage.this, lowerQuery,Toast.LENGTH_SHORT).show();
-
-                //Toast.makeText(CareersPage.this, filteredProviders.size(),Toast.LENGTH_SHORT).show();
-
                 filterByName(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //String lowerQuery = newText.toLowerCase();
-                //Toast.makeText(CareersPage.this, lowerQuery,Toast.LENGTH_SHORT).show();
-                //filterByName(newText);
                 return true;
             }
         });
 
         return true;
     }
+
     private void filterByName(String query) {
         try {
             filteredProviders.clear();
@@ -248,51 +193,7 @@ public class CareersPage extends AppCompatActivity {
             }
             adapter.notifyDataSetChanged();
         } catch (Exception e) {
-            Log.e("FilterError", "Error while filtering: " + e.getMessage());
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error filtering: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-    private void loadProducts(){
-
-        db.collection("providers")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()){
-                        providerList.clear();
-                        Toast.makeText(CareersPage.this, "successful",
-                                Toast.LENGTH_SHORT).show();
-                        for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
-                            String id = documentSnapshot.getId();
-                            String name = documentSnapshot.getString("name");
-                            String profession ="";
-                            ArrayList<String> professions = (ArrayList<String>) documentSnapshot.get("profession");
-                            if (professions != null) {
-                                for (String prof : professions) {
-                                    profession+=prof+", ";
-                                }
-                            }
-                            Double rating = documentSnapshot.getDouble("rating");
-                            String region = documentSnapshot.getString("region");
-                            Double costperhour = documentSnapshot.getDouble("costPerHour");
-                            String profileimage = documentSnapshot.getString("profilePicture");//temp
-                            providerList.add(new Provider(id,name, profession,rating,costperhour, region,profileimage));
-                            filteredProviders.add(new Provider(id,name, profession,rating,costperhour, region,profileimage));
-
-                        }
-                        adapter.notifyDataSetChanged();
-                       /* Intent intent = new Intent(this, RepairRequestForm.class);//temp
-                        intent.putExtra("homeownerId", homeownerId);// or document ID
-                        startActivity(intent);
-
-                        */
-                    }
-                    else{
-                        Toast.makeText(CareersPage.this, "not successful",
-                                Toast.LENGTH_SHORT).show();
-                        Log.w("Firestore", "Error getting documents.", task.getException());
-                    }
-                });
-    }
-
-
 }
