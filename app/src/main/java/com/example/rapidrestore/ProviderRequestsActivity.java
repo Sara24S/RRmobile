@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -15,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -31,6 +34,8 @@ public class ProviderRequestsActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private String providerId;
     private Spinner spinnerState;
+    private EditText etDate;
+    private TextView tvSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,8 @@ public class ProviderRequestsActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         providerId = getIntent().getStringExtra("providerId");
 
+        etDate = findViewById(R.id.etDate);
+        tvSearch = findViewById(R.id.tvSearch);
         spinnerState = findViewById(R.id.spinnerState2);
         recyclerView = findViewById(R.id.recyclerViewRequests);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -63,6 +70,23 @@ public class ProviderRequestsActivity extends AppCompatActivity {
         spinnerState.setOnItemSelectedListener(filterListener);
 
         loadRequests();
+
+        tvSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //String selectedDate = "2025-05-19";
+                String selectedDate = etDate.getText().toString();
+                List<RepairRequest> filteredList = new ArrayList<>();
+                for (RepairRequest p : filteredRequests) { // ✅ use original unfiltered list
+                    if (p.getDate().equalsIgnoreCase(selectedDate)) {
+                        filteredList.add(p);
+                    }
+                }
+                requestList.clear();
+                requestList.addAll(filteredList);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     public void filterRequests(){
@@ -96,11 +120,14 @@ public class ProviderRequestsActivity extends AppCompatActivity {
                             String id = documentSnapshot.getId();
                             String name = documentSnapshot.getString("name");
                             String state = documentSnapshot.getString("state");
+                            String day = documentSnapshot.getString("date");
+                            String time = documentSnapshot.getString("time");
+                            String dateTime = day + " at " + time;
                             Date date = documentSnapshot.getDate("timestamp");
                             String description = documentSnapshot.getString("description");
                             List<String> images = (List<String>) documentSnapshot.get("images");
-                            requestList.add(new RepairRequest(id, name, state,date, description, images));
-                            filteredRequests.add(new RepairRequest(id, name, state,date, description, images));
+                            requestList.add(new RepairRequest(id, name, state,date, description, images, dateTime, day));
+                            filteredRequests.add(new RepairRequest(id, name, state,date, description, images, dateTime, day));
                         }
                         adapter.notifyDataSetChanged();
                     }

@@ -133,13 +133,16 @@ public class HomeownerRepairRequests extends AppCompatActivity {
                         String providerId = doc.getString("providerId");
                         String status = doc.getString("state");
                         String location = doc.getString("issueLocation");
+                        String Day = doc.getString("date");
+                        String time = doc.getString("time");
+                        String dateTime = Day + " at " + time;
                         Timestamp timestamp = doc.getTimestamp("timestamp");
                         Date date = timestamp != null ? timestamp.toDate() : null;
                         SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy 'at' h:mm a z", Locale.getDefault());
                         //sdf.setTimeZone(TimeZone.getTimeZone("UTC")); // Optional: to match Firestore Console format
                         String formattedDate = date != null ? sdf.format(date) : "N/A";
                         if(!status.equals("deleted")){
-                            fetchProviderNameAndAdd(doc.getId(), providerId, formattedDate, status, location);
+                            fetchProviderNameAndAdd(doc.getId(), providerId, dateTime, status, location);
                         }
 
                     }

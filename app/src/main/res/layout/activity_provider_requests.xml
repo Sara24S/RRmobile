@@ -30,6 +30,39 @@
             android:entries="@array/state2" />
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/linear2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="search by date: "
+            android:textStyle="bold"
+            android:textSize="18sp"
+            />
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etDate"
+            android:hint="yyyy-mm-dd"
+            android:layout_marginStart="5dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvSearch"
+            android:text="⌕"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="6dp"/>
+
+    </LinearLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView

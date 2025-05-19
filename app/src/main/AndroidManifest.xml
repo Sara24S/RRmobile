@@ -21,7 +21,9 @@
         android:theme="@style/Theme.RapidRestore"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".NotificationPage"
+            android:exported="false" />
         <activity
             android:name=".HomeownerRepairRequests"
             android:exported="false" />

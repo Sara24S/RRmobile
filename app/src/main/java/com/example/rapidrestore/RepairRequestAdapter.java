@@ -35,7 +35,8 @@ public class RepairRequestAdapter extends RecyclerView.Adapter<RepairRequestAdap
         RepairRequest request = requests.get(position);
         holder.textName.setText(request.getName());
         holder.textState.setText("State: " + request.getState());
-        holder.textDate.setText("Date: " + DateFormat.getDateTimeInstance().format(request.getTimestamp()));
+        //holder.textDate.setText("Date: " + DateFormat.getDateTimeInstance().format(request.getTimestamp()));
+        holder.textDate.setText(request.getDateTime());
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, RequestDetailsActivity.class);

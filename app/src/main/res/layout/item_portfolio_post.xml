@@ -19,4 +19,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@color/light_gray"/>
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="date posted"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        android:paddingBottom="6dp" />
 </LinearLayout>

@@ -28,6 +28,7 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -36,9 +37,12 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class ProviderProfile extends AppCompatActivity {
@@ -228,7 +232,14 @@ public class ProviderProfile extends AppCompatActivity {
                     for (QueryDocumentSnapshot doc : query) {
                         String desc = doc.getString("description");
                         List<String> images = (List<String>) doc.get("images");
-                        portfolioPostList.add(new PortfolioPost(desc, images));
+                        //Date date = doc.getDate("timestamp");
+                        Timestamp timestamp = doc.getTimestamp("timestamp");
+                        Date date = timestamp != null ? timestamp.toDate() : null;
+                        SimpleDateFormat sdf = new SimpleDateFormat("MMM d", Locale.getDefault());
+                        //sdf.setTimeZone(TimeZone.getTimeZone("UTC")); // Optional: to match Firestore Console format
+                        String formattedDate = date != null ? sdf.format(date) : "N/A";
+                       // String date = doc.getString("timestamp");
+                        portfolioPostList.add(new PortfolioPost(desc, images, formattedDate));
                     }
                     adapter.notifyDataSetChanged();
                 });

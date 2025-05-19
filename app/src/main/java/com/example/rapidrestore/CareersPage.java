@@ -42,7 +42,7 @@ public class CareersPage extends AppCompatActivity {
 
     Button buttonFilter;
     FirebaseAuth mAuth;
-    TextView myRepairRequests;
+    TextView myRepairRequests, tvBell, tvNotificationNb;
     private FirebaseFirestore db;
     private List<Provider> filteredProviders;
 
@@ -65,7 +65,8 @@ public class CareersPage extends AppCompatActivity {
         spinnerPrice = findViewById(R.id.spinnerPrice);
         spinnerRating = findViewById(R.id.spinnerRating);
         myRepairRequests = findViewById(R.id.tvMyRepairRequests);
-
+        tvBell = findViewById(R.id.tvMyNotifications);
+        tvNotificationNb = findViewById(R.id.tvNewNotification);
 
         homeownerId = getIntent().getStringExtra("homeownerId");
 
@@ -89,6 +90,14 @@ public class CareersPage extends AppCompatActivity {
                 Intent intent = new Intent(CareersPage.this, HomeownerRepairRequests.class);
                 intent.putExtra("homeownerId", homeownerId);
                 startActivity(intent);
+            }
+        });
+
+        tvBell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CareersPage.this, NotificationPage.class);
+                intent.putExtra("homeownerId", homeownerId);
             }
         });
 

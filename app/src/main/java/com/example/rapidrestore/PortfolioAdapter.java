@@ -17,9 +17,11 @@ public class PortfolioAdapter extends RecyclerView.Adapter<PortfolioAdapter.Port
 
     Context context;
     List<PortfolioPost> portfolioList;
+    String date;
 
     public PortfolioAdapter(Context context, List<PortfolioPost> portfolioList) {
         this.context = context;
+        this.date = date;
         this.portfolioList = portfolioList != null ? portfolioList : new ArrayList<>();
     }
 
@@ -39,6 +41,7 @@ public class PortfolioAdapter extends RecyclerView.Adapter<PortfolioAdapter.Port
         ImageGalleryAdapter imageAdapter = new ImageGalleryAdapter(context, post.imageUrls);
         holder.recyclerImages.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         holder.recyclerImages.setAdapter(imageAdapter);
+        holder.dateText.setText(post.date);
     }
 
     @Override
@@ -49,9 +52,11 @@ public class PortfolioAdapter extends RecyclerView.Adapter<PortfolioAdapter.Port
     static class PortfolioViewHolder extends RecyclerView.ViewHolder {
         TextView descriptionText;
         RecyclerView recyclerImages;
+        TextView dateText;
 
         public PortfolioViewHolder(@NonNull View itemView) {
             super(itemView);
+            dateText = itemView.findViewById(R.id.tvDate);
             descriptionText = itemView.findViewById(R.id.tvDescription);
             recyclerImages = itemView.findViewById(R.id.recyclerImages);
         }

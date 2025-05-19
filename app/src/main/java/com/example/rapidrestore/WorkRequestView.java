@@ -81,6 +81,10 @@ public class WorkRequestView extends AppCompatActivity {
                         tvProfession.append(prof);
                         tvRegion.append(region);
                         tvNumber.append(number);
+                        if (!certification.isEmpty()){
+                            tvCertification.append(certification);
+                        }
+                        else tvCertification.append("no certification");
                         tvCertification.append(certification);
                         String imageCerUrl = ImageUtils.getImageUrl(certificationImage);
                         Glide.with(this)
