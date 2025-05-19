@@ -1,8 +1,10 @@
 package com.example.rapidrestore;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,11 +36,23 @@ public class ChatActivity extends AppCompatActivity {
         String homeownerId = getIntent().getStringExtra("homeownerId");
         String providerId = getIntent().getStringExtra("providerId");
 
-        // Generate a unique chatId for both sides
-        chatId = homeownerId + "_" + providerId;
 
+        // Generate a unique chatId for both sides
+        chatId = getIntent().getStringExtra("chatId");
+
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         // Get current user ID
-        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() == null) {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            finish(); // Close the activity safely
+            return;
+        }
+        String currentUserId = auth.getCurrentUser().getUid();
+
 
         // Initialize views
         messageInput = findViewById(R.id.messageInput);
@@ -58,15 +72,24 @@ public class ChatActivity extends AppCompatActivity {
             messageList.addAll(updatedMessages);
             messageAdapter.setMessages(messageList);
             messagesRecyclerView.scrollToPosition(messageList.size() - 1);
+            chatId = getIntent().getStringExtra("chatId");
+
         });
 
         // Send message
         sendButton.setOnClickListener(v -> {
             String text = messageInput.getText().toString().trim();
             if (!text.isEmpty()) {
-                chatRepository.sendMessage(chatId, currentUserId, text);
-                messageInput.setText("");
+                try {
+                    chatRepository.sendMessage(chatId, currentUserId, text);
+                    messageInput.setText("");
+                } catch (Exception e) {
+                    Log.e("ChatError", "Failed to send message", e);
+                    Toast.makeText(this, "Error sending message", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
+
     }
 }

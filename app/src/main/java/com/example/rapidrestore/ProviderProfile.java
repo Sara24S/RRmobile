@@ -103,15 +103,18 @@ public class ProviderProfile extends AppCompatActivity {
         btnRequests = findViewById(R.id.btnRequests);
         btnSaveChanges = findViewById(R.id.btnSaveEditedProfile);
         btnAddRequest = findViewById(R.id.btnAddRequest);
-        btnSetAvailability = findViewById(R.id.btnSetAvailability);
         chatIcon = findViewById(R.id.chatIcon);
 
-        chatIcon.setOnClickListener(v -> {
+        chatIcon.setOnClickListener(view -> {
             Intent intent = new Intent(ProviderProfile.this, ChatActivity.class);
-            intent.putExtra("homeownerId", homeownerId);  //
-            intent.putExtra("providerId", providerId);    //
+            String chatId = homeownerId + "_" + providerId;
+            intent.putExtra("chatId", chatId);
+            intent.putExtra("homeownerId", homeownerId);
+            intent.putExtra("providerId", providerId);
             startActivity(intent);
         });
+
+        btnSetAvailability = findViewById(R.id.btnSetAvailability);
 
         if (isOwner) {
             btnSetAvailability.setVisibility(View.VISIBLE);
@@ -205,6 +208,7 @@ public class ProviderProfile extends AppCompatActivity {
             tvCost.setVisibility(View.GONE);
             tvBio.setVisibility(View.GONE);
             btnRequests.setVisibility(View.GONE);
+
 
         });
         //Change profile image
