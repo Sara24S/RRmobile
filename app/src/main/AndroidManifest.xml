@@ -23,33 +23,34 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-        <!-- 🔹 Activities -->
-        <activity android:name=".ChatActivity" />
-        <activity android:name=".HomeownerRepairRequests" android:exported="false" />
-        <activity android:name=".RequestDetailsActivity" android:exported="false" />
-        <activity android:name=".ProviderRequestsActivity" android:exported="false" />
-        <activity android:name=".ProviderProfile" android:exported="false" />
-        <activity android:name=".RepairRequestForm" android:exported="false" />
-        <activity android:name=".WorkRequestView" android:exported="false" />
-        <activity android:name=".WorkRequests" android:exported="false" />
-        <activity android:name=".AllReviews" android:exported="false" />
-        <activity android:name=".AdminPage" android:exported="false" />
-        <activity android:name=".CareersPage" android:exported="false" />
-        <activity android:name=".WorkRequestForm" android:exported="false" />
-        <activity android:name=".ProviderNewAccount" android:exported="false" />
-        <activity android:name=".HomeownerNewAccount" android:exported="false" />
-        <activity android:name=".CreateAccount" android:exported="false"
-            android:theme="@style/Theme.RapidRestore" />
+        <activity
+            android:name=".HomeownerRepairRequests"
+            android:exported="false" />
+        <activity
+            android:name=".AddToPortfolio"
+            android:exported="false" />
+        <activity
+            android:name=".ProviderAvailability"
+            android:exported="false" />
+        <activity
+            android:name=".ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RequestDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProviderRequestsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProviderProfile"
+            android:exported="false" />
+        <activity
+            android:name=".RepairRequestForm"
+            android:exported="false" />
+        <activity
+            android:name=".WorkRequestView"
+            android:exported="false" />
 
-        <!-- 🔹 Launcher Activity -->
-        <activity android:name=".MainActivity" android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <!-- 🔹 File Provider -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

@@ -1,7 +1,6 @@
 package com.example.rapidrestore;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,7 +18,6 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,13 +67,11 @@ public class RequestDetailsActivity extends AppCompatActivity {
                                 imageView.setLayoutParams(new LinearLayout.LayoutParams(800, 500));
                                 imageView.setPadding(10, 10, 10, 10);
                                 String imageUrl = ImageUtils.getImageUrl(uri);
-                                //"http://192.168.1.105:5000/uploads/" + provider.getImage();
                                 Glide.with(this)
                                         .load(imageUrl)
                                         //.centerCrop()
-                                        // .circleCrop()
+                                        //.circleCrop()
                                         .into(imageView);
-                                //imageView.setImageURI(Uri.parse(uri));
                                 imageContainer.addView(imageView);
                             }
                         }

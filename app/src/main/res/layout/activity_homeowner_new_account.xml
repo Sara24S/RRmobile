@@ -13,7 +13,7 @@
         android:id="@+id/text_input_layout_numberOrEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Mobile number or email">
+        android:hint="Email">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_numberOrEmail"

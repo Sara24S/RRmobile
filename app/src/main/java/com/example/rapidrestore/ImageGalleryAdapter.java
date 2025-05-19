@@ -28,7 +28,7 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
     @Override
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ImageView imageView = new ImageView(context);
-        imageView.setLayoutParams(new ViewGroup.LayoutParams(300, 300));
+        imageView.setLayoutParams(new ViewGroup.LayoutParams(800, 800));
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setPadding(8, 8, 8, 8);
         return new ImageViewHolder(imageView);
@@ -37,7 +37,6 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         String url = ImageUtils.getImageUrl(imageUrls.get(position));
-        //"http://192.168.1.105:5000/uploads/" + imageUrls.get(position);
 
         Glide.with(context).load(url).into((ImageView) holder.itemView);
     }

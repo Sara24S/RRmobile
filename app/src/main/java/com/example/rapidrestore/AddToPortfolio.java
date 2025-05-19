@@ -98,7 +98,7 @@ public class AddToPortfolio extends AppCompatActivity {
         }
     }
     public void uploadPicture(Bitmap bitmap) {
-        String url = "http://192.168.1.105:5000/upload"; // ← use your local IP
+        String url = ImageUtils.getUrl(); // ← use your local IP
         String filename = bitmap.toString() + "_picture.jpg";
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -126,7 +126,7 @@ public class AddToPortfolio extends AppCompatActivity {
     }
     private void addImageToContainer(Uri uri) {
         ImageView imageView = new ImageView(this);
-        imageView.setLayoutParams(new LinearLayout.LayoutParams(400, 400));
+        imageView.setLayoutParams(new LinearLayout.LayoutParams(800, 800));
         imageView.setPadding(5, 5, 5, 5);
         imageView.setImageURI(uri);
         imageContainer.addView(imageView);

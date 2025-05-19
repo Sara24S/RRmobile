@@ -15,22 +15,17 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 public class ProviderRequestsActivity extends AppCompatActivity {
 
 
-     RecyclerView recyclerView;
+    RecyclerView recyclerView;
     private RepairRequestAdapter adapter;
     List<RepairRequest> requestList, filteredRequests;
     private FirebaseFirestore db;

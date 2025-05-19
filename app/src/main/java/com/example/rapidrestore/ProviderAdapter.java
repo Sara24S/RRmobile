@@ -20,8 +20,6 @@ public class ProviderAdapter extends RecyclerView.Adapter<ProviderAdapter.Produc
     //this context we will use to inflate the layout
     private String homeownerId;
     private Context mCtx;
-
-    //we are storing all the products in a list
     private List<Provider> providerList;
 
     //getting the context and product list with constructor
@@ -53,14 +51,11 @@ public class ProviderAdapter extends RecyclerView.Adapter<ProviderAdapter.Produc
         holder.textViewRegion.setText(provider.getRegion());
         //loading the image
         String imageUrl = ImageUtils.getImageUrl(provider.getImage());
-        //"http://192.168.1.105:5000/uploads/" + provider.getImage();
         Glide.with(mCtx)
                 .load(imageUrl)
                 .centerCrop()
                // .circleCrop()
                 .into(holder.imageView);
-//loading the image
-       // Glide.with(mCtx).load(provider.getImage()).into(holder.imageView);
 
     }
 
