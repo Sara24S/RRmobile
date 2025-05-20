@@ -20,17 +20,34 @@ import java.util.List;
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
 
     private List<Message> messages = new ArrayList<>();
+    private String currentUserId;  //
+
+    public MessageAdapter(String currentUserId) {
+        this.currentUserId = currentUserId;
+    }
 
     public void setMessages(List<Message> messages) {
         this.messages = messages;
         notifyDataSetChanged();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        Message msg = messages.get(position);
+        return msg.getSenderId().equals(currentUserId) ? 1 : 2;  //
+    }
+
     @NonNull
     @Override
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_message, parent, false);
+        View view;
+        if (viewType == 1) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_message_sent, parent, false);
+        } else {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_message_received, parent, false);
+        }
         return new MessageViewHolder(view);
     }
 
@@ -38,9 +55,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         Message msg = messages.get(position);
         holder.textViewMessage.setText(msg.getText());
-        holder.textViewSender.setText(msg.getSenderId());
         holder.textViewTime.setText(formatTimestamp(msg.getTimestamp()));
-        // Optional: format time
     }
 
     @Override
@@ -49,20 +64,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     }
 
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewMessage, textViewSender, textViewTime;
+        TextView textViewMessage, textViewTime;
 
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewMessage = itemView.findViewById(R.id.textViewMessage);
-            textViewSender = itemView.findViewById(R.id.textViewSender);
             textViewTime = itemView.findViewById(R.id.textViewTime);
-
         }
     }
+
     private String formatTimestamp(Date timestamp) {
         if (timestamp == null) return "";
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
         return sdf.format(timestamp);
     }
-
 }
