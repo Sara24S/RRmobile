@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -25,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class MainActivity extends AppCompatActivity {
 
     TextInputEditText editTextEmail, editTextPassword;
+    Button btnEnglish, btnArabic;
 
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
@@ -49,6 +51,22 @@ public class MainActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.edit_text_password);
         editTextEmail.setText("");
         editTextPassword.setText("");
+
+        btnEnglish = findViewById(R.id.btnEnglish);
+        btnArabic = findViewById(R.id.btnArabic);
+
+        Button btnArabic = findViewById(R.id.btnArabic);
+        Button btnEnglish = findViewById(R.id.btnEnglish);
+
+        btnArabic.setOnClickListener(v -> {
+            LocaleHelper.setLocale(this, "ar");
+            recreate();
+        });
+
+        btnEnglish.setOnClickListener(v -> {
+            LocaleHelper.setLocale(this, "en");
+            recreate();
+        });
     }
 
     public void logIN(View view) {

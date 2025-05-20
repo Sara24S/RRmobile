@@ -1,16 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">RapidRestore</string>
     <string name="rapidrestore">RapidRestore</string>
-    <string name="already_have_an_acount">Already have an acount?</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="forget_password">Forget password?</string>
+    <string name="already_have_an_acount">لديك حساب؟</string>
+    <string name="email">البريد الالكتروني</string>
+    <string name="password">كلمة السر</string>
+    <string name="forget_password">نسيت كلمة السر؟</string>
     <string name="log_in">Log In</string>
-    <string name="new_to_rapidrestore_create_an_account">New to RapidRestore? Create an account</string>
-    <string name="arabic">Arabic</string>
-    <string name="english">English</string>
+    <string name="new_to_rapidrestore_create_an_account">جديد في RapidRestore؟ أنشئ حسابًا</string>
+    <string name="arabic">عربي</string>
+    <string name="english">انغليزي</string>
     <string-array name="regions_array">
-        <item>Beirut</item>
+        <item>بيروت</item>
         <item>Tyre</item>
         <item>Saida</item>
         <item>Nabatieh</item>
@@ -89,6 +90,4 @@
         <item>completed</item>
         <item>deleted</item>
     </string-array>
-
-
 </resources>

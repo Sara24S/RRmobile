@@ -9,11 +9,23 @@
     android:orientation="vertical"
     android:gravity="center">
 
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/btnArabic"
+        android:text="@string/arabic" />
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/btnEnglish"
+        android:text="@string/english" />
+
     <TextView
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="RapidRestore"
+        android:text="@string/rapidrestore"
         android:textSize="45dp"
         android:layout_marginBottom="60dp"
         android:textColor="@color/logo_color"
@@ -25,7 +37,7 @@
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Already have an acount?"
+        android:text="@string/already_have_an_acount"
         android:textSize="22dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
@@ -36,7 +48,7 @@
         android:id="@+id/text_input_layout_numberOrEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Mobile number or email">
+        android:hint="@string/email">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_numberOrEmail"
@@ -51,7 +63,7 @@
         android:id="@+id/text_input_layout_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:hint="@string/password"
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -66,23 +78,23 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Forget password?"
+        android:text="@string/forget_password"
         android:id="@+id/forgetPassword"
         android:gravity="start"
         android:textColor="@color/logo_color"
         android:backgroundTint="@color/invisible"
-        android:textSize="14dp"
+        android:textSize="14sp"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="18dp">
+        android:layout_marginStart="18dp">
     </TextView>
 
     <Button
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log In "
+        android:text="@string/log_in"
         android:onClick="logIN"
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/black">
 
@@ -91,11 +103,11 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New to RapidRestore? Create an account"
+        android:text="@string/new_to_rapidrestore_create_an_account"
         android:onClick="createAccount"
         android:textColor="@color/logo_color"
         android:backgroundTint="@color/invisible"
-        android:textSize="18dp"
+        android:textSize="18sp"
 
         android:layout_gravity="bottom"
         android:layout_marginTop="150dp">
