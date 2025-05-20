@@ -6,15 +6,15 @@ import android.content.res.Configuration;
 
 import java.util.Locale;
 public class LocaleHelper {
-    public static void setLocale(Context context, String languageCode) {
-        Locale locale = new Locale(languageCode);
+    public static Context setLocale(Context context, String lang) {
+        Locale locale = new Locale(lang);
         Locale.setDefault(locale);
 
         Configuration config = context.getResources().getConfiguration();
         config.setLocale(locale);
-        config.setLayoutDirection(locale);  // ⚠️ Important for RTL support
+        config.setLayoutDirection(locale);
 
-        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+        return context.createConfigurationContext(config);
     }
     public static void persistLanguage(Context context, String languageCode) {
         SharedPreferences prefs = context.getSharedPreferences("settings", Context.MODE_PRIVATE);

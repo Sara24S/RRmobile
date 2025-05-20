@@ -15,36 +15,36 @@
         <!-- Homeowner Details -->
         <EditText
             android:id="@+id/editTextName"
-            android:hint="Full Name"
+            android:hint="@string/full_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/editTextPhone"
-            android:hint="Contact Number"
+            android:hint="@string/contact_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="phone"/>
         <EditText
             android:id="@+id/editTextEmail"
-            android:hint="Email Address"
+            android:hint="@string/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"/>
         <EditText
             android:id="@+id/editTextAddress"
-            android:hint="Property Address"
+            android:hint="@string/property_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <!-- Issue Description -->
         <EditText
             android:id="@+id/editTextIssueLocation"
-            android:hint="Location of Issue"
+            android:hint="@string/location_of_issue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <EditText
             android:id="@+id/editTextDescription"
-            android:hint="Describe the Issue"
+            android:hint="@string/describe_the_issue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
@@ -60,7 +60,7 @@
             <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Photos of the Issue"
+            android:text="@string/add_photos_of_the_issue"
             android:textStyle="bold"/>
             <ImageView
                 android:layout_width="wrap_content"
@@ -90,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/availableTimesLabel"
-            android:text="Available Times:"
+            android:text="@string/available_times"
             android:textStyle="bold"
             android:visibility="gone"/>
 
@@ -104,7 +104,7 @@
         <!-- Submit -->
         <Button
             android:id="@+id/buttonSubmit"
-            android:text="Submit Request"
+            android:text="@string/submit_request"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"/>

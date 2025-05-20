@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Fill in your info: "
+        android:text="@string/fill_in_your_info"
         android:textSize="20sp"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
@@ -24,7 +24,7 @@
         android:id="@+id/text_input_layout_fullName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Full name">
+        android:hint="@string/full_name">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_fullName"
@@ -37,7 +37,7 @@
         android:id="@+id/text_input_layout_Number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Phone number">
+        android:hint="@string/phone_number">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_Number"
@@ -55,7 +55,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Region:"
+            android:text="@string/region"
             android:textSize="20sp"
             android:layout_weight="1"
             />
@@ -73,7 +73,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Years of experience: "
+        android:text="@string/years_of_experience"
         android:layout_gravity="left"
         android:textSize="20sp"
         android:layout_marginTop="15dp"
@@ -88,26 +88,26 @@
             android:id="@+id/radioButton1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="less than 5"
+            android:text="@string/less_than_5"
             android:layout_weight="1"/>
         <RadioButton
             android:id="@+id/radioButton2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="between 5 &amp; 10"
+            android:text="@string/between_5_amp_10"
             android:layout_weight="1"/>
         <RadioButton
             android:id="@+id/radioButton3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="more than 10"
+            android:text="@string/more_than_10"
             android:layout_weight="1"/>
     </RadioGroup>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Profession/s: "
+        android:text="@string/profession_s"
         android:layout_gravity="left"
         android:textSize="20sp"
         android:layout_marginTop="15dp"
@@ -122,7 +122,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/checkbox_carpenter"
             android:onClick="checkBoxProfession"
-            android:text="Carpenter"
+            android:text="@string/carpenter"
             android:textSize="15sp"
             android:layout_weight="1"/>
         <CheckBox
@@ -130,7 +130,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/checkbox_plumber"
             android:onClick="checkBoxProfession"
-            android:text="Plumber"
+            android:text="@string/plumber"
             android:textSize="15sp"
             android:layout_weight="1"/>
         <CheckBox
@@ -138,7 +138,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/checkbox_electrician"
             android:onClick="checkBoxProfession"
-            android:text="Electrician"
+            android:text="@string/electrician"
             android:textSize="15sp"
             android:layout_weight="1"/>
         <CheckBox
@@ -146,7 +146,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/checkbox_roofer"
             android:onClick="checkBoxProfession"
-            android:text="Roofer"
+            android:text="@string/roofer"
             android:textSize="15sp"
             android:layout_weight="1"/>
     </LinearLayout>
@@ -160,7 +160,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/checkbox_mason"
             android:onClick="checkBoxProfession"
-            android:text="Mason "
+            android:text="@string/mason"
             android:textSize="15sp"
             android:layout_weight="1" />
         <CheckBox
@@ -168,7 +168,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/checkbox_locksmit"
             android:onClick="checkBoxProfession"
-            android:text="Locksmith"
+            android:text="@string/locksmith"
             android:textSize="15sp"
             android:layout_weight="1"/>
         <CheckBox
@@ -176,7 +176,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/checkbox_glassTechnican"
             android:onClick="checkBoxProfession"
-            android:text="Glass Technican"
+            android:text="@string/glass_technican"
             android:textSize="15sp"
             android:layout_weight="1"/>
     </LinearLayout>
@@ -185,7 +185,7 @@
         android:id="@+id/text_input_layout_Certification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Certification(optional)">
+        android:hint="@string/certification_optional">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_certification"
@@ -197,7 +197,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Certification Image"
+        android:text="@string/add_certification_image"
         android:layout_gravity="left"
         android:layout_marginTop="5dp"
         android:id="@+id/certificationImage"/>
@@ -205,7 +205,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="press to add your Identity Card (Mandatory)"
+        android:text="@string/press_to_add_your_identity_card_mandatory"
         android:layout_gravity="left"
         android:layout_marginTop="10dp"
         android:textSize="20sp"
@@ -220,7 +220,7 @@
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit Request"
+        android:text="@string/submit_request"
         android:onClick="submit"
         android:textSize="25sp"
         android:layout_marginTop="10dp"

@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create account as : ">
+        android:text="@string/create_account_as">
 
     </TextView>
 
@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="NewHomeowner"
-        android:text="Homeowner">
+        android:text="@string/homeowner">
 
     </Button>
 
@@ -35,7 +35,7 @@
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Provider"
+        android:text="@string/provider"
         android:onClick="NewProvider">
     </Button>
 

@@ -7,8 +7,91 @@
     <string name="forget_password">Forget password?</string>
     <string name="log_in">Log In</string>
     <string name="new_to_rapidrestore_create_an_account">New to RapidRestore? Create an account</string>
-    <string name="arabic">Arabic</string>
-    <string name="english">English</string>
+
+
+    <string name="provider_name">Provider Name</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="save_change">Save change</string>
+    <string name="region">Region:</string>
+    <string name="profession">Profession: ||</string>
+    <string name="hourly_cost">Hourly Cost:</string>
+    <string name="bio">Bio.</string>
+    <string name="set_availablability">Set availablability</string>
+    <string name="see_requests">See Requests</string>
+    <string name="portfolio">Portfolio</string>
+    <string name="show">show ⇩</string>
+    <string name="hide">hide ⇧</string>
+    <string name="reviews">Reviews</string>
+    <string name="book_now">Book Now!!</string>
+
+
+    <string name="my_repair_requests">✉ My Repair Requests ✉</string>
+    <string name="filter">Filter</string>
+    <string name="cost">Cost:</string>
+    <string name="rating">Rating:</string>
+    <string name="apply_filters">Apply Filters</string>
+
+    <string name="language_prompt">Choose Language</string>
+    <string name="admin">Admin</string>
+    <string name="check_reviews">Check Reviews</string>
+    <string name="check_work_requests">Check Work Requests</string>
+    <string name="type_a_message">Type a message</string>
+    <string name="send">Send</string>
+    <string name="create_account_as">Create account as :</string>
+    <string name="homeowner">Homeowner</string>
+    <string name="provider">Provider</string>
+    <string name="username">Username</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="add_time_slot">Add Time Slot</string>
+    <string name="save_availability">Save Availability</string>
+    <string name="show_requests">Show requests:</string>
+    <string name="search_by_date">search by date:</string>
+    <string name="yyyy_mm_dd">yyyy-mm-dd</string>
+    <string name="write_your_review_here">Write your review here</string>
+    <string name="submit_review">Submit Review</string>
+    <string name="full_name">Full Name</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="property_address">Property Address</string>
+    <string name="location_of_issue">Location of Issue</string>
+    <string name="describe_the_issue">Describe the Issue</string>
+    <string name="add_photos_of_the_issue">Add Photos of the Issue</string>
+    <string name="available_times">Available Times:</string>
+    <string name="submit_request">Submit Request</string>
+    <string name="completed">Completed</string>
+    <string name="work_request">Work Request</string>
+    <string name="name">Name:</string>
+    <string name="phone_number">Phone number:</string>
+    <string name="years_of_experience">Years of Experience:</string>
+    <string name="id">ID :</string>
+    <string name="certification">Certification:</string>
+    <string name="accept">Accept</string>
+    <string name="enter_rejection_reason">Enter rejection reason</string>
+    <string name="reject">Reject</string>
+    <string name="date">Date</string>
+    <string name="location">Location</string>
+    <string name="state">State</string>
+    <string name="time">Time</string>
+    <string name="work_description">Work description</string>
+    <string name="fill_in_your_info">Fill in your info:</string>
+    <string name="less_than_5">less than 5</string>
+    <string name="between_5_amp_10"><![CDATA[between 5 & 10]]></string>
+    <string name="more_than_10">more than 10</string>
+    <string name="profession_s">Profession/s:</string>
+    <string name="carpenter">Carpenter</string>
+    <string name="plumber">Plumber</string>
+    <string name="electrician">Electrician</string>
+    <string name="roofer">Roofer</string>
+    <string name="mason">Mason</string>
+    <string name="locksmith">Locksmith</string>
+    <string name="glass_technican">Glass Technican</string>
+    <string name="certification_optional">Certification(optional)</string>
+    <string name="add_certification_image">Add Certification Image</string>
+    <string name="press_to_add_your_identity_card_mandatory">press to add your Identity Card (Mandatory)</string>
+    <string-array name="language_array">
+        <item>English</item>
+        <item>Arabic</item>
+    </string-array>
+
     <string-array name="regions_array">
         <item>Beirut</item>
         <item>Tyre</item>

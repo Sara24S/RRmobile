@@ -21,24 +21,24 @@
             <TextView android:id="@+id/textProviderName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Provider Name"
+                android:text="@string/provider_name"
                 android:textStyle="bold"
                 android:textSize="16sp" />
 
             <TextView android:id="@+id/textDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date" />
+                android:text="@string/date" />
 
             <TextView android:id="@+id/textLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Location" />
+                android:text="@string/location" />
 
             <TextView android:id="@+id/textStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="State"
+                android:text="@string/state"
                 android:textColor="@color/red"/>
 
         </LinearLayout>

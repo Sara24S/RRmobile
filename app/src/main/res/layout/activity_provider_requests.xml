@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Show requests: "
+            android:text="@string/show_requests"
             android:textStyle="bold"
             android:textSize="18sp"/>
         <Spinner
@@ -42,7 +42,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="search by date: "
+            android:text="@string/search_by_date"
             android:textStyle="bold"
             android:textSize="18sp"
             />
@@ -50,7 +50,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:id="@+id/etDate"
-            android:hint="yyyy-mm-dd"
+            android:hint="@string/yyyy_mm_dd"
             android:layout_marginStart="5dp" />
         <TextView
             android:layout_width="wrap_content"

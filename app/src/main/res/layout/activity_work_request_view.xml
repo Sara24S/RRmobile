@@ -9,13 +9,13 @@
     >
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Work Request"
+            android:text="@string/work_request"
             android:layout_gravity="center"
             android:textSize="30sp"
             android:textStyle="bold"/>
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvname"
-            android:text="Name: "
+            android:text="@string/name"
             />
         <TextView
             android:layout_marginTop="10dp"
@@ -34,28 +34,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvNumber"
-            android:text="Phone number: "
+            android:text="@string/phone_number"
             />
         <TextView
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvprofession"
-            android:text="Profession: "
+            android:text="@string/profession"
             />
         <TextView
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvexperience"
-            android:text="Years of Experience: "
+            android:text="@string/years_of_experience"
             />
         <TextView
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvregion"
-            android:text="Region: "
+            android:text="@string/region"
             />
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ID : "
+                android:text="@string/id"
                 android:textSize="16sp"
                 />
             <ImageView
@@ -80,7 +80,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Certification: "
+            android:text="@string/certification"
             android:textSize="16sp"
             android:id="@+id/tvCertification"/>
         <ImageView
@@ -93,20 +93,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="acceptRequest"
-            android:text="Accept"
+            android:text="@string/accept"
             android:layout_gravity="center"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:hint="Enter rejection reason"
+            android:hint="@string/enter_rejection_reason"
             android:id="@+id/etRejectionReason"/>
         <Button
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="rejectRequest"
-            android:text="Reject"
+            android:text="@string/reject"
             android:layout_gravity="center"/>
 
     </LinearLayout>

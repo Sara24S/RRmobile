@@ -13,7 +13,7 @@
         android:id="@+id/text_input_layout_numberOrEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email">
+        android:hint="@string/email">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_numberOrEmail"
@@ -28,7 +28,7 @@
         android:id="@+id/text_input_layout_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:hint="@string/password"
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -44,7 +44,7 @@
         android:id="@+id/text_input_layout_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username">
+        android:hint="@string/username">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_name"
@@ -59,9 +59,9 @@
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign Up"
+        android:text="@string/sign_up"
         android:onClick="signUp"
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/black">
 

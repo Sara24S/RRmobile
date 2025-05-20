@@ -6,55 +6,137 @@
     <string name="email">البريد الالكتروني</string>
     <string name="password">كلمة السر</string>
     <string name="forget_password">نسيت كلمة السر؟</string>
-    <string name="log_in">Log In</string>
+    <string name="log_in">تسجيل الدخول</string>
     <string name="new_to_rapidrestore_create_an_account">جديد في RapidRestore؟ أنشئ حسابًا</string>
-    <string name="arabic">عربي</string>
-    <string name="english">انغليزي</string>
+
+    <string name="provider_name">Provider Name</string>
+    <string name="edit_profile">تعديل الملف الشخصي</string>
+    <string name="save_change">حفظ التغييرات</string>
+    <string name="region">المنطقة:</string>
+    <string name="profession">المهنة: ||</string>
+    <string name="hourly_cost">تكلفة الساعة:</string>
+    <string name="bio">السيرة الذاتية.</string>
+    <string name="set_availablability">حدد الوقت المتوفر</string>
+    <string name="see_requests">انظر الى الطلبات</string>
+    <string name="portfolio">الاعمال السابقة</string>
+    <string name="show">عرض ⇩</string>
+    <string name="hide">إخفاء ⇧</string>
+    <string name="reviews">المراجعات</string>
+    <string name="book_now">احجز الآن!!</string>
+
+    <string name="my_repair_requests">✉ طلبات إصلاحتي ✉</string>
+    <string name="filter">فلتر</string>
+    <string name="cost">التكلفة:</string>
+    <string name="rating">التقييم:</string>
+    <string name="apply_filters">تطبيق الفلاتر</string>
+
+    <string name="admin">إدارة</string>
+    <string name="check_reviews">Check Reviews</string>
+    <string name="check_work_requests">تحقق من المراجعات</string>
+    <string name="type_a_message">اكتب رسالة</string>
+    <string name="send">إرسال</string>
+    <string name="create_account_as">أنشئ حسابًا كـ:</string>
+    <string name="homeowner">مالك المنزل</string>
+    <string name="provider">عامل</string>
+    <string name="username">اسم المستخدم</string>
+    <string name="sign_up">انضم</string>
+    <string name="add_time_slot">إضافة فترة زمنية</string>
+    <string name="save_availability">حفظ التوفر</string>
+    <string name="show_requests">عرض الطلبات:</string>
+    <string name="search_by_date">بحث حسب التاريخ:</string>
+    <string name="yyyy_mm_dd">يوم-شهر-سنة</string>
+    <string name="write_your_review_here">اكتب مراجعتك هنا</string>
+    <string name="submit_review">إرسال مراجعة</string>
+    <string name="full_name">الاسم الكامل</string>
+    <string name="contact_number">رقم التواصل</string>
+    <string name="property_address">عنوان المنزل</string>
+    <string name="location_of_issue">مكان المشكلة</string>
+    <string name="describe_the_issue">صف المشكلة</string>
+    <string name="add_photos_of_the_issue">أضف صورًا للمشكلة</string>
+    <string name="available_times">الأوقات المتاحة:</string>
+    <string name="submit_request">إرسال الطلب</string>
+    <string name="completed">تم الانتهاء</string>
+    <string name="work_request">طلب عمل</string>
+    <string name="name">الاسم:</string>
+    <string name="phone_number">رقم الهاتف:</string>
+    <string name="years_of_experience">سنوات الخبرة:</string>
+    <string name="id">الهوية: </string>
+    <string name="certification">الشهادة:</string>
+    <string name="accept">قبول</string>
+    <string name="enter_rejection_reason">أدخل سبب الرفض</string>
+    <string name="reject">رفض</string>
+    <string name="date">التاريخ</string>
+    <string name="location">الموقع</string>
+    <string name="state">الحالة</string>
+    <string name="time">الوقت</string>
+    <string name="work_description">وصف العمل</string>
+    <string name="fill_in_your_info">املأ معلوماتك:</string>
+    <string name="less_than_5">أقل من 5</string>
+    <string name="between_5_amp_10">بين 5 و 10</string>
+    <string name="more_than_10">أكثر من 10</string>
+    <string name="profession_s">المهنة/المهن:</string>
+    <string name="carpenter">نجار</string>
+    <string name="plumber">معلم سباكة</string>
+    <string name="electrician">معلم كهرباء</string>
+    <string name="roofer">معلم تسقيف</string>
+    <string name="mason">بناء</string>
+    <string name="locksmith">معلم اقفال</string>
+    <string name="glass_technican">معلم زجاج</string>
+    <string name="certification_optional">شهادة (اختياري)</string>
+    <string name="add_certification_image">أضف صورة الشهادة</string>
+    <string name="press_to_add_your_identity_card_mandatory">اضغط لإضافة بطاقة هويتك (إلزامي)</string>
+
+    <string name="language_prompt">اختر اللغة</string>
+    <string-array name="language_array">
+        <item>الإنجليزية</item>
+        <item>العربية</item>
+    </string-array>
+
     <string-array name="regions_array">
         <item>بيروت</item>
-        <item>Tyre</item>
-        <item>Saida</item>
-        <item>Nabatieh</item>
-        <item>Bekaa</item>
-        <item>Baalbek-Hermel</item>
-        <item>Akkar</item>
-        <item>Tripoli</item>
-        <item>Mount Lebanon</item>
+        <item>صور</item>
+        <item>صيدا</item>
+        <item>النبطية</item>
+        <item>البقاع</item>
+        <item>بعلبك-الهرمل</item>
+        <item>عكار</item>
+        <item>طرابلس</item>
+        <item>جبل لبنان</item>
     </string-array>
 
     <string-array name="regions_array2">
-        <item>Any</item>
-        <item>Beirut</item>
-        <item>Tyre</item>
-        <item>Saida</item>
-        <item>Nabatieh</item>
-        <item>Bekaa</item>
-        <item>Baalbek-Hermel</item>
-        <item>Akkar</item>
-        <item>Tripoli</item>
-        <item>Mount Lebanon</item>
+        <item>غير محدد</item>
+        <item>بيروت</item>
+        <item>صور</item>
+        <item>صيدا</item>
+        <item>النبطية</item>
+        <item>البقاع</item>
+        <item>بعلبك-الهرمل</item>
+        <item>عكار</item>
+        <item>طرابلس</item>
+        <item>جبل لبنان</item>
     </string-array>
 
     <string-array name="professions_array">
-        <item>Any</item>
-        <item>carpenter</item>
-        <item>mason</item>
-        <item>electrician</item>
-        <item>roofer</item>
-        <item>locksmith</item>
-        <item>glass technician</item>
-        <item>plummer</item>
+        <item>غير محدد</item>
+        <item>نجار</item>
+        <item>بناء</item>
+        <item>معلم كهرباء</item>
+        <item>معلم تسقيف</item>
+        <item>معلم اقفال</item>
+        <item>معلم زجاج</item>
+        <item>معلم سباكة</item>
     </string-array>
 
     <string-array name="price_array">
-        <item>Any</item>
-        <item>Under $30</item>
+        <item>غير محدد</item>
+        <item>اقل من 30$ </item>
         <item>$30 - $50</item>
-        <item>Above $50</item>
+        <item>اكثر من $50</item>
     </string-array>
 
     <string-array name="rate_array">
-        <item>Any</item>
+        <item>غير محدد</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -78,16 +160,16 @@
     </string-array>
 
     <string-array name="state">
-        <item>all</item>
-        <item>pending</item>
-        <item>approved</item>
-        <item>rejected</item>
+        <item>الكل</item>
+        <item>قيد الانتظار</item>
+        <item>معتمد</item>
+        <item>مرفوض</item>
     </string-array>
 
     <string-array name="state2">
-        <item>all</item>
-        <item>pending</item>
-        <item>completed</item>
-        <item>deleted</item>
+        <item>الكل</item>
+        <item>قيد الانتظار</item>
+        <item>تم الانتهاء</item>
+        <item>محذوف</item>
     </string-array>
 </resources>

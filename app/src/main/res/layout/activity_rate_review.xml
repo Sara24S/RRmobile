@@ -20,14 +20,14 @@
         android:id="@+id/etReview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Write your review here"
+        android:hint="@string/write_your_review_here"
         android:layout_marginTop="16dp"/>
 
     <Button
         android:id="@+id/btnSubmitReview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit Review"
+        android:text="@string/submit_review"
         android:layout_marginTop="8dp"/>
 
 </LinearLayout>

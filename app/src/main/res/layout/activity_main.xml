@@ -7,26 +7,23 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical"
-    android:gravity="center">
-
-    <Button
+    >
+    <Spinner
+        android:layout_gravity="right"
+        android:gravity="top"
+        android:id="@+id/languageSpinner"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:id="@+id/btnArabic"
-        android:text="@string/arabic" />
-
-    <Button
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:id="@+id/btnEnglish"
-        android:text="@string/english" />
+        android:entries="@array/language_array"
+        android:padding="5dp"/>
 
     <TextView
+        android:layout_marginTop="50dp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/rapidrestore"
-        android:textSize="45dp"
+        android:textSize="45sp"
         android:layout_marginBottom="60dp"
         android:textColor="@color/logo_color"
         >

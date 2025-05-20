@@ -1,11 +1,17 @@
 package com.example.rapidrestore;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -52,21 +58,45 @@ public class MainActivity extends AppCompatActivity {
         editTextEmail.setText("");
         editTextPassword.setText("");
 
-        btnEnglish = findViewById(R.id.btnEnglish);
-        btnArabic = findViewById(R.id.btnArabic);
+        Spinner languageSpinner = findViewById(R.id.languageSpinner);
 
-        Button btnArabic = findViewById(R.id.btnArabic);
-        Button btnEnglish = findViewById(R.id.btnEnglish);
+        // Set initial selection based on saved language
+        SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
+        String currentLang = prefs.getString("lang", "en");
 
-        btnArabic.setOnClickListener(v -> {
-            LocaleHelper.setLocale(this, "ar");
-            recreate();
+        if (currentLang.equals("ar")) {
+            languageSpinner.setSelection(1); // Arabic
+        } else {
+            languageSpinner.setSelection(0); // English
+        }
+
+        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            boolean isFirstTime = true;
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (isFirstTime) {
+                    isFirstTime = false;
+                    return; // Prevent auto-trigger on startup
+                }
+
+                String newLang = (position == 1) ? "ar" : "en";
+                if (!newLang.equals(currentLang)) {
+                    prefs.edit().putString("lang", newLang).apply();
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> recreate(), 300);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
-
-        btnEnglish.setOnClickListener(v -> {
-            LocaleHelper.setLocale(this, "en");
-            recreate();
-        });
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences prefs = newBase.getSharedPreferences("settings", MODE_PRIVATE);
+        String lang = prefs.getString("lang", "en");
+        Context context = LocaleHelper.setLocale(newBase, lang);
+        super.attachBaseContext(context);
     }
 
     public void logIN(View view) {

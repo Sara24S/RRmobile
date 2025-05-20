@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="✉ My Repair Requests ✉"
+            android:text="@string/my_repair_requests"
             android:id="@+id/tvMyRepairRequests"
             android:textStyle="bold"
             android:layout_marginTop="15dp"/>
@@ -54,7 +54,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Filter"
+            android:text="@string/filter"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp" />
@@ -74,7 +74,7 @@
                 android:paddingEnd="8dp">
 
                 <TextView
-                    android:text="Region:"
+                    android:text="@string/region"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <Spinner
@@ -92,7 +92,7 @@
                 android:paddingStart="8dp">
 
                 <TextView
-                    android:text="Profession:"
+                    android:text="@string/profession"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <Spinner
@@ -118,7 +118,7 @@
                 android:paddingEnd="8dp">
 
                 <TextView
-                    android:text="Cost:"
+                    android:text="@string/cost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <Spinner
@@ -136,7 +136,7 @@
                 android:paddingStart="8dp">
 
                 <TextView
-                    android:text="Rating:"
+                    android:text="@string/rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <Spinner
@@ -151,7 +151,7 @@
             android:id="@+id/buttonFilter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Apply Filters"
+            android:text="@string/apply_filters"
             android:backgroundTint="@color/black"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
