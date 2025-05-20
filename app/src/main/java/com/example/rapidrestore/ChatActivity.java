@@ -140,8 +140,10 @@ public class ChatActivity extends AppCompatActivity {
         sendButton = findViewById(R.id.sendButton);
         messagesRecyclerView = findViewById(R.id.messagesRecyclerView);
 
-        // Initialize adapter and repository
-        messageAdapter = new MessageAdapter();
+        //String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+// Initialize adapter and repository
+        messageAdapter = new MessageAdapter(currentUserId);
+
         chatRepository = new ChatRepository();
 
         messagesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
