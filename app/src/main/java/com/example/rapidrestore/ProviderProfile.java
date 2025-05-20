@@ -103,18 +103,8 @@ public class ProviderProfile extends AppCompatActivity {
         btnRequests = findViewById(R.id.btnRequests);
         btnSaveChanges = findViewById(R.id.btnSaveEditedProfile);
         btnAddRequest = findViewById(R.id.btnAddRequest);
-        chatIcon = findViewById(R.id.chatIcon);
-
-        chatIcon.setOnClickListener(view -> {
-            Intent intent = new Intent(ProviderProfile.this, ChatActivity.class);
-            String chatId = homeownerId + "_" + providerId;
-            intent.putExtra("chatId", chatId);
-            intent.putExtra("homeownerId", homeownerId);
-            intent.putExtra("providerId", providerId);
-            startActivity(intent);
-        });
-
         btnSetAvailability = findViewById(R.id.btnSetAvailability);
+        chatIcon = findViewById(R.id.chatIcon);
 
         if (isOwner) {
             btnSetAvailability.setVisibility(View.VISIBLE);
@@ -123,6 +113,14 @@ public class ProviderProfile extends AppCompatActivity {
             btnEditImage.setVisibility(View.VISIBLE);
             btnRequests.setVisibility(View.VISIBLE);
             btnAddRequest.setVisibility(View.GONE);
+            chatIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(ProviderProfile.this, ChatHomeowners.class);
+                    intent.putExtra("providerId", providerId);
+                    startActivity(intent);
+                }
+            });
         } else {
             btnRequests.setVisibility(View.GONE);
             btnEditImage.setVisibility(View.GONE);
@@ -130,6 +128,13 @@ public class ProviderProfile extends AppCompatActivity {
             btnAddPrevWork.setVisibility(View.GONE);
             btnAddRequest.setVisibility(View.VISIBLE);
             btnSetAvailability.setVisibility(View.GONE);
+
+            chatIcon.setOnClickListener(view -> {
+                Intent intent = new Intent(ProviderProfile.this, ChatActivity.class);
+                intent.putExtra("homeownerId", homeownerId);
+                intent.putExtra("providerId", providerId);
+                startActivity(intent);
+            });
         }
 
         btnSetAvailability.setOnClickListener(new View.OnClickListener() {
