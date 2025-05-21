@@ -3,6 +3,7 @@ package com.example.rapidrestore;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
     LinearLayout imageContainer;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String requestId, providerId, homeownerId;
+    Button btnCompleted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +43,13 @@ public class RequestDetailsActivity extends AppCompatActivity {
         });
         textViewDetails = findViewById(R.id.textViewDetails);
         imageContainer = findViewById(R.id.imageContainerDetails);
+        btnCompleted = findViewById(R.id.btnCompleted);
 
         requestId = getIntent().getStringExtra("requestId");
-
+        Boolean isDeleted = getIntent().getBooleanExtra("isDeleted", false);
+        if (isDeleted){
+            btnCompleted.setVisibility(View.GONE);
+        }
         db.collection("repairRequests").document(requestId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
@@ -53,10 +59,13 @@ public class RequestDetailsActivity extends AppCompatActivity {
                         String address = documentSnapshot.getString("address");
                         String issueLocation = documentSnapshot.getString("issueLocation");
                         String desc = documentSnapshot.getString("description");
+                        String date = documentSnapshot.getString("date");
+                        String time = documentSnapshot.getString("time");
                         providerId = documentSnapshot.getString("providerId");
                         homeownerId = documentSnapshot.getString("homeownerId");
 
-                        textViewDetails.setText("Name: " + name + "\n\nContact number: " + number +
+                        textViewDetails.setText("Date and Time: " + date + " at " + time +
+                                "\n\nName: " + name + "\n\nContact number: " + number +
                                 "\n\nAddress: " + address + "\n\nIssue Location: " + issueLocation +
                                 "\n\nDescription: " + desc + "\n\nIssue Images: ");
                         //fix images then remove comment
@@ -89,7 +98,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
         Map<String, Object> review = new HashMap<>();
         review.put("state", "pending");
         review.put("homeownerId", homeownerId);
-        review.put("providerid", providerId);
+        review.put("providerId", providerId);
 
         db.collection("repairRequests")
                 .document(requestId)
@@ -100,7 +109,8 @@ public class RequestDetailsActivity extends AppCompatActivity {
                         Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show());
         //send a notification to homeowner to rate/review this provider
         db.collection("Reviews")
-                .add(review)
+                .document(requestId)
+                .set(review)
                 .addOnSuccessListener(documentReference ->
                         Toast.makeText(this, "Review request is added", Toast.LENGTH_LONG).show())
                 .addOnFailureListener(e ->

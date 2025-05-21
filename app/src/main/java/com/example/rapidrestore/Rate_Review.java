@@ -1,6 +1,7 @@
 package com.example.rapidrestore;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
@@ -12,7 +13,19 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Rate_Review extends AppCompatActivity {
+
+
+    private RatingBar ratingBar;
+    private EditText etReview;
+    private Button btnSubmitReview;
+    private String reviewId;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +38,10 @@ public class Rate_Review extends AppCompatActivity {
             return insets;
         });
 
-        RatingBar ratingBar = findViewById(R.id.ratingBar);
+        db = FirebaseFirestore.getInstance();
 
+        reviewId = getIntent().getStringExtra("reviewId");
+        ratingBar = findViewById(R.id.ratingBar);
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -37,7 +52,32 @@ public class Rate_Review extends AppCompatActivity {
                 }
             }
         });
-        EditText etReview = findViewById(R.id.etReview);
-        Button btnSubmitReview = findViewById(R.id.btnSubmitReview);
+        etReview = findViewById(R.id.etReview);
+        btnSubmitReview = findViewById(R.id.btnSubmitReview);
+
+        btnSubmitReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float rating = ratingBar.getRating();
+                String review = etReview.getText().toString().trim();
+
+                // add to firestore //remember to update the rating of the provider
+                Map<String, Object> newReview = new HashMap<>();
+                newReview.put("rating", rating);
+                newReview.put("review", review);
+                newReview.put("state", "complete");
+                db.collection("Reviews")
+                        .document(reviewId)
+                        .update(newReview)
+                        .addOnSuccessListener(unused -> {
+                            Toast.makeText(Rate_Review.this, "Thanks for your feedback!", Toast.LENGTH_SHORT).show();
+                            finish();
+                        })
+                        .addOnFailureListener(e ->
+                                Toast.makeText(Rate_Review.this, "Failed to submit review.", Toast.LENGTH_SHORT).show()
+                        );
+            }
+        });
     }
+
 }

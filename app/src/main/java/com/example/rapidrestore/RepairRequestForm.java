@@ -193,7 +193,7 @@ public class RepairRequestForm extends AppCompatActivity {
         requestData.put("issueLocation", issueLocation);
         requestData.put("description", description);
         requestData.put("timestamp", FieldValue.serverTimestamp());
-        requestData.put("state", "pending");
+        requestData.put("isNotified", false);
 
         // Placeholder for image URIs,find a way to upload theme somewhere DONT FORGET
         ArrayList<String> imagePaths = new ArrayList<>();
@@ -273,6 +273,7 @@ public class RepairRequestForm extends AppCompatActivity {
         db.collection("repairRequests")
                 .whereEqualTo("providerId", providerId)
                 .whereEqualTo("date", date)
+                .whereEqualTo("state", "pending")
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
                     for (DocumentSnapshot doc : querySnapshot) {

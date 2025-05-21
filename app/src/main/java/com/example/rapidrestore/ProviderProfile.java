@@ -1,11 +1,17 @@
 package com.example.rapidrestore;
 
+import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +23,11 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -28,7 +38,11 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -121,6 +135,61 @@ public class ProviderProfile extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+
+            //show notification when request added or deleted
+            db.collection("repairRequests")
+                    .whereEqualTo("providerId", providerId)
+                    .addSnapshotListener((snapshots, error) -> {
+                        if (error != null || snapshots == null) return;
+
+                        for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                            if (dc.getType() == DocumentChange.Type.MODIFIED) {
+                                Boolean isNotified = dc.getDocument().getBoolean("isNotified");
+                                String state = dc.getDocument().getString("state");
+                                String requestId = dc.getDocument().getId();
+                                String date = dc.getDocument().getString("date");
+                                String time = dc.getDocument().getString("time");
+                                //when deleted
+                                if (state.equals("deleted")){
+                                    Intent intent = new Intent(this, RequestDetailsActivity.class);
+                                    intent.putExtra("requestId", requestId);
+                                    intent.putExtra("isDeleted", true);
+                                    db.collection("repairRequests")
+                                            .document(requestId)
+                                            .update("isNotified", true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                }
+                                            });
+                                    NotificationHelper.showNotification(
+                                            this,
+                                            "Repair Request Deleted",
+                                            "the appointment on " + date + " at " + time +
+                                                    " has been deleted.",
+                                            intent
+                                    );
+                                    //when added
+                                }else if (state.equals("pending") && !isNotified.booleanValue()){
+                                    Intent intent = new Intent(this, RequestDetailsActivity.class);
+                                    intent.putExtra("requestId", requestId);
+                                    db.collection("repairRequests")
+                                            .document(requestId)
+                                            .update("isNotified", true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                }
+                                            });
+                                    NotificationHelper.showNotification(
+                                            this,
+                                            "New Requests Added",
+                                            "Appointment is added on " + date + " at " + time +
+                                                    "\\ tap to view",
+                                            intent
+                                    );
+                                }
+                            }
+                        }
+                    });
         } else {
             btnRequests.setVisibility(View.GONE);
             btnEditImage.setVisibility(View.GONE);
@@ -136,6 +205,34 @@ public class ProviderProfile extends AppCompatActivity {
                 startActivity(intent);
             });
         }
+        //calculate rating of the provider
+        db.collection("Reviews")
+                .whereEqualTo("providerId", providerId)
+                .whereEqualTo("state", "complete") // Only include valid reviews
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    double total = 0;
+                    int count = 0;
+                    for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                        Long rating = doc.getLong("rating");
+                        Toast.makeText(ProviderProfile.this, rating.toString(), Toast.LENGTH_LONG).show();
+                        if (rating != null) {
+                            total += rating;
+                            count++;
+                        }
+                    }
+                    if (count > 0) {
+                        double average = total / count;
+
+                        // Update provider's rating field
+                        db.collection("providers")
+                                .document(providerId)
+                                .update("rating", average);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("RatingUpdate", "Failed to calculate average rating", e);
+                });
 
         btnSetAvailability.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,7 +299,6 @@ public class ProviderProfile extends AppCompatActivity {
             }
         });
 
-
         //Edit Profile
         btnEditProfile.setOnClickListener(v -> {
             etCost.setVisibility(View.VISIBLE);
@@ -232,6 +328,19 @@ public class ProviderProfile extends AppCompatActivity {
         fetchProfile();
         loadPortfolio();
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 1001) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted
+            } else {
+                // Optional: Notify user that permission is required
+            }
+        }
     }
     private void loadPortfolio() {
         db.collection("portfolioPost")

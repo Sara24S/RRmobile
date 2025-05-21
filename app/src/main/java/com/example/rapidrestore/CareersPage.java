@@ -1,6 +1,7 @@
 package com.example.rapidrestore;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -148,6 +150,27 @@ public class CareersPage extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
+        db.collection("Reviews")
+                .whereEqualTo("homeownerId", homeownerId)
+                .whereEqualTo("state", "pending")
+                .addSnapshotListener((value, error) -> {
+                    if (error != null || value == null) return;
+
+                    for (DocumentChange dc : value.getDocumentChanges()) {
+                        if (dc.getType() == DocumentChange.Type.ADDED) {
+                            String reviewId = dc.getDocument().getId();
+                            Intent intent = new Intent(this, Rate_Review.class);
+                            intent.putExtra("reviewId", reviewId);
+                            NotificationHelper.showNotification(
+                                    this,
+                                    "Rate your provider!!",
+                                    "Please leave a rating/review for your recent request.",
+                                    intent
+                            );
+                        }
+                    }
+                });
+
     }
     private boolean matchesPriceRange(double price, String selectedRange) {
         switch (selectedRange) {
@@ -196,6 +219,19 @@ public class CareersPage extends AppCompatActivity {
                         Log.w("Firestore", "Error getting documents.", task.getException());
                     }
                 });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 1001) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted
+            } else {
+                // Optional: Notify user that permission is required
+            }
+        }
     }
 
     @Override

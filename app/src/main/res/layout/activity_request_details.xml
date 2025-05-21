@@ -27,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/completed"
+            android:id="@+id/btnCompleted"
             android:onClick="RepairCompleted"/>
     </LinearLayout>
 </ScrollView>
