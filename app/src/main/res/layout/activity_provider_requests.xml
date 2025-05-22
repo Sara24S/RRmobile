@@ -5,73 +5,108 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProviderRequestsActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/light_background"
+    tools:context=".ProviderRequestsActivity">
 
+    <!-- Logo and Title -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/linear"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:padding="10dp">
+        android:gravity="center_vertical"
+        android:paddingBottom="12dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/logo"
+            android:layout_marginEnd="8dp"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/show_requests"
-            android:textStyle="bold"
-            android:textSize="18sp"/>
-        <Spinner
-            android:id="@+id/spinnerState2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/state2" />
-
+            android:textColor="@color/primary_blue"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
     </LinearLayout>
+
+    <!-- Filter by State -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/linear2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:padding="10dp">
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/show_requests"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="8dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerState2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/light_blue"
+            android:padding="8dp"
+            android:entries="@array/state2"/>
+    </LinearLayout>
+
+    <!-- Search by Date -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/search_by_date"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:textSize="18sp"
-            />
+            android:layout_marginEnd="8dp"/>
+
         <EditText
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
             android:id="@+id/etDate"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:hint="@string/yyyy_mm_dd"
-            android:layout_marginStart="5dp" />
+            android:backgroundTint="@color/light_blue"
+            android:padding="8dp"/>
+
         <TextView
+            android:id="@+id/tvSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tvSearch"
             android:text="⌕"
-            android:textStyle="bold"
-            android:textSize="30sp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="6dp"/>
-
+            android:textSize="24sp"
+            android:textColor="@color/primary_blue"
+            android:layout_marginEnd="12dp"/>
     </LinearLayout>
 
-
+    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewRequests"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/linear"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"/>
-
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"/>
 </LinearLayout>

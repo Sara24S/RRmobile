@@ -7,5 +7,19 @@
     <color name="red">#CB0000</color>
     <color name="invisible">#00000000</color>
     <color name="light_gray">#D3D3D3</color>
-    <color name="green">#99AF99</color>
+    <color name="blue">#041875</color>
+    <color name="primary_blue">#1673BD</color>
+    <color name="light_background">#CEE0EF</color>
+    <color name="accent_blue">#689ECF</color>
+    <color name="secondary_blue">#79BDE3</color>
+    <color name="text_primary">#1A1A1A</color>
+    <color name="text_secondary">#444444</color>
+    <color name="light_blue">#CEE0EF</color>
+    <color name="hover_blue">#79BDE3</color>
+    <color name="light_blue_bg">#CEE0EF</color>
+    <color name="primary">#4A90E2</color>
+    <color name="primaryDark">#2C3E50</color>
+    <color name="textPrimary">#333333</color>
+    <color name="cardBackground">#FFFFFF</color>
+
 </resources>

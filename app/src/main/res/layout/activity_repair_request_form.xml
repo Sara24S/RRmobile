@@ -5,75 +5,118 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RepairRequestForm"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/light_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:spacing="12dp">
 
         <!-- Homeowner Details -->
-        <EditText
-            android:id="@+id/editTextName"
-            android:hint="@string/full_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:id="@+id/editTextPhone"
-            android:hint="@string/contact_number"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone"/>
-        <EditText
-            android:id="@+id/editTextEmail"
-            android:hint="@string/email"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@color/light_blue">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/full_name"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"/>
-        <EditText
-            android:id="@+id/editTextAddress"
-            android:hint="@string/property_address"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/contact_number"
+                android:inputType="phone" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/property_address"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Issue Description -->
-        <EditText
-            android:id="@+id/editTextIssueLocation"
-            android:hint="@string/location_of_issue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <EditText
-            android:id="@+id/editTextDescription"
-            android:hint="@string/describe_the_issue"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:minLines="3"
-            android:gravity="top"/>
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextIssueLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/location_of_issue"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/describe_the_issue"
+                android:inputType="textMultiLine"
+                android:minLines="3"
+                android:gravity="top"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Photo Upload -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="4dp"
-            >
-            <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_photos_of_the_issue"
-            android:textStyle="bold"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ivAddPhotos"
-                android:src="@drawable/baseline_add_24"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingVertical="8dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp">
 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/add_photos_of_the_issue"
+                android:textStyle="bold"/>
+
+            <ImageView
+                android:id="@+id/ivAddPhotos"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/baseline_add_24"
+                android:contentDescription="@string/add_photos_of_the_issue"
+                android:padding="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"/>
         </LinearLayout>
 
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp">
             <LinearLayout
                 android:id="@+id/imageContainer"
                 android:layout_width="wrap_content"
@@ -81,25 +124,32 @@
                 android:orientation="horizontal" />
         </HorizontalScrollView>
 
+        <!-- Schedule -->
         <CalendarView
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"/>
 
         <TextView
+            android:id="@+id/availableTimesLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/availableTimesLabel"
             android:text="@string/available_times"
             android:textStyle="bold"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/availableTimesRecycler"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
+            android:layout_width="match_parent"
             android:layout_height="160dp"
-            android:orientation="vertical"/>
+            android:orientation="vertical"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"/>
 
         <!-- Submit -->
         <Button
@@ -107,6 +157,9 @@
             android:text="@string/submit_request"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/primary_blue"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"/>
     </LinearLayout>
 </ScrollView>

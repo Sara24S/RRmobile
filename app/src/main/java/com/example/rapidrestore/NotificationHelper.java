@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 
 public class NotificationHelper {
     public static final String CHANNEL_ID = "repair_updates";
+
     private static final int NOTIFICATION_PERMISSION_CODE = 1001;
 
     public static void createNotificationChannel(Context context) {

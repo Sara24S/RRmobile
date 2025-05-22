@@ -136,6 +136,14 @@ public class AddToPortfolio extends AppCompatActivity {
 
         String description = editTextDescription.getText().toString().trim();
 
+        if(description.isEmpty()) {
+            Toast.makeText(this, "please add description", Toast.LENGTH_LONG).show();
+            return;
+        } else if (imageUris.isEmpty()) {
+            Toast.makeText(this, "add at least 1 image", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         Map<String, Object> requestData = new HashMap<>();
         requestData.put("providerId", providerId);
         requestData.put("description", description);
@@ -162,5 +170,6 @@ public class AddToPortfolio extends AppCompatActivity {
                         Toast.makeText(this, "Request submitted successfully!", Toast.LENGTH_LONG).show())
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show());
+        finish();
     }
 }

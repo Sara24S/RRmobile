@@ -2,56 +2,66 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="364dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:backgroundTint="@color/sage_green">
+        android:layout_margin="12dp"
+        android:backgroundTint="@color/cardBackground"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="12dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="6dp">
+            android:padding="12dp">
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:padding="4dp" />
+                android:padding="4dp"
+                android:layout_alignParentStart="true"
+                android:background="@color/light_gray"
+                android:clipToOutline="true"
+                android:outlineProvider="background"/>
 
             <TextView
                 android:id="@+id/textViewName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="name"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/imageView"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textColor="#000000" />
+                android:text="Name"
+                android:textColor="@color/blue"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_toEndOf="@id/imageView"
+                android:layout_marginStart="12dp"
+                android:layout_alignTop="@id/imageView" />
 
             <TextView
                 android:id="@+id/textViewProfession"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textViewName"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@id/imageView"
                 android:text="profession"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp"
+                android:layout_below="@id/textViewName"
+                android:layout_alignStart="@id/textViewName"
+                android:layout_marginTop="4dp" />
 
             <TextView
                 android:id="@+id/textViewRegion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Region"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp"
                 android:layout_below="@id/textViewProfession"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@id/imageView"
-                android:text="region"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                android:layout_alignStart="@id/textViewName"
+                android:layout_marginTop="4dp" />
 
 
             <TextView
@@ -62,11 +72,13 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="@color/black"
+                android:backgroundTint="@color/primary_blue"
+                android:fontFamily="sans-serif-medium"
+                android:background="@color/primary_blue"
+                android:textColor="@color/cardBackground"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
                 android:text="4.7"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small.Inverse"
                 android:textStyle="bold" />
 
 
@@ -74,13 +86,13 @@
                 android:id="@+id/textViewPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textViewRegion"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@id/imageView"
                 android:text="INR 56990"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                android:textStyle="bold" />
+                android:textColor="@color/primary_blue"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_below="@id/textViewRegion"
+                android:layout_alignStart="@id/textViewName"
+                android:layout_marginTop="8dp"/>
 
         </RelativeLayout>
 

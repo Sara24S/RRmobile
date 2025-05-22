@@ -56,7 +56,7 @@ public class RepairRequestForm extends AppCompatActivity {
     ArrayList<Uri> imageUris = new ArrayList<>();
     LinearLayout imageContainer;
     Button buttonSubmit;
-    EditText editTextName, editTextPhone, editTextEmail, editTextAddress;
+    EditText editTextName, editTextPhone, editTextAddress;
     EditText editTextIssueLocation, editTextDescription;
     FirebaseFirestore db;
     String providerId, homeownerId;
@@ -93,7 +93,6 @@ public class RepairRequestForm extends AppCompatActivity {
 
         editTextName = findViewById(R.id.editTextName);
         editTextPhone = findViewById(R.id.editTextPhone);
-        editTextEmail = findViewById(R.id.editTextEmail);
         editTextAddress = findViewById(R.id.editTextAddress);
         editTextIssueLocation = findViewById(R.id.editTextIssueLocation);
         editTextDescription = findViewById(R.id.editTextDescription);
@@ -174,7 +173,6 @@ public class RepairRequestForm extends AppCompatActivity {
     private void submitForm() {
         String name = editTextName.getText().toString().trim();
         String phone = editTextPhone.getText().toString().trim();
-        String email = editTextEmail.getText().toString().trim();
         String address = editTextAddress.getText().toString().trim();
         String issueLocation = editTextIssueLocation.getText().toString().trim();
         String description = editTextDescription.getText().toString().trim();
@@ -188,7 +186,6 @@ public class RepairRequestForm extends AppCompatActivity {
         requestData.put("providerId", providerId);
         requestData.put("name", name);
         requestData.put("phone", phone);
-        requestData.put("email", email);
         requestData.put("address", address);
         requestData.put("issueLocation", issueLocation);
         requestData.put("description", description);

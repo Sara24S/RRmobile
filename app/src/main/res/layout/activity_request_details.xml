@@ -1,33 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RequestDetailsActivity">
+    android:background="?android:colorBackground"
+    android:padding="16dp">
 
-    <LinearLayout android:orientation="vertical"
-        android:padding="16dp"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_background"
+        android:elevation="4dp"
+        android:padding="20dp"
+        android:layout_margin="8dp">
 
-        <TextView android:id="@+id/textViewDetails"
+        <TextView
+            android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"/>
+            android:text="Repair Request Details"
+            android:textColor="@color/primaryDark"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
 
-        <LinearLayout
-            android:id="@+id/imageContainerDetails"
-            android:orientation="vertical"
+        <TextView
+            android:id="@+id/textViewDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"/>
+            android:textSize="16sp"
+            android:textColor="@color/textPrimary"
+            android:lineSpacingExtra="6dp"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Issue Images"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/primaryDark"
+            android:layout_marginBottom="8dp" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/imageContainerDetails"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </HorizontalScrollView>
 
         <Button
+            android:id="@+id/btnCompleted"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/completed"
-            android:id="@+id/btnCompleted"
-            android:onClick="RepairCompleted"/>
+            android:text="Mark as Completed"
+            android:layout_marginTop="24dp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/primary"
+            android:fontFamily="sans-serif-medium" />
     </LinearLayout>
 </ScrollView>

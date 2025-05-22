@@ -44,7 +44,7 @@ public class CareersPage extends AppCompatActivity {
 
     Button buttonFilter;
     FirebaseAuth mAuth;
-    TextView myRepairRequests, tvBell, tvNotificationNb;
+    TextView myRepairRequests, tvResetFilter;
     private FirebaseFirestore db;
     private List<Provider> filteredProviders;
 
@@ -67,10 +67,11 @@ public class CareersPage extends AppCompatActivity {
         spinnerPrice = findViewById(R.id.spinnerPrice);
         spinnerRating = findViewById(R.id.spinnerRating);
         myRepairRequests = findViewById(R.id.tvMyRepairRequests);
-        tvBell = findViewById(R.id.tvMyNotifications);
-        tvNotificationNb = findViewById(R.id.tvNewNotification);
+        tvResetFilter = findViewById(R.id.tvResetFilter);
 
         homeownerId = getIntent().getStringExtra("homeownerId");
+
+        NotificationHelper.createNotificationChannel(this);
 
         db = FirebaseFirestore.getInstance();
 
@@ -95,11 +96,12 @@ public class CareersPage extends AppCompatActivity {
             }
         });
 
-        tvBell.setOnClickListener(new View.OnClickListener() {
+        tvResetFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CareersPage.this, NotificationPage.class);
-                intent.putExtra("homeownerId", homeownerId);
+                providerList.clear();
+                providerList.addAll(filteredProviders);
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -150,6 +152,7 @@ public class CareersPage extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
+
         db.collection("Reviews")
                 .whereEqualTo("homeownerId", homeownerId)
                 .whereEqualTo("state", "pending")

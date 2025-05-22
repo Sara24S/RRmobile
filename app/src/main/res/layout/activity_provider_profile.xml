@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProviderProfile"
+    android:background="@color/light_background"
     android:padding="15dp">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -43,7 +44,9 @@
             app:layout_constraintTop_toBottomOf="@id/profileImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="2dp"/>
+            android:layout_marginTop="2dp"
+            android:textColor="@color/text_primary"
+            />
         <!-- Edit Profile Image Button (visible only for provider) -->
         <Button
             android:layout_width="wrap_content"
@@ -52,7 +55,7 @@
             app:layout_constraintTop_toBottomOf="@id/providerName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:backgroundTint="@color/red"
+            android:backgroundTint="@color/primary_blue"
             android:text="@string/edit_profile"
             android:visibility="gone"/>
 
@@ -63,7 +66,7 @@
             app:layout_constraintTop_toBottomOf="@id/btnEditProfile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:backgroundTint="@color/red"
+            android:backgroundTint="@color/primary_blue"
             android:text="@string/save_change"
             android:visibility="gone"/>
 
@@ -76,6 +79,7 @@
             app:layout_constraintTop_toBottomOf="@id/btnSaveEditedProfile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/text_secondary"
             android:layout_marginTop="2dp"/>
 
         <TextView
@@ -87,6 +91,7 @@
             app:layout_constraintTop_toBottomOf="@id/tvRegion"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/text_secondary"
             android:layout_marginTop="2dp"/>
 
 
@@ -104,6 +109,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/hourly_cost"
                 android:textSize="16sp"
+                android:textColor="@color/text_secondary"
                 android:layout_marginTop="2dp"/>
             <TextView
                 android:id="@+id/providerPricing"
@@ -111,6 +117,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textSize="16sp"
+                android:textColor="@color/text_secondary"
                 android:layout_marginTop="2dp"/>
             <EditText
                 android:id="@+id/etProviderPricing"
@@ -119,6 +126,7 @@
                 android:text=""
                 android:textSize="16sp"
                 android:layout_marginTop="2dp"
+                android:textColor="@color/text_secondary"
                 android:visibility="gone"/>
 
         </LinearLayout>
@@ -133,6 +141,7 @@
             app:layout_constraintTop_toBottomOf="@id/linear"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/text_secondary"
             android:layout_marginTop="16dp" />
 
         <EditText
@@ -156,7 +165,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#8798BB"
+            android:backgroundTint="@color/primary_blue"
             />
 
         <Button
@@ -169,7 +178,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="4dp"
-            android:backgroundTint="@color/red"/>
+            android:backgroundTint="@color/blue"/>
 
         <!-- Portfolio Title -->
         <TextView
@@ -181,7 +190,8 @@
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@+id/btnRequests"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="24dp"
+            android:textColor="@color/blue"/>
         <!-- Add Project Button (only for provider) -->
         <ImageButton
             android:id="@+id/addProjectBtn"
@@ -201,6 +211,7 @@
             android:textSize="14sp"
             android:textStyle="italic"
             android:layout_marginStart="10dp"
+            android:textColor="@color/primary_blue"
             app:layout_constraintTop_toBottomOf="@+id/btnRequests"
             app:layout_constraintStart_toEndOf="@id/addProjectBtn"
             android:layout_marginTop="24dp" />
@@ -215,7 +226,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btnRequests"
             app:layout_constraintStart_toEndOf="@id/tvShowPortfolio"
             android:layout_marginTop="24dp"
-
+            android:textColor="@color/primary_blue"
             android:visibility="gone"/>
 
         <!-- Portfolio Grid Placeholder -->
@@ -238,12 +249,13 @@
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/portfolioRecycler"
             app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/blue"
             android:layout_marginTop="24dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/reviewsRecyclerView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@id/allReviews"
             app:layout_constraintStart_toStartOf="parent"
@@ -258,7 +270,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#68CBAA"
+            android:backgroundTint="#1EC9EB"
             android:textColor="@color/black"
             android:onClick="addRequest"/>
 
@@ -271,6 +283,7 @@
             android:contentDescription="Chat"
             android:scaleType="centerInside"
             app:tint="@android:color/white"
+            app:layout_constraintTop_toBottomOf="@+id/btnAddRequest"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

@@ -6,58 +6,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CareersPage"
+    android:background="@color/light_background"
     android:orientation="vertical"
     android:padding="5dp">
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/linear3"
-        android:orientation="horizontal"
-        android:layout_marginBottom="15dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/my_repair_requests"
-            android:id="@+id/tvMyRepairRequests"
-            android:textStyle="bold"
-            android:layout_marginTop="15dp"/>
+        android:text="@string/my_repair_requests"
+        android:id="@+id/tvMyRepairRequests"
+        android:textStyle="bold"
+        android:layout_margin="8dp"
+        />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🔔"
-            android:id="@+id/tvNewNotification"
-            android:textStyle="bold"
-            android:layout_marginStart="200dp"
-            android:layout_marginTop="8dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:id="@+id/tvMyNotifications"
-            android:textStyle="bold"
-            android:textColor="@color/red"
-            />
-
-    </LinearLayout>
     <LinearLayout
-        android:layout_below="@+id/linear3"
+        android:layout_below="@+id/tvMyRepairRequests"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#F2E8FF"
+        android:background="#F1F3F6"
         android:padding="10dp"
         android:elevation="2dp"
         android:id="@+id/filter">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/filter"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filter"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="reset filter"
+                android:layout_marginStart="240dp"
+                android:textColor="@color/blue"
+                android:id="@+id/tvResetFilter"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -152,7 +143,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/apply_filters"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/blue"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
     </LinearLayout>

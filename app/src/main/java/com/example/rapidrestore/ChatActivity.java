@@ -86,7 +86,7 @@ public class ChatActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot doc : query) {
                         id = doc.getId();
                         //String name = doc.getString("name");
-                        Toast.makeText(ChatActivity.this, id, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(ChatActivity.this, id, Toast.LENGTH_LONG).show();
                         if(id.isEmpty()){
                             Toast.makeText(ChatActivity.this, "no chat", Toast.LENGTH_LONG).show();
                         }
@@ -103,8 +103,8 @@ public class ChatActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Toast.makeText(ChatActivity.this, "Document exists!", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "Document exists!");
+                        //Toast.makeText(ChatActivity.this, "Document exists!", Toast.LENGTH_SHORT).show();
+                        //Log.d(TAG, "Document exists!");
                     } else {
 
                         Toast.makeText(ChatActivity.this, "Document does not exist!", Toast.LENGTH_SHORT).show();
@@ -163,14 +163,8 @@ public class ChatActivity extends AppCompatActivity {
             String text = messageInput.getText().toString().trim();
             if (!text.isEmpty()) {
                 try {
-                    db.collection("users")
-                            .document(currentUserId)
-                            .get()
-                            .addOnSuccessListener(userDoc -> {
-                                String name = userDoc.getString("name");
-                                chatRepository.sendMessage(chatId, name, text);
-                                messageInput.setText("");
-                            });
+                    chatRepository.sendMessage(chatId, currentUserId, text);
+                    messageInput.setText("");
                 } catch (Exception e) {
                     Log.e("ChatError", "Failed to send message", e);
                     Toast.makeText(this, "Error sending message", Toast.LENGTH_SHORT).show();

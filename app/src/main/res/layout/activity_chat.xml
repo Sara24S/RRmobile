@@ -3,7 +3,8 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/light_background">
 
     <!-- RecyclerView for messages -->
     <androidx.recyclerview.widget.RecyclerView
@@ -31,7 +32,8 @@
             android:id="@+id/sendButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/send" />
+            android:text="@string/send"
+            android:backgroundTint="@color/primary_blue"/>
     </LinearLayout>
 
 </LinearLayout>

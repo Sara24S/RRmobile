@@ -51,6 +51,7 @@ public class ProviderAvailability extends AppCompatActivity {
         providerId = getIntent().getStringExtra("providerId");
 
         calendarView = findViewById(R.id.calendarView);
+        calendarView.setMinDate(System.currentTimeMillis() - 1000);
         addTimeButton = findViewById(R.id.addTimeButton);
         saveButton = findViewById(R.id.saveButton);
         timeListRecyclerView = findViewById(R.id.timeListRecyclerView);

@@ -74,9 +74,11 @@ public class ProviderProfile extends AppCompatActivity {
     FirebaseFirestore db;
 
     EditText etCost, etBio;
-    RecyclerView recyclerViewPortfolio;
+    RecyclerView recyclerViewPortfolio, reviewsRecyclerView;
     ArrayList<PortfolioPost> portfolioPostList = new ArrayList<>();;
     PortfolioAdapter adapter;
+    private ReviewAdapter adapter2;
+    private List<Review> reviewList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +96,13 @@ public class ProviderProfile extends AppCompatActivity {
         providerId = getIntent().getStringExtra("providerId");
         homeownerId = getIntent().getStringExtra("homeownerId");
         boolean isOwner = getIntent().getBooleanExtra("isOwner", false);
+
+        NotificationHelper.createNotificationChannel(this);
+
+        reviewsRecyclerView = findViewById(R.id.reviewsRecyclerView);
+        reviewsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter2 = new ReviewAdapter(reviewList);
+        reviewsRecyclerView.setAdapter(adapter2);
 
         recyclerViewPortfolio = findViewById(R.id.portfolioRecycler);
         adapter = new PortfolioAdapter(this, portfolioPostList);
@@ -135,6 +144,19 @@ public class ProviderProfile extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+
+            //refresh portfolio if modified
+            db.collection("portfolioPost")
+                    .whereEqualTo("providerId", providerId)
+                    .addSnapshotListener((snapshots, error) -> {
+                        if (error != null || snapshots == null) return;
+
+                        for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                loadPortfolio();
+                            }
+                        }
+                    });
 
             //show notification when request added or deleted
             db.collection("repairRequests")
@@ -215,7 +237,7 @@ public class ProviderProfile extends AppCompatActivity {
                     int count = 0;
                     for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
                         Long rating = doc.getLong("rating");
-                        Toast.makeText(ProviderProfile.this, rating.toString(), Toast.LENGTH_LONG).show();
+                       // Toast.makeText(ProviderProfile.this, rating.toString(), Toast.LENGTH_LONG).show();
                         if (rating != null) {
                             total += rating;
                             count++;
@@ -327,6 +349,7 @@ public class ProviderProfile extends AppCompatActivity {
 
         fetchProfile();
         loadPortfolio();
+        loadReviews();
 
     }
 
@@ -342,11 +365,55 @@ public class ProviderProfile extends AppCompatActivity {
             }
         }
     }
+
+    //String name = "";
+    private void loadReviews() {
+        db.collection("Reviews")
+                .whereEqualTo("providerId", providerId)
+                .whereEqualTo("state", "complete") // Optional: filter approved only
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    reviewList.clear();
+                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                       String comment = doc.getString("review");
+                        Long rating = doc.getLong("rating");
+                        String homeownerId = doc.getString("homeownerId");
+
+                        db.collection("users")
+                                .document(homeownerId)
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()) {
+                                                String name = document.getString("name");
+                                                reviewList.add(new Review(comment, rating, name));
+                                                Toast.makeText(ProviderProfile.this, name, Toast.LENGTH_SHORT).show();
+                                                adapter2.notifyDataSetChanged();
+                                            } else {
+                                                Log.d("USER_NAME", "No such document");
+                                            }
+                                        } else {
+                                            Log.e("USER_NAME", "get failed with ", task.getException());
+                                        }
+                                    }
+                                });
+                       // reviewList.add(new Review(comment, rating, name));
+                    }
+                    //adapter2.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, "Failed to load reviews", Toast.LENGTH_SHORT).show()
+                );
+    }
     private void loadPortfolio() {
         db.collection("portfolioPost")
                 .whereEqualTo("providerId",providerId)
                 .get()
                 .addOnSuccessListener(query -> {
+                    portfolioPostList.clear();
                     for (QueryDocumentSnapshot doc : query) {
                         String desc = doc.getString("description");
                         List<String> images = (List<String>) doc.get("images");

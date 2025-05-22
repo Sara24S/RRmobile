@@ -66,6 +66,7 @@ public class WorkRequestForm extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        idFilename = "";
         imageId = findViewById(R.id.IdCard);
         imageId.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,6 +213,12 @@ public class WorkRequestForm extends AppCompatActivity {
         Volley.newRequestQueue(this).add(request);
     }
     public void submit(View view) {
+
+        if(idFilename.isEmpty()){
+            Toast.makeText(WorkRequestForm.this, "Id image is mandatory", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
 
         ArrayList<String> profession = new ArrayList<>();
         if(checkedCarpenter) profession.add("carpenter");

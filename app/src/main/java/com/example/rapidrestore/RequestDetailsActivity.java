@@ -67,7 +67,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
                         textViewDetails.setText("Date and Time: " + date + " at " + time +
                                 "\n\nName: " + name + "\n\nContact number: " + number +
                                 "\n\nAddress: " + address + "\n\nIssue Location: " + issueLocation +
-                                "\n\nDescription: " + desc + "\n\nIssue Images: ");
+                                "\n\nDescription: " + desc);
                         //fix images then remove comment
                         List<String> images = (List<String>) documentSnapshot.get("images");
                         if (images != null) {

@@ -1,43 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateAccount"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp"
+    android:background="@color/light_background"
+    tools:context=".CreateAccount">
 
     <TextView
-        android:textSize="25dp"
-        android:layout_marginTop="100dp"
-        android:layout_gravity="center"
+        android:id="@+id/tvCreateAccountAs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/create_account_as">
-
-    </TextView>
+        android:text="@string/create_account_as"
+        android:textSize="22sp"
+        android:textColor="@color/textPrimary"
+        android:textStyle="bold"
+        android:layout_marginBottom="48dp" />
 
     <Button
-        android:textSize="25dp"
-        android:layout_marginTop="100dp"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnHomeowner"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="@string/homeowner"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/primary_blue"
+        android:paddingVertical="12dp"
         android:onClick="NewHomeowner"
-        android:text="@string/homeowner">
-
-    </Button>
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"/>
 
     <Button
-        android:textSize="25dp"
-        android:layout_marginTop="25dp"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnProvider"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/provider"
-        android:onClick="NewProvider">
-    </Button>
-
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/secondary_blue"
+        android:paddingVertical="12dp"
+        android:onClick="NewProvider"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp" />
 
 </LinearLayout>
+
