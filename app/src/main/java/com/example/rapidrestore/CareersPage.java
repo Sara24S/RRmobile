@@ -102,6 +102,10 @@ public class CareersPage extends AppCompatActivity {
                 providerList.clear();
                 providerList.addAll(filteredProviders);
                 adapter.notifyDataSetChanged();
+                spinnerPrice.setSelection(0);
+                spinnerProfession.setSelection(0);
+                spinnerRating.setSelection(0);
+                spinnerRegion.setSelection(0);
             }
         });
 
@@ -183,7 +187,7 @@ public class CareersPage extends AppCompatActivity {
             default: return true;
         }
     }
-    private void fetchProviders() {
+  /*  private void fetchProviders() {
         String spinnRegion = spinnerRegion.getSelectedItem().toString();
         // Example dummy data; replace this with Firestore fetching or other data source
         db.collection("providers")
@@ -223,6 +227,8 @@ public class CareersPage extends AppCompatActivity {
                     }
                 });
     }
+
+   */
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

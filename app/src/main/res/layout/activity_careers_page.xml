@@ -6,9 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CareersPage"
-    android:background="@color/light_background"
+    android:background="@drawable/bg_gradient"
     android:orientation="vertical"
     android:padding="5dp">
+
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -83,7 +85,7 @@
                 android:paddingStart="8dp">
 
                 <TextView
-                    android:text="@string/profession"
+                    android:text="@string/profession2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <Spinner

@@ -12,7 +12,7 @@
     <string name="provider_name">Provider Name</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="save_change">Save change</string>
-    <string name="region">Region:</string>
+    <string name="region">Region: </string>
     <string name="profession">Profession: ||</string>
     <string name="hourly_cost">Hourly Cost:</string>
     <string name="bio">Bio.</string>
@@ -27,8 +27,8 @@
 
     <string name="my_repair_requests">✉ Check Repair Requests ✉</string>
     <string name="filter">Filter</string>
-    <string name="cost">Cost:</string>
-    <string name="rating">Rating:</string>
+    <string name="cost">Cost: </string>
+    <string name="rating">Rating: </string>
     <string name="apply_filters">Apply Filters</string>
 
     <string name="language_prompt">Choose Language</string>
@@ -59,11 +59,11 @@
     <string name="submit_request">Submit Request</string>
     <string name="completed">Completed</string>
     <string name="work_request">Work Request</string>
-    <string name="name">Name:</string>
-    <string name="phone_number">Phone number:</string>
-    <string name="years_of_experience">Years of Experience:</string>
+    <string name="name">Name: </string>
+    <string name="phone_number">Phone number: </string>
+    <string name="years_of_experience">Years of Experience: </string>
     <string name="id">ID :</string>
-    <string name="certification">Certification:</string>
+    <string name="certification">Certification: </string>
     <string name="accept">Accept</string>
     <string name="enter_rejection_reason">Enter rejection reason</string>
     <string name="reject">Reject</string>
@@ -76,7 +76,7 @@
     <string name="less_than_5">less than 5</string>
     <string name="between_5_amp_10"><![CDATA[between 5 & 10]]></string>
     <string name="more_than_10">more than 10</string>
-    <string name="profession_s">Profession/s:</string>
+    <string name="profession_s">Profession/s: </string>
     <string name="carpenter">Carpenter</string>
     <string name="plumber">Plumber</string>
     <string name="electrician">Electrician</string>
@@ -87,6 +87,7 @@
     <string name="certification_optional">Certification(optional)</string>
     <string name="add_certification_image">Add Certification Image</string>
     <string name="press_to_add_your_identity_card_mandatory">press to add your Identity Card (Mandatory)</string>
+    <string name="profession2">Profession: </string>
     <string-array name="language_array">
         <item>English</item>
         <item>Arabic</item>

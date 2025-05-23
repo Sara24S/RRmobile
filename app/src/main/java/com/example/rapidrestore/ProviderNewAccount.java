@@ -28,7 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class ProviderNewAccount extends AppCompatActivity {
 
 
-    TextInputEditText editTextEmail, editTextPassword;
+    private TextInputEditText editTextEmail, editTextPassword,editTextConfirmPassword;
     FirebaseAuth mAuth;
 
     @Override
@@ -44,6 +44,7 @@ public class ProviderNewAccount extends AppCompatActivity {
 
         editTextEmail = findViewById(R.id.edit_text_numberOrEmail);
         editTextPassword = findViewById(R.id.edit_text_password);
+        editTextConfirmPassword = findViewById(R.id.edit_text_passwordConfirm);
 
         editTextEmail.setText("");
         editTextPassword.setText("");
@@ -61,6 +62,17 @@ public class ProviderNewAccount extends AppCompatActivity {
     public void signUp(View view) {
         String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
+        String passwordConfirm = editTextConfirmPassword.getText().toString();
+
+
+        if (email.isEmpty() || password.isEmpty()){
+            Toast.makeText(getApplicationContext(), "Empty fields!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (!password.equals(passwordConfirm)){
+            Toast.makeText(getApplicationContext(), "Passwords don't match!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

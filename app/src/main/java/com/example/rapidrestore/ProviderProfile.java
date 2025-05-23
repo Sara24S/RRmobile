@@ -191,7 +191,14 @@ public class ProviderProfile extends AppCompatActivity {
                                             intent
                                     );
                                     //when added
-                                }else if (state.equals("pending") && !isNotified.booleanValue()){
+                                }
+                            }else if(dc.getType() == DocumentChange.Type.ADDED){
+                                Boolean isNotified = dc.getDocument().getBoolean("isNotified");
+                                String state = dc.getDocument().getString("state");
+                                String requestId = dc.getDocument().getId();
+                                String date = dc.getDocument().getString("date");
+                                String time = dc.getDocument().getString("time");
+                                if (state.equals("pending") && !isNotified.booleanValue()){
                                     Intent intent = new Intent(this, RequestDetailsActivity.class);
                                     intent.putExtra("requestId", requestId);
                                     db.collection("repairRequests")
@@ -205,7 +212,7 @@ public class ProviderProfile extends AppCompatActivity {
                                             this,
                                             "New Requests Added",
                                             "Appointment is added on " + date + " at " + time +
-                                                    "\\ tap to view",
+                                                    "\n tap to view",
                                             intent
                                     );
                                 }

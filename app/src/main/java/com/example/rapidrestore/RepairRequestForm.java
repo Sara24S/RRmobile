@@ -189,6 +189,7 @@ public class RepairRequestForm extends AppCompatActivity {
         requestData.put("address", address);
         requestData.put("issueLocation", issueLocation);
         requestData.put("description", description);
+        requestData.put("state", "pending");
         requestData.put("timestamp", FieldValue.serverTimestamp());
         requestData.put("isNotified", false);
 

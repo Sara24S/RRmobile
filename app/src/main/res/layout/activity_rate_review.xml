@@ -8,7 +8,7 @@
     tools:context=".Rate_Review"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="?android:attr/windowBackground">
+    android:background="@color/light_background">
 
     <RatingBar
         android:id="@+id/ratingBar"

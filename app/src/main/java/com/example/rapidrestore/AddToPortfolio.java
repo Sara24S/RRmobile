@@ -7,9 +7,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -124,12 +126,26 @@ public class AddToPortfolio extends AppCompatActivity {
 
         Volley.newRequestQueue(this).add(request);
     }
-    private void addImageToContainer(Uri uri) {
+/*    private void addImageToContainer(Uri uri) {
         ImageView imageView = new ImageView(this);
         imageView.setLayoutParams(new LinearLayout.LayoutParams(800, 800));
         imageView.setPadding(5, 5, 5, 5);
         imageView.setImageURI(uri);
         imageContainer.addView(imageView);
+    }
+
+ */
+    private void addImageToContainer(Uri uri) {
+        View imageItem = LayoutInflater.from(this).inflate(R.layout.item_image_with_delete, imageContainer, false);
+
+        ImageView imageView = imageItem.findViewById(R.id.imageThumbnail);
+        ImageButton deleteButton = imageItem.findViewById(R.id.btnDelete);
+
+        imageView.setImageURI(uri);
+
+        deleteButton.setOnClickListener(v -> imageContainer.removeView(imageItem));
+
+        imageContainer.addView(imageItem);
     }
 
     public void add(View view) {

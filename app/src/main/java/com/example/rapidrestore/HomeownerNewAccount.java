@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class HomeownerNewAccount extends AppCompatActivity {
 
-    TextInputEditText editTextEmail, editTextPassword, editTextName;
+    private TextInputEditText editTextEmail, editTextPassword, editTextName, editTextConfirmPassword;
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -42,18 +42,26 @@ public class HomeownerNewAccount extends AppCompatActivity {
             return insets;
         });
 
-        editTextEmail = findViewById(R.id.edit_text_numberOrEmail);
+        editTextEmail = findViewById(R.id.edit_text_email);
         editTextPassword = findViewById(R.id.edit_text_password);
         editTextName = findViewById(R.id.edit_text_name);
+        editTextConfirmPassword = findViewById(R.id.edit_text_passwordConfirm);
 
     }
     public void signUp(View view) {
         String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
         String name = String.valueOf(editTextName.getText());
+        String passwordConfirm = editTextConfirmPassword.getText().toString();
+
 
         if (email.isEmpty() || password.isEmpty()){
             Toast.makeText(getApplicationContext(), "Empty fields!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!password.equals(passwordConfirm)){
+            Toast.makeText(getApplicationContext(), "Passwords don't match!", Toast.LENGTH_SHORT).show();
             return;
         }
 

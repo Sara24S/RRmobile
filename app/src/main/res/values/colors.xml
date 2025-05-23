@@ -22,4 +22,10 @@
     <color name="textPrimary">#333333</color>
     <color name="cardBackground">#FFFFFF</color>
 
+
+    <color name="primary_dark">#4E5BA6</color>
+    <color name="error">#D32F2F</color>
+    <color name="background">#F5F5F5</color>
+
+
 </resources>

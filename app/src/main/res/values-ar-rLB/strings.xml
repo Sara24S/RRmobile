@@ -85,7 +85,7 @@
     <string name="certification_optional">شهادة (اختياري)</string>
     <string name="add_certification_image">أضف صورة الشهادة</string>
     <string name="press_to_add_your_identity_card_mandatory">اضغط لإضافة بطاقة هويتك (إلزامي)</string>
-
+    <string name="profession2">المهنة</string>
     <string name="language_prompt">اختر اللغة</string>
     <string-array name="language_array">
         <item>الإنجليزية</item>

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:padding="24dp"
-    android:background="@color/light_background"
+    android:background="@drawable/bg_gradient"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,13 +21,13 @@
             android:layout_height="wrap_content"
             android:entries="@array/language_array"
             android:layout_gravity="end"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="24dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginBottom="80dp">
+            android:layout_marginBottom="100dp">
             <ImageView
                 android:id="@+id/logoImage"
                 android:layout_width="60dp"
@@ -57,6 +57,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/email"
             android:layout_marginStart="8dp"
+            android:outlineSpotShadowColor="@color/blue"
             android:layout_marginEnd="8dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -109,7 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/new_to_rapidrestore_create_an_account"
-            android:textColor="@color/primary_blue"
+            android:textColor="@color/blue"
             android:textSize="16sp"
             android:layout_marginTop="150dp"
             android:onClick="createAccount"/>

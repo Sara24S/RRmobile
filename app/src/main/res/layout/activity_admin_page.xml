@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient"
     tools:context=".AdminPage"
-    >
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/logo"
+        android:layout_gravity="center"
+        />
 
     <TextView
         android:id="@+id/tvAdmin"
@@ -14,23 +24,31 @@
         android:layout_height="wrap_content"
         android:text="@string/admin"
         android:textSize="40sp"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"/>
+        android:textColor="@color/primary_blue"
+        android:textStyle="bold"/>
+
     <Button
         android:id="@+id/button_check_reviews"
-        android:layout_below="@+id/tvAdmin"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/check_reviews"
         android:layout_marginTop="80dp"
-        android:layout_centerHorizontal="true"/>
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/blue"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"/>
     <Button
-        android:layout_below="@+id/button_check_reviews"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button_check_work_requests"
-        android:layout_centerHorizontal="true"
         android:text="@string/check_work_requests"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/primary_blue"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="160dp"/>
 
-</RelativeLayout>
+</LinearLayout>

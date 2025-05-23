@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:padding="12dp"
     android:background="@drawable/item_bg"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:layout_margin="5dp">
 
     <TextView
         android:id="@+id/timeTextView"

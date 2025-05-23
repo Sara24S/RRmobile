@@ -1,15 +1,17 @@
 package com.example.rapidrestore;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 public class HomeownerRepairRequestAdapter extends RecyclerView.Adapter<HomeownerRepairRequestAdapter.ViewHolder> {
-    private List<HomeownerRepairRequest> homeownerRepairRequest;
+    private static List<HomeownerRepairRequest> homeownerRepairRequest;
 
     public HomeownerRepairRequestAdapter(List<HomeownerRepairRequest> repairRequests) {
         this.homeownerRepairRequest = repairRequests;
@@ -24,6 +26,18 @@ public class HomeownerRepairRequestAdapter extends RecyclerView.Adapter<Homeowne
             textDate = itemView.findViewById(R.id.textDate);
             textStatus = itemView.findViewById(R.id.textStatus);
             textLocation = itemView.findViewById(R.id.textLocation);
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    HomeownerRepairRequest clickedUser = homeownerRepairRequest.get(position);
+                    Intent intent = new Intent(itemView.getContext(), RequestDetailsActivity.class);
+                    intent.putExtra("requestId", clickedUser.getId()); // or document ID
+                    intent.putExtra("isDeleted", true);
+                    Toast.makeText(itemView.getContext(),  clickedUser.getId(), Toast.LENGTH_SHORT).show();
+                    itemView.getContext().startActivity(intent);
+                }
+            });
         }
     }
 
