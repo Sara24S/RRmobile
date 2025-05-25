@@ -8,6 +8,7 @@
     <string name="log_in">Log In</string>
     <string name="new_to_rapidrestore_create_an_account">New to RapidRestore? Create an account</string>
 
+    <string name="login_button_text">Log In</string>
 
     <string name="provider_name">Provider Name</string>
     <string name="edit_profile">Edit Profile</string>

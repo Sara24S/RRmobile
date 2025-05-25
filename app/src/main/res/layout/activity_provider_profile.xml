@@ -270,7 +270,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#1EC9EB"
+            android:backgroundTint="#0D47A1"
             android:textColor="@color/black"
             android:onClick="addRequest"/>
 
@@ -282,7 +282,7 @@
             android:src="@drawable/ic_chat"
             android:contentDescription="Chat"
             android:scaleType="centerInside"
-            app:tint="@android:color/white"
+            app:tint="@android:color/holo_blue_light"
             app:layout_constraintTop_toBottomOf="@+id/btnAddRequest"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
