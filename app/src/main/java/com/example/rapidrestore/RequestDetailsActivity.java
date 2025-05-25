@@ -204,10 +204,12 @@ public class RequestDetailsActivity extends AppCompatActivity {
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show());
 
-        Intent intent = new Intent(this, ProviderProfile.class);
+        /*Intent intent = new Intent(this, ProviderProfile.class);
         intent.putExtra("providerId",providerId);
         intent.putExtra("isOwner", true);
         startActivity(intent);
+
+         */
         finish();
     }
 }
