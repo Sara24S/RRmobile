@@ -75,7 +75,8 @@
             android:textColor="@android:color/white"
             android:backgroundTint="@color/primary"
             android:fontFamily="sans-serif-medium"
-            android:onClick="RepairCompleted"/>
+            android:onClick="RepairCompleted"
+            />
 
 
     </LinearLayout>

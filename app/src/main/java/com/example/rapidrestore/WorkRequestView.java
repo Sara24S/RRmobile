@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -27,7 +28,7 @@ public class WorkRequestView extends AppCompatActivity {
     TextView tvName, tvProfession, tvExperience, tvRegion, tvCertification, tvNumber;
     EditText etRejectionReason;
     FirebaseFirestore db;
-    String userId;
+    String userId, adminId;
     ImageView ivId, ivCertification;
 
     @Override
@@ -52,6 +53,13 @@ public class WorkRequestView extends AppCompatActivity {
         ivId = findViewById(R.id.providerIdCard);
         ivCertification = findViewById(R.id.ivCertificationImage);
 
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() == null) {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            finish(); // Close the activity safely
+            return;
+        }
+        adminId = auth.getCurrentUser().getUid();
 
         userId = getIntent().getStringExtra("userId");
         Toast.makeText(WorkRequestView.this, userId, Toast.LENGTH_SHORT).show();
@@ -84,8 +92,11 @@ public class WorkRequestView extends AppCompatActivity {
                         if (!certification.isEmpty()){
                             tvCertification.append(certification);
                         }
-                        else tvCertification.append("no certification");
-                        tvCertification.append(certification);
+                        else {
+                            tvCertification.append(" no certification");
+                            ivCertification.setVisibility(View.GONE);
+                        }
+
                         String imageCerUrl = ImageUtils.getImageUrl(certificationImage);
                         Glide.with(this)
                                 .load(imageCerUrl)
@@ -107,7 +118,7 @@ public class WorkRequestView extends AppCompatActivity {
     public void acceptRequest(View view) {
         Map<String, Object> newFields = new HashMap<>();
         newFields.put("status", "approved");
-        newFields.put("admin ID", "admin1");//temp
+        newFields.put("admin ID", adminId);//temp
         newFields.put("decisionDate", FieldValue.serverTimestamp()); // server time
 
         db.collection("workRequests")

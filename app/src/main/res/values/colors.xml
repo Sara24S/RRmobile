@@ -9,7 +9,7 @@
     <color name="light_gray">#D3D3D3</color>
     <color name="blue">#041875</color>
     <color name="primary_blue">#1673BD</color>
-    <color name="light_background">#CEE0EF</color>
+    <color name="light_background">#FFFFFF</color>
     <color name="accent_blue">#689ECF</color>
     <color name="secondary_blue">#79BDE3</color>
     <color name="text_primary">#1A1A1A</color>
@@ -27,5 +27,7 @@
     <color name="error">#D32F2F</color>
     <color name="background">#F5F5F5</color>
 
+
+    <color name="blue5">#DDECF6</color>
 
 </resources>

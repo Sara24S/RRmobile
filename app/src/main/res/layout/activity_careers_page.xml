@@ -10,19 +10,39 @@
     android:orientation="vertical"
     android:padding="5dp">
 
-
-
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/my_repair_requests"
-        android:id="@+id/tvMyRepairRequests"
-        android:textStyle="bold"
-        android:layout_margin="8dp"
-        />
+        android:id="@+id/linear"
+        android:layout_margin="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_repair_requests"
+            android:id="@+id/tvMyRepairRequests"
+            android:textStyle="bold"
+            />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/img_7"
+            android:layout_marginStart="180dp"
+            android:id="@+id/ivFilter"/>
+        <ImageView
+
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/img_7"
+            android:id="@+id/ivFilter2"
+            android:layout_marginStart="180dp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
 
     <LinearLayout
-        android:layout_below="@+id/tvMyRepairRequests"
+        android:layout_below="@+id/linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"

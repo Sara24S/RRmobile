@@ -9,6 +9,8 @@
     <string name="log_in">تسجيل الدخول</string>
     <string name="new_to_rapidrestore_create_an_account">جديد في RapidRestore؟ أنشئ حسابًا</string>
 
+    <string name="login_button_text">تسجيل الدخول</string>
+
     <string name="provider_name">Provider Name</string>
     <string name="edit_profile">تعديل الملف الشخصي</string>
     <string name="save_change">حفظ التغييرات</string>

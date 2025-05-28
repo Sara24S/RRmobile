@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +53,10 @@ public class CareersPage extends AppCompatActivity {
     Spinner spinnerRegion, spinnerProfession, spinnerPrice, spinnerRating;
 
     String homeownerId;
+    private ImageView filter1, filter2;
+
+    LinearLayout llFilter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +74,11 @@ public class CareersPage extends AppCompatActivity {
         spinnerRating = findViewById(R.id.spinnerRating);
         myRepairRequests = findViewById(R.id.tvMyRepairRequests);
         tvResetFilter = findViewById(R.id.tvResetFilter);
+        filter1 = findViewById(R.id.ivFilter);
+        filter2 = findViewById(R.id.ivFilter2);
+        llFilter = findViewById(R.id.filter);
+
+        llFilter.setVisibility(View.GONE);
 
         homeownerId = getIntent().getStringExtra("homeownerId");
 
@@ -86,6 +97,24 @@ public class CareersPage extends AppCompatActivity {
         adapter = new ProviderAdapter(CareersPage.this, providerList, homeownerId);
         recyclerView.setAdapter(adapter);
         loadProducts();
+
+        filter1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                llFilter.setVisibility(View.VISIBLE);
+                filter2.setVisibility(View.VISIBLE);
+                filter1.setVisibility(View.GONE);
+            }
+        });
+
+        filter2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter1.setVisibility(View.VISIBLE);
+                llFilter.setVisibility(View.GONE);
+                filter2.setVisibility(View.GONE);
+            }
+        });
 
         myRepairRequests.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -84,12 +84,14 @@
         <!-- Sign Up Button -->
         <Button
             android:id="@+id/btnSignUp"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="@string/sign_up"
             android:textSize="18sp"
             android:textColor="@android:color/white"
-            android:backgroundTint="@color/primary_blue"
+            android:background="@drawable/login_button_gradient"
+            app:backgroundTint="@null"
             android:onClick="signUp" />
 
     </LinearLayout>

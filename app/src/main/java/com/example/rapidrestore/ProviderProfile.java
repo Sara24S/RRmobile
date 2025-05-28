@@ -44,6 +44,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import org.json.JSONException;
@@ -133,7 +134,6 @@ public class ProviderProfile extends AppCompatActivity {
             btnSetAvailability.setVisibility(View.VISIBLE);
             btnAddPrevWork.setVisibility(View.VISIBLE);
             btnEditProfile.setVisibility(View.VISIBLE);
-            btnEditImage.setVisibility(View.VISIBLE);
             btnRequests.setVisibility(View.VISIBLE);
             btnAddRequest.setVisibility(View.GONE);
             chatIcon.setOnClickListener(new View.OnClickListener() {
@@ -307,6 +307,10 @@ public class ProviderProfile extends AppCompatActivity {
                 tvCost.setVisibility(View.VISIBLE);
                 tvBio.setVisibility(View.VISIBLE);
                 btnRequests.setVisibility(View.VISIBLE);
+                btnEditImage.setVisibility(View.GONE);
+                btnAddPrevWork.setVisibility(View.VISIBLE);
+                btnSetAvailability.setVisibility(View.VISIBLE);
+                chatIcon.setVisibility(View.VISIBLE);
 
                 db.collection("providers")
                         .document(providerId)
@@ -334,12 +338,14 @@ public class ProviderProfile extends AppCompatActivity {
             etBio.setVisibility(View.VISIBLE);
             etBio.setText(tvBio.getText().toString());
             btnSaveChanges.setVisibility(View.VISIBLE);
+            btnEditImage.setVisibility(View.VISIBLE);
             btnEditProfile.setVisibility(View.GONE);
             tvCost.setVisibility(View.GONE);
             tvBio.setVisibility(View.GONE);
             btnRequests.setVisibility(View.GONE);
-
-
+            btnAddPrevWork.setVisibility(View.GONE);
+            btnSetAvailability.setVisibility(View.GONE);
+            chatIcon.setVisibility(View.GONE);
         });
         //Change profile image
         btnEditImage.setOnClickListener(v -> {
@@ -418,6 +424,7 @@ public class ProviderProfile extends AppCompatActivity {
     private void loadPortfolio() {
         db.collection("portfolioPost")
                 .whereEqualTo("providerId",providerId)
+                .orderBy("timestamp", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(query -> {
                     portfolioPostList.clear();
@@ -434,7 +441,10 @@ public class ProviderProfile extends AppCompatActivity {
                         portfolioPostList.add(new PortfolioPost(desc, images, formattedDate));
                     }
                     adapter.notifyDataSetChanged();
-                });
+                }).addOnFailureListener(e -> {
+            Log.e("Firestore", "Error fetching posts", e);
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        });
     }
 
 

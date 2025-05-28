@@ -108,7 +108,8 @@
             android:text="@string/accept"
             android:textColor="@android:color/white"
             android:layout_marginTop="16dp"
-            android:backgroundTint="@color/primary" />
+            android:backgroundTint="@color/primary"
+            android:onClick="acceptRequest"/>
 
         <EditText
             android:id="@+id/etRejectionReason"
@@ -126,6 +127,7 @@
             android:text="@string/reject"
             android:textColor="@android:color/white"
             android:layout_marginTop="8dp"
-            android:backgroundTint="@color/error" />
+            android:backgroundTint="@color/error"
+            android:onClick="rejectRequest"/>
     </LinearLayout>
 </ScrollView>
