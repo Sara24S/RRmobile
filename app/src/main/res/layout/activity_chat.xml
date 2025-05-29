@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/light_background">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvName"
+        android:text="Person"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:padding="8dp"
+        android:paddingRight="8dp"
+        android:background="@color/primary_blue"
+        android:textColor="@color/white"/>
 
     <!-- RecyclerView for messages -->
     <androidx.recyclerview.widget.RecyclerView

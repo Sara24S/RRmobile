@@ -158,6 +158,9 @@ public class ProviderProfile extends AppCompatActivity {
                         }
                     });
 
+            //Receive notifications for new message
+
+
             //show notification when request added or deleted
             db.collection("repairRequests")
                     .whereEqualTo("providerId", providerId)
@@ -166,7 +169,7 @@ public class ProviderProfile extends AppCompatActivity {
 
                         for (DocumentChange dc : snapshots.getDocumentChanges()) {
                             if (dc.getType() == DocumentChange.Type.MODIFIED) {
-                                Boolean isNotified = dc.getDocument().getBoolean("isNotified");
+                                //Boolean isNotified = dc.getDocument().getBoolean("isNotified");
                                 String state = dc.getDocument().getString("state");
                                 String requestId = dc.getDocument().getId();
                                 String date = dc.getDocument().getString("date");

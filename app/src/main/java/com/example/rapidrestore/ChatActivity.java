@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -35,19 +37,20 @@ public class ChatActivity extends AppCompatActivity {
     private EditText messageInput;
     private Button sendButton;
     private RecyclerView messagesRecyclerView;
-
+    private TextView tvName;
     private MessageAdapter messageAdapter;
     private ChatRepository chatRepository;
     private List<Message> messageList = new ArrayList<>();
     private String chatId, homeownerId, providerId;
     FirebaseFirestore db;
-    String id;
+    String id, name;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        tvName = findViewById(R.id.tvName);
 
         db = FirebaseFirestore.getInstance();
         // Get real IDs passed from intent
@@ -72,8 +75,24 @@ public class ChatActivity extends AppCompatActivity {
         if (!currentUserId.equals(homeownerId)) {
             providerId = currentUserId;
             Toast.makeText(ChatActivity.this, "provider", Toast.LENGTH_SHORT).show();
+            db.collection("users")
+                    .document(homeownerId)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        name = documentSnapshot.getString("name");
+                        tvName.setText(name);
+                    });
         }
-        else Toast.makeText(ChatActivity.this, "homeowner", Toast.LENGTH_SHORT).show();
+        else {
+            db.collection("users")
+                    .document(providerId)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        name = documentSnapshot.getString("name");
+                        tvName.setText(name);
+                    });
+            Toast.makeText(ChatActivity.this, "homeowner", Toast.LENGTH_SHORT).show();
+        }
         chatId = homeownerId + "_" + providerId;
 
 
