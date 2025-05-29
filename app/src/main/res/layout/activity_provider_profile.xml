@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProviderProfile"
-    android:background="@color/light_background"
+    android:background="@color/blue5"
     android:padding="15dp">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -142,7 +142,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:textColor="@color/text_secondary"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"/>
 
         <EditText
             android:id="@+id/etProviderBio"
@@ -191,6 +193,8 @@
             app:layout_constraintTop_toBottomOf="@+id/btnRequests"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="24dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:textColor="@color/blue"/>
         <!-- Add Project Button (only for provider) -->
         <ImageButton
@@ -250,7 +254,9 @@
             app:layout_constraintTop_toBottomOf="@id/portfolioRecycler"
             app:layout_constraintStart_toStartOf="parent"
             android:textColor="@color/blue"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/reviewsRecyclerView"

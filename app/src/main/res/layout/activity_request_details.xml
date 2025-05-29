@@ -4,8 +4,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:colorBackground"
-    android:padding="16dp">
+    android:background="@color/blue5"
+    android:padding="12dp">
 
     <LinearLayout
         android:orientation="vertical"

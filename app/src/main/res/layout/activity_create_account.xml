@@ -41,8 +41,8 @@
         android:backgroundTint="@color/primary_blue"
         android:paddingVertical="12dp"
         android:onClick="NewHomeowner"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"/>
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"/>
 
     <Button
         android:id="@+id/btnProvider"
@@ -56,8 +56,8 @@
         android:backgroundTint="@color/secondary_blue"
         android:paddingVertical="12dp"
         android:onClick="NewProvider"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp" />
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
 </LinearLayout>
 

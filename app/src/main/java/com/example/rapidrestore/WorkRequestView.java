@@ -3,6 +3,7 @@ package com.example.rapidrestore;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,11 +26,12 @@ import java.util.Map;
 
 public class WorkRequestView extends AppCompatActivity {
 
-    TextView tvName, tvProfession, tvExperience, tvRegion, tvCertification, tvNumber;
-    EditText etRejectionReason;
-    FirebaseFirestore db;
-    String userId, adminId;
-    ImageView ivId, ivCertification;
+    private TextView tvName, tvProfession, tvExperience, tvRegion, tvCertification, tvNumber, tvRejectionReason, tvAdminName;
+    private EditText etRejectionReason;
+    private FirebaseFirestore db;
+    private String userId, adminId, adminName;
+    private ImageView ivId, ivCertification;
+    private Button btnAccept, btnReject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,10 @@ public class WorkRequestView extends AppCompatActivity {
         etRejectionReason = findViewById(R.id.etRejectionReason);
         ivId = findViewById(R.id.providerIdCard);
         ivCertification = findViewById(R.id.ivCertificationImage);
-
+        btnAccept = findViewById(R.id.btnAccept);
+        btnReject = findViewById(R.id.btnReject);
+        tvRejectionReason = findViewById(R.id.tvRejectionReason);
+        tvAdminName = findViewById(R.id.tvAdmin);
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() == null) {
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
@@ -60,9 +65,20 @@ public class WorkRequestView extends AppCompatActivity {
             return;
         }
         adminId = auth.getCurrentUser().getUid();
+     //   Toast.makeText(this, adminId, Toast.LENGTH_SHORT).show();
 
         userId = getIntent().getStringExtra("userId");
-        Toast.makeText(WorkRequestView.this, userId, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(WorkRequestView.this, userId, Toast.LENGTH_SHORT).show();
+
+        db.collection("users")
+                .document(adminId)
+                .get()
+                .addOnSuccessListener(doc -> {
+                    if (doc.exists()) {
+                        adminName = doc.getString("name");
+                        Toast.makeText(WorkRequestView.this, adminName, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         db.collection("workRequests")
                 .document(userId)
@@ -83,7 +99,23 @@ public class WorkRequestView extends AppCompatActivity {
                         String certification = documentSnapshot.getString("crtification");
                         String certificationImage = documentSnapshot.getString("certification image");
                         String idCard = documentSnapshot.getString("IdCard");
-
+                        String admin = documentSnapshot.getString("adminName");
+                        String status = documentSnapshot.getString("status");
+                        if (status.equals("pending")){
+                            btnReject.setVisibility(View.VISIBLE);
+                            btnAccept.setVisibility(View.VISIBLE);
+                            etRejectionReason.setVisibility(View.VISIBLE);
+                        } else {
+                            tvAdminName.setVisibility(View.VISIBLE);
+                            tvAdminName.append(admin);
+                            if (status.equals("rejected")){
+                                String rejectionReason = documentSnapshot.getString("rejection reason");
+                                tvRejectionReason.setVisibility(View.VISIBLE);
+                                tvRejectionReason.append(rejectionReason);
+                            }else if(status.equals("approved")) {
+                                etRejectionReason.setVisibility(View.GONE);
+                            }
+                        }
                         tvName.append(name);
                         tvExperience.append(experience);
                         tvProfession.append(prof);
@@ -119,6 +151,7 @@ public class WorkRequestView extends AppCompatActivity {
         Map<String, Object> newFields = new HashMap<>();
         newFields.put("status", "approved");
         newFields.put("admin ID", adminId);//temp
+        newFields.put("adminName", adminName);
         newFields.put("decisionDate", FieldValue.serverTimestamp()); // server time
 
         db.collection("workRequests")
@@ -191,9 +224,11 @@ public class WorkRequestView extends AppCompatActivity {
 
         Map<String, Object> newFields = new HashMap<>();
         newFields.put("status", "rejected");
-        newFields.put("admin ID", "admin1");//temp
+        newFields.put("admin ID", adminId);
+        newFields.put("adminName", adminName);
         newFields.put("decisionDate", FieldValue.serverTimestamp()); // server time
         newFields.put("rejection reason", rejectionReason);
+
 
         db.collection("workRequests")
                 .document(userId)

@@ -98,7 +98,7 @@ public class WorkRequests extends AppCompatActivity {
                             String state = documentSnapshot.getString("status");
                             Timestamp timestamp = documentSnapshot.getTimestamp("createdAt");
                             Date date = timestamp != null ? timestamp.toDate() : null;
-                            SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy 'at' h:mm a z", Locale.getDefault());
+                            SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy 'at' h:mm a", Locale.getDefault());
                             //sdf.setTimeZone(TimeZone.getTimeZone("UTC")); // Optional: to match Firestore Console format
                             String formattedDate = date != null ? sdf.format(date) : "N/A";
 

@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/light_background"
-    android:padding="12dp"
+    android:background="@color/light_blue"
+    android:padding="8dp"
     android:id="@+id/main"
     tools:context=".WorkRequestView">
 
@@ -15,8 +15,8 @@
         android:background="@drawable/card_background"
         android:padding="16dp"
         android:elevation="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginStart="4dp">
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,6 +26,17 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/primary_blue" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/tvAdmin"
+            android:layout_marginTop="12dp"
+            android:text="Admin: "
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:visibility="gone"/>
 
         <!-- Basic Info -->
         <TextView
@@ -109,7 +120,8 @@
             android:textColor="@android:color/white"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/primary"
-            android:onClick="acceptRequest"/>
+            android:onClick="acceptRequest"
+            android:visibility="gone"/>
 
         <EditText
             android:id="@+id/etRejectionReason"
@@ -118,7 +130,19 @@
             android:layout_marginTop="12dp"
             android:hint="@string/enter_rejection_reason"
             android:background="@drawable/bg_edittext"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/tvRejectionReason"
+            android:layout_marginTop="12dp"
+            android:text="Rejection Reason: "
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#890404"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/btnReject"
@@ -128,6 +152,7 @@
             android:textColor="@android:color/white"
             android:layout_marginTop="8dp"
             android:backgroundTint="@color/error"
-            android:onClick="rejectRequest"/>
+            android:onClick="rejectRequest"
+            android:visibility="gone"/>
     </LinearLayout>
 </ScrollView>
