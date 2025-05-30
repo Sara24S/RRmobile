@@ -34,7 +34,6 @@ public class HomeownerRepairRequestAdapter extends RecyclerView.Adapter<Homeowne
                     Intent intent = new Intent(itemView.getContext(), RequestDetailsActivity.class);
                     intent.putExtra("requestId", clickedUser.getId()); // or document ID
                     intent.putExtra("isDeleted", true);
-                    Toast.makeText(itemView.getContext(),  clickedUser.getId(), Toast.LENGTH_SHORT).show();
                     itemView.getContext().startActivity(intent);
                 }
             });

@@ -128,31 +128,26 @@ public class MainActivity extends BaseActivity {
                                         if (documentSnapshot.exists()) {
                                             String role = documentSnapshot.getString("role");
                                             if ("homeowner".equals(role)) {
-
-                                                //startActivity(new Intent(MainActivity.this, CareersPage.class));
                                                 Intent intent = new Intent(MainActivity.this, CareersPage.class);
                                                 intent.putExtra("homeownerId", currentUser.getUid()); // or document ID
                                                 startActivity(intent);
-                                                //finish();
-
-                                                Toast.makeText(MainActivity.this, role, Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(MainActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
+                                                finish();
                                             }
                                             else if("provider".equals(role)){
-                                                Toast.makeText(MainActivity.this, role, Toast.LENGTH_SHORT).show();
-                                                //startActivity(new Intent(MainActivity.this, ProviderProfile.class));
                                                 Intent intent = new Intent(MainActivity.this, ProviderProfile.class);//temp, open provider profile
                                                 intent.putExtra("providerId", currentUser.getUid());
                                                 intent.putExtra("isOwner", true);// or document ID
                                                 startActivity(intent);
-
+                                                Toast.makeText(MainActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
+                                                finish();
                                             }
                                             else {
                                                 Intent intent = new Intent(MainActivity.this, AdminPage.class);
                                                 intent.putExtra("adminId", currentUser.getUid()); // or document ID
                                                 startActivity(intent);
-
-
-                                                Toast.makeText(MainActivity.this, role, Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(MainActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
+                                                finish();
                                             }
                                         }
                                     })

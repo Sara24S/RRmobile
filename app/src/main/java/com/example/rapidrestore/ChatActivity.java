@@ -53,11 +53,8 @@ public class ChatActivity extends AppCompatActivity {
         tvName = findViewById(R.id.tvName);
 
         db = FirebaseFirestore.getInstance();
-        // Get real IDs passed from intent
         homeownerId = getIntent().getStringExtra("homeownerId");
         providerId = getIntent().getStringExtra("providerId");
-        //chatId = homeownerId + "_" + providerId;
-        //Toast.makeText(ChatActivity.this, chatId, Toast.LENGTH_SHORT).show();
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show();
@@ -74,7 +71,6 @@ public class ChatActivity extends AppCompatActivity {
         //if the provider opened the chat
         if (!currentUserId.equals(homeownerId)) {
             providerId = currentUserId;
-            Toast.makeText(ChatActivity.this, "provider", Toast.LENGTH_SHORT).show();
             db.collection("users")
                     .document(homeownerId)
                     .get()
@@ -91,7 +87,6 @@ public class ChatActivity extends AppCompatActivity {
                         name = documentSnapshot.getString("name");
                         tvName.setText(name);
                     });
-            Toast.makeText(ChatActivity.this, "homeowner", Toast.LENGTH_SHORT).show();
         }
         chatId = homeownerId + "_" + providerId;
 
@@ -126,7 +121,7 @@ public class ChatActivity extends AppCompatActivity {
                         //Log.d(TAG, "Document exists!");
                     } else {
 
-                        Toast.makeText(ChatActivity.this, "Document does not exist!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ChatActivity.this, "Document does not exist!", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "Document does not exist!");
 
                         Map<String, Object> newChat = new HashMap<>();
@@ -138,7 +133,7 @@ public class ChatActivity extends AppCompatActivity {
                                 .set(newChat).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        Toast.makeText(ChatActivity.this, "chat added!!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ChatActivity.this, "chat started!", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     }

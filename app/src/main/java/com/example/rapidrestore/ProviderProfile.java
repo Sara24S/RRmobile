@@ -1,13 +1,9 @@
 package com.example.rapidrestore;
 
-import android.app.Activity;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -25,9 +21,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -40,10 +33,10 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -63,19 +56,16 @@ import java.util.Map;
 
 public class ProviderProfile extends AppCompatActivity {
 
-
-    //private static final int PICK_IMAGES_CODE = 1000;
-    //ArrayList<Uri> imageUris = new ArrayList<>();
     private static final int PICK_IMAGE_REQUEST = 1;
     String providerId, homeownerId, imageTitle;
-    Button btnEditProfile, btnRequests, btnSaveChanges, btnAddRequest, btnSetAvailability, btnSubmitFeedback;
+    Button btnEditProfile, btnSaveChanges, btnAddRequest;
     ImageButton btnAddPrevWork, btnEditImage, chatIcon;
-    ImageView profileImage;
-    TextView tvName, tvCost, tvBio, tvRegion, tvProfession, tvShowPortfolio, tvHidePortfolio;
+    ImageView profileImage, showMenu, hideMenu, showReviews, hideReviews, ShowPortfolio, HidePortfolio;
+    TextView tvName, tvCost, tvBio, tvRegion, tvProfession;
     Uri selectedImage;
     FirebaseFirestore db;
 
-    EditText etCost, etBio, etFeedback;
+    EditText etCost, etBio;
     RecyclerView recyclerViewPortfolio, reviewsRecyclerView;
     ArrayList<PortfolioPost> portfolioPostList = new ArrayList<>();;
     PortfolioAdapter adapter;
@@ -116,74 +106,33 @@ public class ProviderProfile extends AppCompatActivity {
         tvName = findViewById(R.id.providerName);
         tvRegion = findViewById(R.id.tvRegion);
         tvProfession = findViewById(R.id.tvprofession);
-        tvShowPortfolio = findViewById(R.id.tvShowPortfolio);
-        tvHidePortfolio = findViewById(R.id.tvHidePortfolio);
+        ShowPortfolio = findViewById(R.id.tvShowPortfolio);
+        HidePortfolio = findViewById(R.id.tvHidePortfolio);
         etBio = findViewById(R.id.etProviderBio);
         etCost = findViewById(R.id.etProviderPricing);
-        etFeedback = findViewById(R.id.etFeedback);
-        btnSubmitFeedback = findViewById(R.id.btnSubmitFeedback);
+        showMenu = findViewById(R.id.ivShowMenu);
+        hideMenu = findViewById(R.id.ivHideMenu);
+        showReviews = findViewById(R.id.ivShowReviews);
+        hideReviews = findViewById(R.id.ivHideReviews);
 
         btnAddPrevWork =  findViewById(R.id.addProjectBtn);
         btnEditProfile =  findViewById(R.id.btnEditProfile);
         btnEditImage = findViewById(R.id.editImageBtn);
         profileImage = findViewById(R.id.profileImage);
-        btnRequests = findViewById(R.id.btnRequests);
         btnSaveChanges = findViewById(R.id.btnSaveEditedProfile);
         btnAddRequest = findViewById(R.id.btnAddRequest);
-        btnSetAvailability = findViewById(R.id.btnSetAvailability);
         chatIcon = findViewById(R.id.chatIcon);
 
-        btnSubmitFeedback.setOnClickListener(v -> {
-            String feedbackText = etFeedback.getText().toString().trim();
-            if (feedbackText.isEmpty()) {
-                Toast.makeText(this, "Please enter your feedback", Toast.LENGTH_SHORT).show();
-                return;
-            }
 
-            String userId;
-            String userType;
+        reviewsRecyclerView.setVisibility(View.GONE);
 
-            if (isOwner){
-                userId = providerId;
-                userType = "provider";
-            }else {
-                userId = homeownerId;
-                userType = "homeowner";
-            }
-
-            Map<String, Object> feedback = new HashMap<>();
-            feedback.put("userId", userId);
-            feedback.put("userType", userType);
-            feedback.put("comment", feedbackText);
-            feedback.put("timestamp", FieldValue.serverTimestamp());
-
-            FirebaseFirestore.getInstance()
-                    .collection("feedback")
-                    .add(feedback)
-                    .addOnSuccessListener(documentReference -> {
-                        Toast.makeText(this, "Feedback submitted", Toast.LENGTH_SHORT).show();
-                        etFeedback.setText("");
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Failed to submit feedback", Toast.LENGTH_SHORT).show();
-                    });
-        });
 
 
         if (isOwner) {
-            btnSetAvailability.setVisibility(View.VISIBLE);
             btnAddPrevWork.setVisibility(View.VISIBLE);
             btnEditProfile.setVisibility(View.VISIBLE);
-            btnRequests.setVisibility(View.VISIBLE);
             btnAddRequest.setVisibility(View.GONE);
-            chatIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(ProviderProfile.this, ChatHomeowners.class);
-                    intent.putExtra("providerId", providerId);
-                    startActivity(intent);
-                }
-            });
+            chatIcon.setVisibility(View.GONE);
 
             //refresh portfolio if modified
             db.collection("portfolioPost")
@@ -263,13 +212,12 @@ public class ProviderProfile extends AppCompatActivity {
                         }
                     });
         } else {
-            btnRequests.setVisibility(View.GONE);
             btnEditImage.setVisibility(View.GONE);
             btnEditProfile.setVisibility(View.GONE);
             btnAddPrevWork.setVisibility(View.GONE);
             btnAddRequest.setVisibility(View.VISIBLE);
-            btnSetAvailability.setVisibility(View.GONE);
-
+            showMenu.setVisibility(View.GONE);
+            hideMenu.setVisibility(View.GONE);
             chatIcon.setOnClickListener(view -> {
                 Intent intent = new Intent(ProviderProfile.this, ChatActivity.class);
                 intent.putExtra("homeownerId", homeownerId);
@@ -277,6 +225,58 @@ public class ProviderProfile extends AppCompatActivity {
                 startActivity(intent);
             });
         }
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setVisibility(View.GONE);
+
+        showMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomNav.setVisibility(View.VISIBLE);
+                showMenu.setVisibility(View.GONE);
+                hideMenu.setVisibility(View.VISIBLE);
+            }
+        });
+        hideMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomNav.setVisibility(View.GONE);
+                showMenu.setVisibility(View.VISIBLE);
+                hideMenu.setVisibility(View.GONE);
+            }
+        });
+
+        bottomNav.setOnNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                Intent intent = new Intent(this, FeedbackActivity.class);
+                intent.putExtra("userId", providerId);
+                startActivity(intent);
+                return true;
+            } else if (id == R.id.nav_requests) {
+                Intent intent = new Intent(ProviderProfile.this, ProviderRequestsActivity.class);
+                intent.putExtra("providerId", providerId);
+                startActivity(intent);
+                return true;
+            } else if (id == R.id.nav_profile) {
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+                return true;
+            }else if (id == R.id.nav_chat) {
+                Intent intent = new Intent(ProviderProfile.this, ChatHomeowners.class);
+                intent.putExtra("providerId", providerId);
+                startActivity(intent);
+                return true;
+            } else if (id == R.id.nav_availability) {
+                Intent intent = new Intent(ProviderProfile.this, ProviderAvailability.class);
+                intent.putExtra("providerId", providerId);
+                startActivity(intent);
+                return true;
+            }
+            return false;
+        });
+
         //calculate rating of the provider
         db.collection("Reviews")
                 .whereEqualTo("providerId", providerId)
@@ -306,31 +306,41 @@ public class ProviderProfile extends AppCompatActivity {
                     Log.e("RatingUpdate", "Failed to calculate average rating", e);
                 });
 
-        btnSetAvailability.setOnClickListener(new View.OnClickListener() {
+        showReviews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProviderProfile.this, ProviderAvailability.class);
-                intent.putExtra("providerId", providerId);
-                startActivity(intent);
+                reviewsRecyclerView.setVisibility(View.VISIBLE);
+                hideReviews.setVisibility(View.VISIBLE);
+                showReviews.setVisibility(View.GONE);
+
             }
         });
 
-        tvShowPortfolio.setOnClickListener(new View.OnClickListener() {
+        hideReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reviewsRecyclerView.setVisibility(View.GONE);
+                hideReviews.setVisibility(View.GONE);
+                showReviews.setVisibility(View.VISIBLE);
+            }
+        });
+
+        ShowPortfolio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 recyclerViewPortfolio.setVisibility(View.VISIBLE);
-                tvHidePortfolio.setVisibility(View.VISIBLE);
-                tvShowPortfolio.setVisibility(View.GONE);
+                HidePortfolio.setVisibility(View.VISIBLE);
+                ShowPortfolio.setVisibility(View.GONE);
 
             }
         });
 
-        tvHidePortfolio.setOnClickListener(new View.OnClickListener() {
+        HidePortfolio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 recyclerViewPortfolio.setVisibility(View.GONE);
-                tvHidePortfolio.setVisibility(View.GONE);
-                tvShowPortfolio.setVisibility(View.VISIBLE);
+                HidePortfolio.setVisibility(View.GONE);
+                ShowPortfolio.setVisibility(View.VISIBLE);
             }
         });
 
@@ -349,11 +359,8 @@ public class ProviderProfile extends AppCompatActivity {
                 btnEditProfile.setVisibility(View.VISIBLE);
                 tvCost.setVisibility(View.VISIBLE);
                 tvBio.setVisibility(View.VISIBLE);
-                btnRequests.setVisibility(View.VISIBLE);
                 btnEditImage.setVisibility(View.GONE);
                 btnAddPrevWork.setVisibility(View.VISIBLE);
-                btnSetAvailability.setVisibility(View.VISIBLE);
-                chatIcon.setVisibility(View.VISIBLE);
 
                 db.collection("providers")
                         .document(providerId)
@@ -366,14 +373,6 @@ public class ProviderProfile extends AppCompatActivity {
             }
         });
 
-        btnRequests.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ProviderProfile.this, ProviderRequestsActivity.class);
-                intent.putExtra("providerId", providerId);
-                startActivity(intent);//change to edit page
-            }
-        });
 
         //Edit Profile
         btnEditProfile.setOnClickListener(v -> {
@@ -385,9 +384,7 @@ public class ProviderProfile extends AppCompatActivity {
             btnEditProfile.setVisibility(View.GONE);
             tvCost.setVisibility(View.GONE);
             tvBio.setVisibility(View.GONE);
-            btnRequests.setVisibility(View.GONE);
             btnAddPrevWork.setVisibility(View.GONE);
-            btnSetAvailability.setVisibility(View.GONE);
             chatIcon.setVisibility(View.GONE);
         });
         //Change profile image
@@ -446,7 +443,6 @@ public class ProviderProfile extends AppCompatActivity {
                                             if (document.exists()) {
                                                 String name = document.getString("name");
                                                 reviewList.add(new Review(comment, rating, name));
-                                                Toast.makeText(ProviderProfile.this, name, Toast.LENGTH_SHORT).show();
                                                 adapter2.notifyDataSetChanged();
                                             } else {
                                                 Log.d("USER_NAME", "No such document");
@@ -563,7 +559,6 @@ public class ProviderProfile extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,

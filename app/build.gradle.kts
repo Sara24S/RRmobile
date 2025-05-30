@@ -55,6 +55,7 @@ dependencies {
     implementation ("androidx.cardview:cardview:1.0.0")
     implementation(libs.firebase.database)
     annotationProcessor ("com.github.bumptech.glide:compiler:4.14.2")
+    implementation ("androidx.drawerlayout:drawerlayout:1.2.0")
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.navigation.fragment)

@@ -130,8 +130,6 @@ public class RequestDetailsActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setReminder(int hour, int minute) {
         // Get appointment date from Firestore (or passed data)
-       // String date = "2025-05-19"; // Example
-       // String time = "13:00";      // Example in 24hr format
 
         LocalDate localDate = LocalDate.parse(date);
         LocalTime localTime = LocalTime.parse(time);
@@ -159,8 +157,6 @@ public class RequestDetailsActivity extends AppCompatActivity {
             }
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, reminderTime.getTimeInMillis(), pendingIntent);
         }
-        //AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        //alarmManager.setExact(AlarmManager.RTC_WAKEUP, reminderTime.getTimeInMillis(), pendingIntent);
 
         Toast.makeText(this, "Reminder set!", Toast.LENGTH_SHORT).show();
     }
@@ -204,12 +200,6 @@ public class RequestDetailsActivity extends AppCompatActivity {
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show());
 
-        /*Intent intent = new Intent(this, ProviderProfile.class);
-        intent.putExtra("providerId",providerId);
-        intent.putExtra("isOwner", true);
-        startActivity(intent);
-
-         */
         finish();
     }
 }

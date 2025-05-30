@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
@@ -57,7 +58,7 @@ public class CareersPage extends AppCompatActivity {
     Spinner spinnerRegion, spinnerProfession, spinnerPrice, spinnerRating;
 
     String homeownerId;
-    private ImageView filter1, filter2;
+    private ImageView filter1, filter2, showMenu, hideMenu;
 
     LinearLayout llFilter;
 
@@ -76,11 +77,12 @@ public class CareersPage extends AppCompatActivity {
         spinnerProfession = findViewById(R.id.spinnerProfession);
         spinnerPrice = findViewById(R.id.spinnerPrice);
         spinnerRating = findViewById(R.id.spinnerRating);
-        myRepairRequests = findViewById(R.id.tvMyRepairRequests);
         tvResetFilter = findViewById(R.id.tvResetFilter);
         filter1 = findViewById(R.id.ivFilter);
         filter2 = findViewById(R.id.ivFilter2);
         llFilter = findViewById(R.id.filter);
+        showMenu = findViewById(R.id.ivShowMenu);
+        hideMenu = findViewById(R.id.ivHideMenu);
 
         llFilter.setVisibility(View.GONE);
 
@@ -120,15 +122,6 @@ public class CareersPage extends AppCompatActivity {
             }
         });
 
-        myRepairRequests.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CareersPage.this, HomeownerRepairRequests.class);
-                intent.putExtra("homeownerId", homeownerId);
-                startActivity(intent);
-            }
-        });
-
         tvResetFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,15 +136,48 @@ public class CareersPage extends AppCompatActivity {
         });
 
 
-       // Toolbar toolbar = findViewById(R.id.toolbar);
-       // setSupportActionBar(toolbar);
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setVisibility(View.GONE);
+
+        showMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomNav.setVisibility(View.VISIBLE);
+                showMenu.setVisibility(View.GONE);
+                hideMenu.setVisibility(View.VISIBLE);
+            }
+        });
+        hideMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomNav.setVisibility(View.GONE);
+                showMenu.setVisibility(View.VISIBLE);
+                hideMenu.setVisibility(View.GONE);
+            }
+        });
+
+        bottomNav.setOnNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                Intent intent = new Intent(this, FeedbackActivity.class);
+                intent.putExtra("userId", homeownerId);
+                startActivity(intent);
+                return true;
+            } else if (id == R.id.nav_requests) {
+                Intent intent = new Intent(this, HomeownerRepairRequests.class);
+                intent.putExtra("homeownerId", homeownerId);
+                startActivity(intent);
+                return true;
+            } else if (id == R.id.nav_profile) {
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+                return true;
+            }
+            return false;
+        });
+
         filteredProviders = new ArrayList<>();  // ✅ ensure it's not null Sara123@gmail.com
-
-        //adapter1 = new ProviderAdapter(CareersPage.this, filteredProviders, homeownerId);
-
-        //recyclerView.setAdapter(adapter1);
-
-        //fetchProviders();
 
         buttonFilter = findViewById(R.id.buttonFilter);
         buttonFilter.setOnClickListener(new View.OnClickListener() {
@@ -275,7 +301,7 @@ public class CareersPage extends AppCompatActivity {
             }
         }
     }
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -308,6 +334,8 @@ public class CareersPage extends AppCompatActivity {
 
         return true;
     }
+
+
     private void filterByName(String query) {
         try {
             filteredProviders.clear();
@@ -322,6 +350,8 @@ public class CareersPage extends AppCompatActivity {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+
+ */
     private void loadProducts(){
 
         db.collection("providers")
@@ -329,8 +359,6 @@ public class CareersPage extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         providerList.clear();
-                        Toast.makeText(CareersPage.this, "successful",
-                                Toast.LENGTH_SHORT).show();
                         for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
                             String id = documentSnapshot.getId();
                             String name = documentSnapshot.getString("name");

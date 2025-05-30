@@ -90,8 +90,6 @@ public class WorkRequests extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         requestList.clear();
-                        Toast.makeText(WorkRequests.this, "successful",
-                                Toast.LENGTH_SHORT).show();
                         for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
                             String id = documentSnapshot.getId();
                             String name = documentSnapshot.getString("name");

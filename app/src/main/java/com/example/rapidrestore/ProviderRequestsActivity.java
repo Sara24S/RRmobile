@@ -114,8 +114,6 @@ public class ProviderRequestsActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         requestList.clear();
-                        Toast.makeText(ProviderRequestsActivity.this, "successful",
-                                Toast.LENGTH_SHORT).show();
                         for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                             String id = documentSnapshot.getId();
                             String name = documentSnapshot.getString("name");

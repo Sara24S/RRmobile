@@ -30,7 +30,6 @@ public class WorkRequestAdapter extends RecyclerView.Adapter<WorkRequestAdapter.
                     ProvRequest clickedUser = userList.get(position);
                     Intent intent = new Intent(itemView.getContext(), WorkRequestView.class);
                     intent.putExtra("userId", clickedUser.getId()); // or document ID
-                    Toast.makeText(itemView.getContext(),  clickedUser.getId(), Toast.LENGTH_SHORT).show();
                     itemView.getContext().startActivity(intent);
                 }
             });
