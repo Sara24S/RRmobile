@@ -14,7 +14,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class AdminPage extends AppCompatActivity {
 
-    Button buttonCheckReviews, buttonCheckWorkRequests;
+    private Button buttonCheckReviews, buttonCheckWorkRequests;
+    private String adminId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +29,13 @@ public class AdminPage extends AppCompatActivity {
         });
         buttonCheckReviews = findViewById(R.id.button_check_reviews);
         buttonCheckWorkRequests = findViewById(R.id.button_check_work_requests);
+       // adminId = getIntent().getStringExtra("adminId");
 
         buttonCheckReviews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AdminPage.this, AllReviews.class);
+               // intent.putExtra("adminId", adminId);
                 startActivity(intent);
             }
         });

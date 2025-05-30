@@ -43,6 +43,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -67,14 +68,14 @@ public class ProviderProfile extends AppCompatActivity {
     //ArrayList<Uri> imageUris = new ArrayList<>();
     private static final int PICK_IMAGE_REQUEST = 1;
     String providerId, homeownerId, imageTitle;
-    Button btnEditProfile, btnRequests, btnSaveChanges, btnAddRequest, btnSetAvailability;
+    Button btnEditProfile, btnRequests, btnSaveChanges, btnAddRequest, btnSetAvailability, btnSubmitFeedback;
     ImageButton btnAddPrevWork, btnEditImage, chatIcon;
     ImageView profileImage;
     TextView tvName, tvCost, tvBio, tvRegion, tvProfession, tvShowPortfolio, tvHidePortfolio;
     Uri selectedImage;
     FirebaseFirestore db;
 
-    EditText etCost, etBio;
+    EditText etCost, etBio, etFeedback;
     RecyclerView recyclerViewPortfolio, reviewsRecyclerView;
     ArrayList<PortfolioPost> portfolioPostList = new ArrayList<>();;
     PortfolioAdapter adapter;
@@ -119,6 +120,8 @@ public class ProviderProfile extends AppCompatActivity {
         tvHidePortfolio = findViewById(R.id.tvHidePortfolio);
         etBio = findViewById(R.id.etProviderBio);
         etCost = findViewById(R.id.etProviderPricing);
+        etFeedback = findViewById(R.id.etFeedback);
+        btnSubmitFeedback = findViewById(R.id.btnSubmitFeedback);
 
         btnAddPrevWork =  findViewById(R.id.addProjectBtn);
         btnEditProfile =  findViewById(R.id.btnEditProfile);
@@ -129,6 +132,43 @@ public class ProviderProfile extends AppCompatActivity {
         btnAddRequest = findViewById(R.id.btnAddRequest);
         btnSetAvailability = findViewById(R.id.btnSetAvailability);
         chatIcon = findViewById(R.id.chatIcon);
+
+        btnSubmitFeedback.setOnClickListener(v -> {
+            String feedbackText = etFeedback.getText().toString().trim();
+            if (feedbackText.isEmpty()) {
+                Toast.makeText(this, "Please enter your feedback", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String userId;
+            String userType;
+
+            if (isOwner){
+                userId = providerId;
+                userType = "provider";
+            }else {
+                userId = homeownerId;
+                userType = "homeowner";
+            }
+
+            Map<String, Object> feedback = new HashMap<>();
+            feedback.put("userId", userId);
+            feedback.put("userType", userType);
+            feedback.put("comment", feedbackText);
+            feedback.put("timestamp", FieldValue.serverTimestamp());
+
+            FirebaseFirestore.getInstance()
+                    .collection("feedback")
+                    .add(feedback)
+                    .addOnSuccessListener(documentReference -> {
+                        Toast.makeText(this, "Feedback submitted", Toast.LENGTH_SHORT).show();
+                        etFeedback.setText("");
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Failed to submit feedback", Toast.LENGTH_SHORT).show();
+                    });
+        });
+
 
         if (isOwner) {
             btnSetAvailability.setVisibility(View.VISIBLE);
