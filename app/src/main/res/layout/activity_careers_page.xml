@@ -29,14 +29,14 @@
         android:layout_margin="8dp">
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
             android:src="@drawable/show_menu"
             android:id="@+id/ivShowMenu"/>
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
             android:src="@drawable/show_menu"
             android:id="@+id/ivHideMenu"
             android:visibility="gone"/>

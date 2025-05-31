@@ -1,5 +1,6 @@
 package com.example.rapidrestore;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -15,7 +17,10 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -44,7 +49,6 @@ public class WorkRequests extends AppCompatActivity {
             return insets;
         });
 
-
         db = FirebaseFirestore.getInstance();
 
         recyclerViewWorkRequests = (RecyclerView) findViewById(R.id.recyclerViewWorkRequests);
@@ -63,6 +67,45 @@ public class WorkRequests extends AppCompatActivity {
         adapter = new WorkRequestAdapter(requestList);
         recyclerViewWorkRequests.setAdapter(adapter);
         filteredRequests = new ArrayList<>();
+
+        db.collection("workRequests")
+                .addSnapshotListener((value, error) -> {
+                    if (error != null || value == null) return;
+                    for (DocumentChange dc : value.getDocumentChanges()) {
+                        if (dc.getType() == DocumentChange.Type.MODIFIED) {
+                            filteredRequests.clear();
+                            fetchRequests();
+                            spinnerState.setSelection(0);
+                        } else if (dc.getType() == DocumentChange.Type.ADDED) {
+                            String state = dc.getDocument().getString("status");
+                            String requestId = dc.getDocument().getId();
+                            if (state.equals("pending")){
+                                boolean isNotified = dc.getDocument().getBoolean("isNotified");
+                                if (!isNotified){
+                                    db.collection("workRequests")
+                                            .document(requestId)
+                                            .update("isNotified", true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                }
+                                            });
+                                    Intent intent = new Intent(this, WorkRequestView.class);
+                                    intent.putExtra("userId", requestId);
+                                    NotificationHelper.showNotification(
+                                            this,
+                                            "New Request Added",
+                                            "please review request to accept or reject provider",
+                                            intent
+                                    );
+                                    filteredRequests.clear();
+                                    fetchRequests();
+                                    spinnerState.setSelection(0);
+                                }
+                            }
+                        }
+
+                    }
+                });
 
         fetchRequests();
     }

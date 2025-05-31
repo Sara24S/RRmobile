@@ -51,12 +51,6 @@ public class ProviderNewAccount extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        ConnectivityManager cm = (ConnectivityManager) ProviderNewAccount.this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-        if (!isConnected) {
-            Toast.makeText(ProviderNewAccount.this, "No network connection", Toast.LENGTH_SHORT).show();
-        }
     }
 
     public void signUp(View view) {
@@ -82,7 +76,7 @@ public class ProviderNewAccount extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(ProviderNewAccount.this, "Authentication Succeeded",
+                            Toast.makeText(ProviderNewAccount.this, "Valid Email and Password",
                                     Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(ProviderNewAccount.this, WorkRequestForm.class);
                             i.putExtra("email", email);
@@ -92,7 +86,7 @@ public class ProviderNewAccount extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(ProviderNewAccount.this, "Authentication failed.",
+                            Toast.makeText(ProviderNewAccount.this, "Invalid Email or Password",
                                     Toast.LENGTH_SHORT).show();
                             //updateUI(null);
                         }

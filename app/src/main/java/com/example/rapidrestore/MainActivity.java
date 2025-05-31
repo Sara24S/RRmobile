@@ -3,8 +3,6 @@ package com.example.rapidrestore;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,13 +10,11 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -34,12 +30,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class MainActivity extends BaseActivity {
 
     TextInputEditText editTextEmail, editTextPassword;
-    Button btnEnglish, btnArabic;
-
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +67,6 @@ public class MainActivity extends BaseActivity {
 
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             boolean isFirstTime = true;
-
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (isFirstTime) {
@@ -88,7 +80,6 @@ public class MainActivity extends BaseActivity {
                     new Handler(Looper.getMainLooper()).postDelayed(() -> recreate(), 300);
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
         });

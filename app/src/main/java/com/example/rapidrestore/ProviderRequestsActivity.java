@@ -21,9 +21,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ProviderRequestsActivity extends AppCompatActivity {
 
@@ -61,6 +63,9 @@ public class ProviderRequestsActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         filteredRequests = new ArrayList<>();
+
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        etDate.setText(currentDate);
 
         AdapterView.OnItemSelectedListener filterListener = new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) { filterRequests(); }

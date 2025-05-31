@@ -1,80 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
     android:background="#E6F0F8"
     tools:context=".ProviderAvailability">
 
-    <!-- Header -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Set Your Availability"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/primary_blue"
-        android:layout_gravity="center"
-        android:layout_marginBottom="12dp" />
-
-    <!-- Calendar -->
-    <CalendarView
-        android:id="@+id/calendarView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <!-- Add Time Slot Button -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/addTimeButton"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Time Slot"
-        android:textColor="@color/primary_blue"
-        android:layout_gravity="center"
-        android:layout_marginTop="12dp"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        app:strokeColor="@color/primary_blue"
-        app:icon="@drawable/baseline_add_24"
-        app:iconPadding="8dp"
-        app:iconTint="@color/primary_blue" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set Your Availability"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_blue"
+            android:layout_gravity="center"
+            android:layout_marginBottom="12dp" />
 
-    <!-- Time Slot List -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="16dp"
-        app:cardCornerRadius="12dp"
-        android:elevation="4dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/timeListRecyclerView"
+        <!-- Calendar -->
+        <CalendarView
+            android:id="@+id/calendarView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="8dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="2dp"/>
-    </androidx.cardview.widget.CardView>
+            android:layout_height="wrap_content" />
 
-    <!-- Save Button -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/saveButton"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SAVE AVAILABILITY"
-        android:textColor="@android:color/white"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/primary_blue"
-        app:icon="@drawable/img_1"
-        app:iconPadding="8dp"
-        app:iconTint="@android:color/white" />
+        <!-- Add Time Slot Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addTimeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Time Slot"
+            android:textColor="@color/primary_blue"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:strokeColor="@color/primary_blue"
+            app:icon="@drawable/baseline_add_24"
+            app:iconPadding="8dp"
+            app:iconTint="@color/primary_blue" />
 
-</LinearLayout>
+
+        <!-- Time Slot List -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="12dp"
+            android:elevation="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/timeListRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"/>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Save Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveButton"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SAVE AVAILABILITY"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/primary_blue"
+            app:icon="@drawable/img_1"
+            app:iconPadding="8dp"
+            app:iconTint="@android:color/white" />
+
+    </LinearLayout>
+
+</ScrollView>

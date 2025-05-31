@@ -216,6 +216,19 @@ public class CareersPage extends AppCompatActivity {
             }
         });
 
+        db.collection("providers")
+                .addSnapshotListener((value, error) -> {
+                    if (error != null || value == null) return;
+                    for (DocumentChange dc : value.getDocumentChanges()) {
+                        if (dc.getType() == DocumentChange.Type.MODIFIED ||
+                                dc.getType() == DocumentChange.Type.ADDED ||
+                                dc.getType() == DocumentChange.Type.REMOVED) {
+                            loadProducts();
+                        }
+                    }
+                });
+
+        //send notification if a request is completed
         db.collection("Reviews")
                 .whereEqualTo("homeownerId", homeownerId)
                 .whereEqualTo("state", "pending")

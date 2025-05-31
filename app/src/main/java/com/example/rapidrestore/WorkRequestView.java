@@ -76,7 +76,6 @@ public class WorkRequestView extends AppCompatActivity {
                 .addOnSuccessListener(doc -> {
                     if (doc.exists()) {
                         adminName = doc.getString("name");
-                        Toast.makeText(WorkRequestView.this, adminName, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -123,10 +122,10 @@ public class WorkRequestView extends AppCompatActivity {
                         tvNumber.append(number);
                         if (!certification.isEmpty()){
                             tvCertification.append(certification);
+                            ivCertification.setVisibility(View.VISIBLE);
                         }
                         else {
                             tvCertification.append(" no certification");
-                            ivCertification.setVisibility(View.GONE);
                         }
 
                         String imageCerUrl = ImageUtils.getImageUrl(certificationImage);
@@ -216,7 +215,8 @@ public class WorkRequestView extends AppCompatActivity {
                     }
                 })
                 .addOnFailureListener(e -> Log.w("Firestore", "Failed to fetch", e));
-        //send notificaton to provider
+        //send notification to provider
+        finish();
     }
 
     public void rejectRequest(View view) {
@@ -238,7 +238,7 @@ public class WorkRequestView extends AppCompatActivity {
 
 
         //send notificaton to provider
-
+        finish();
 
     }
 }

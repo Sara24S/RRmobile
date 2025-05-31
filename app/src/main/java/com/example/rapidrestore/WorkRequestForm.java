@@ -90,8 +90,6 @@ public class WorkRequestForm extends AppCompatActivity {
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         uID = intent.getStringExtra("UID");
-        Toast.makeText(this, uID,
-                Toast.LENGTH_SHORT).show();
 
         editTextName = findViewById(R.id.edit_text_fullName);
         editTextCertification = findViewById(R.id.edit_text_certification);
@@ -250,6 +248,7 @@ public class WorkRequestForm extends AppCompatActivity {
         user.put("provider ID", uID);
         user.put("createdAt", FieldValue.serverTimestamp());
         user.put("status", "pending");
+        user.put("isNotified", false);
 
         db.collection("workRequests")
                 .add(user)

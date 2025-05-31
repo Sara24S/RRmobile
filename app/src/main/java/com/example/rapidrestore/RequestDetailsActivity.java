@@ -58,19 +58,14 @@ public class RequestDetailsActivity extends AppCompatActivity {
         textViewDetails = findViewById(R.id.textViewDetails);
         imageContainer = findViewById(R.id.imageContainerDetails);
         btnCompleted = findViewById(R.id.btnCompleted);
-
         requestId = getIntent().getStringExtra("requestId");
-        Boolean isDeleted = getIntent().getBooleanExtra("isDeleted", false);
-        if (isDeleted){
-            btnCompleted.setVisibility(View.GONE);
-        }
+
+        fetchRequest();
 
         btnSetReminder = findViewById(R.id.btnSetReminder);
-
         btnSetReminder.setOnClickListener(v -> showTimePickerDialog());
         createNotificationChannel();
 
-        fetchRequest();
     }
 
     private void fetchRequest(){
@@ -79,6 +74,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         String name = documentSnapshot.getString("name");
+                        String state = documentSnapshot.getString("state");
                         String number = documentSnapshot.getString("phone");
                         String address = documentSnapshot.getString("address");
                         String issueLocation = documentSnapshot.getString("issueLocation");
@@ -87,6 +83,10 @@ public class RequestDetailsActivity extends AppCompatActivity {
                         time = documentSnapshot.getString("time");
                         providerId = documentSnapshot.getString("providerId");
                         homeownerId = documentSnapshot.getString("homeownerId");
+                        if(state.equals("pending")){
+                            btnCompleted.setVisibility(View.VISIBLE);
+                            btnSetReminder.setVisibility(View.VISIBLE);
+                        }
 
                         textViewDetails.setText("Date and Time: " + date + " at " + time +
                                 "\n\nName: " + name + "\n\nContact number: " + number +
@@ -106,6 +106,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
                                         //.circleCrop()
                                         .into(imageView);
                                 imageContainer.addView(imageView);
+
                             }
                         }
 

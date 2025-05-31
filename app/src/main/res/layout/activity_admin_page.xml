@@ -31,7 +31,7 @@
         android:id="@+id/button_check_reviews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/check_reviews"
+        android:text="Check Feedback"
         android:layout_marginTop="80dp"
         android:textSize="18sp"
         android:textColor="@android:color/white"
@@ -49,6 +49,16 @@
         android:backgroundTint="@color/primary_blue"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="160dp"/>
+        android:layout_marginBottom="140dp"/>
+
+    <TextView
+        android:id="@+id/tvlogOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="log out"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary_blue"
+        />
 
 </LinearLayout>

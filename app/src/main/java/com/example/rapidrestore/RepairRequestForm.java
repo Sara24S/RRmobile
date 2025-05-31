@@ -103,6 +103,7 @@ public class RepairRequestForm extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         calendarView = findViewById(R.id.calendarView);
+        calendarView.setMinDate(System.currentTimeMillis() - 1000);
         availableTimesRecycler = findViewById(R.id.availableTimesRecycler);
         availableTimesLabel = findViewById(R.id.availableTimesLabel);
 

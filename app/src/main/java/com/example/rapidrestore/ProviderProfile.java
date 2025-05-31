@@ -379,6 +379,7 @@ public class ProviderProfile extends AppCompatActivity {
             etCost.setVisibility(View.VISIBLE);
             etBio.setVisibility(View.VISIBLE);
             etBio.setText(tvBio.getText().toString());
+            etCost.setText(tvCost.getText().toString().substring(0,2));
             btnSaveChanges.setVisibility(View.VISIBLE);
             btnEditImage.setVisibility(View.VISIBLE);
             btnEditProfile.setVisibility(View.GONE);
