@@ -63,12 +63,15 @@ public class ProviderAvailability extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         selectedDate = sdf.format(new Date());
 
+        loadTimeSlotsForDate(selectedDate);
+
         calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             Calendar cal = Calendar.getInstance();
             cal.set(year, month, dayOfMonth);
             selectedDate = sdf.format(cal.getTime());
-            selectedTimes.clear();
-            adapter.notifyDataSetChanged();
+           // selectedTimes.clear();
+           // adapter.notifyDataSetChanged();
+            loadTimeSlotsForDate(selectedDate);
         });
 
         addTimeButton.setOnClickListener(v -> {
@@ -99,5 +102,22 @@ public class ProviderAvailability extends AppCompatActivity {
                                 Toast.makeText(this, "Availability saved", Toast.LENGTH_SHORT).show());
             }
         });
+    }
+    private void loadTimeSlotsForDate(String date) {
+        db.collection("providerAvailability")
+                .document(providerId)
+                .collection("dates")
+                .document(date)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    selectedTimes.clear();
+                    if (documentSnapshot.exists() && documentSnapshot.contains("times")) {
+                        List<String> times = (List<String>) documentSnapshot.get("times");
+                        if (times != null) {
+                            selectedTimes.addAll(times);
+                        }
+                    }
+                    timeListRecyclerView.getAdapter().notifyDataSetChanged();
+                });
     }
 }
