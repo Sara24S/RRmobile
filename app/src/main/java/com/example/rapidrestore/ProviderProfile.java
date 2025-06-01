@@ -278,7 +278,7 @@ public class ProviderProfile extends AppCompatActivity {
         });
 
         //calculate rating of the provider
-        db.collection("Reviews")
+ /*       db.collection("Reviews")
                 .whereEqualTo("providerId", providerId)
                 .whereEqualTo("state", "complete") // Only include valid reviews
                 .get()
@@ -305,6 +305,8 @@ public class ProviderProfile extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Log.e("RatingUpdate", "Failed to calculate average rating", e);
                 });
+                
+  */
 
         showReviews.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -45,7 +45,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/img_7"
-            android:layout_marginStart="310dp"
+            android:layout_marginStart="290dp"
             android:id="@+id/ivFilter"/>
         <ImageView
 
@@ -53,7 +53,7 @@
             android:layout_height="20dp"
             android:src="@drawable/img_7"
             android:id="@+id/ivFilter2"
-            android:layout_marginStart="310dp"
+            android:layout_marginStart="290dp"
             android:visibility="gone"/>
 
     </LinearLayout>

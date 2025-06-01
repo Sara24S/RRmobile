@@ -46,9 +46,9 @@ public class ProviderNewAccount extends AppCompatActivity {
         editTextPassword = findViewById(R.id.edit_text_password);
         editTextConfirmPassword = findViewById(R.id.edit_text_passwordConfirm);
 
-        editTextEmail.setText("");
-        editTextPassword.setText("");
-
+        editTextEmail.setText("Abbas123Ab@gmail.com");
+        editTextPassword.setText("abbas123");
+        editTextConfirmPassword.setText("abbas123");
         mAuth = FirebaseAuth.getInstance();
 
     }

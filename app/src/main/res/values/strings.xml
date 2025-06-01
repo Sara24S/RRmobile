@@ -89,6 +89,7 @@
     <string name="add_certification_image">Add Certification Image</string>
     <string name="press_to_add_your_identity_card_mandatory">press to add your Identity Card (Mandatory)</string>
     <string name="profession2">Profession: </string>
+    <string name="edit_profile_image">Edit profile image</string>
 
     <string-array name="language_array">
         <item>English</item>

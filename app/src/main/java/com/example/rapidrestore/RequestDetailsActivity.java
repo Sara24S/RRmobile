@@ -44,6 +44,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
     String requestId, providerId, homeownerId, date, time;
     Button btnCompleted;
     private Button btnSetReminder;
+    boolean isHomeowner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,10 @@ public class RequestDetailsActivity extends AppCompatActivity {
         imageContainer = findViewById(R.id.imageContainerDetails);
         btnCompleted = findViewById(R.id.btnCompleted);
         requestId = getIntent().getStringExtra("requestId");
+        isHomeowner = getIntent().getBooleanExtra("isHomeowner", false);
+        if(isHomeowner){
+            btnCompleted.setVisibility(View.GONE);
+        }
 
         fetchRequest();
 
@@ -83,9 +88,9 @@ public class RequestDetailsActivity extends AppCompatActivity {
                         time = documentSnapshot.getString("time");
                         providerId = documentSnapshot.getString("providerId");
                         homeownerId = documentSnapshot.getString("homeownerId");
-                        if(state.equals("pending")){
-                            btnCompleted.setVisibility(View.VISIBLE);
-                            btnSetReminder.setVisibility(View.VISIBLE);
+                        if(state.equals("completed") || state.equals("deleted")){
+                            btnCompleted.setVisibility(View.GONE);
+                            btnSetReminder.setVisibility(View.GONE);
                         }
 
                         textViewDetails.setText("Date and Time: " + date + " at " + time +

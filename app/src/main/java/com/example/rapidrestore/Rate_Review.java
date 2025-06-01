@@ -115,6 +115,7 @@ public class Rate_Review extends AppCompatActivity {
                     }
                     if (count > 0) {
                         double average = total / count;
+                        average = Math.floor(average * 10) / 10.0;
 
                         // Update provider's rating field
                         db.collection("providers")

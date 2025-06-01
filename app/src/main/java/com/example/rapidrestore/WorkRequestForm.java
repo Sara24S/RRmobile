@@ -94,9 +94,9 @@ public class WorkRequestForm extends AppCompatActivity {
         editTextName = findViewById(R.id.edit_text_fullName);
         editTextCertification = findViewById(R.id.edit_text_certification);
         etNumber = findViewById(R.id.edit_text_Number);
-        etNumber.setText("");
-        editTextName.setText("");
-        editTextCertification.setText("");
+        etNumber.setText("71897460");
+        editTextName.setText("Abbas Ali Aboud");
+        editTextCertification.setText("bachelor's degree in electrical engineering");
 
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {

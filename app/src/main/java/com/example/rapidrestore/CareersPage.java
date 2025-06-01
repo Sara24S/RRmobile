@@ -372,6 +372,7 @@ public class CareersPage extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         providerList.clear();
+                        filteredProviders.clear();
                         for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
                             String id = documentSnapshot.getId();
                             String name = documentSnapshot.getString("name");

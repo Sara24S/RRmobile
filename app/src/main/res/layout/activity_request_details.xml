@@ -64,8 +64,7 @@
             android:layout_marginTop="24dp"
             android:textColor="@android:color/white"
             android:backgroundTint="@color/primary"
-            android:fontFamily="sans-serif-medium"
-            android:visibility="gone"/>
+            android:fontFamily="sans-serif-medium" />
 
         <Button
             android:id="@+id/btnCompleted"
@@ -76,8 +75,7 @@
             android:textColor="@android:color/white"
             android:backgroundTint="@color/primary"
             android:fontFamily="sans-serif-medium"
-            android:onClick="RepairCompleted"
-            android:visibility="gone"/>
+            android:onClick="RepairCompleted" />
 
 
     </LinearLayout>

@@ -67,7 +67,7 @@ public class AdminPage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-       /* db.collection("workRequests")
+        db.collection("workRequests")
                 .addSnapshotListener((value, error) -> {
                     if (error != null || value == null) return;
                     for (DocumentChange dc : value.getDocumentChanges()) {
@@ -98,8 +98,6 @@ public class AdminPage extends AppCompatActivity {
 
                     }
                 });
-
-        */
 
     }
 }
