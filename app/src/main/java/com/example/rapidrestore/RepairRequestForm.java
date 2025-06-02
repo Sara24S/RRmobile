@@ -97,6 +97,14 @@ public class RepairRequestForm extends AppCompatActivity {
         editTextIssueLocation = findViewById(R.id.editTextIssueLocation);
         editTextDescription = findViewById(R.id.editTextDescription);
 
+        //pre fill information for demonstration
+        editTextName.setText("Sara Srour");
+        editTextPhone.setText("71897466");
+        editTextAddress.setText("Tyre - Jal al baher - Samhat Center - Main Street - 3rd floor - Appartment No. 301");
+        editTextIssueLocation.setText("Living room - kitchen");
+        editTextDescription.setText("three doors need fixing, one is brocken in half," +
+                " the other is less damaged but doesn't close propperly");
+
         ivAddPhoto.setOnClickListener(v -> openGallery());
         buttonSubmit.setOnClickListener(v -> submitForm());
 
